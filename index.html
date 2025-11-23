@@ -853,7 +853,7 @@ function hideLoadingOverlay() {
 async function checkAdmin() {  
     const {data: {session}} = await supabase.auth.getSession()  
     if (!session) {  
-        window.location.href = 'index.html'  
+        window.location.href = 'login.html'  
         return false  
     }  
 
@@ -2230,4 +2230,5 @@ init()
  
 </body>
 </html>
+
 
