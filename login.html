@@ -9,12 +9,12 @@
         :root {
             --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
-            --accent-primary: #6366f1;
+            --accent-primary: #146ec2;
             --accent-secondary: #8b5cf6;
-            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --accent-gradient: black;
             --border: #e2e8f0;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
+            --text-primary: #146ec2;
+            --text-secondary: #146ec2;
             --text-muted: #94a3b8;
             --danger: #ef4444;
             --success: #10b981;
@@ -438,7 +438,7 @@
         </div>
 
         <div class="login-footer">
-            <p>Don't have an account? <a href="signup.html">Create Account</a></p>
+            <p>Don't have acess? contact <a href="https://wa.me/255614003543"> <span style="font-weight:800">Admin</span></a> on whatsapp</p>
         </div>
     </div>
 
@@ -519,7 +519,7 @@
                 if (profile && (profile.user_type === 'Admin' || profile.is_admin)) {
                     showToast('Already logged in! Redirecting...', '#10b981');
                     setTimeout(() => {
-                        window.location.href = 'admin.html';
+                        window.location.href = 'index.html';
                     }, 1000);
                 }
             }
