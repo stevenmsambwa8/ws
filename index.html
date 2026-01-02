@@ -8,14 +8,13 @@
     <style>
         :root {
             --bg-black: #000000;
-            --bg-side: #080808;
             --accent: #1d9bf0;
             --border: #2f3336;
             --text-main: #e7e9ea;
             --text-dim: #71767b;
             --danger: #f4212e;
             --success: #00ba7c;
-            --card-hover: rgba(255, 255, 255, 0.03);
+            --hover: rgba(255, 255, 255, 0.03);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,50 +26,48 @@
             line-height: 1.4;
         }
 
-        /* Container & Layout */
+        /* 1. Main Container - Clean side borders like Twitter web */
         .admin-container {
-            max-width: 1250px;
+            max-width: 1300px;
             margin: 0 auto;
             border-left: 1px solid var(--border);
             border-right: 1px solid var(--border);
             min-height: 100vh;
         }
 
-        /* Clean Header - Twitter Style */
+        /* 2. Header - Sticky & Blurred */
         .admin-header {
             display: flex;
+            flex-direction: row-reverse; /* To keep your logout right-aligned */
             justify-content: space-between;
             align-items: center;
             padding: 12px 16px;
             border-bottom: 1px solid var(--border);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
 
-        .admin-header h1 {
-            font-size: 19px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+        .admin-header h1 { font-size: 20px; font-weight: 800; flex-grow: 1; }
+        #adminName { font-size: 13px; color: var(--text-dim); margin: 0 15px; }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 6px 16px;
+            border-radius: 99px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
         }
 
-        .header-meta {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        #adminName {
-            font-size: 13px;
-            color: var(--text-dim);
-        }
-
-        /* Stats Grid - No huge gaps */
+        /* 3. Stats Grid - Zero Gaps, Border Separators */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             border-bottom: 1px solid var(--border);
         }
 
@@ -80,54 +77,39 @@
             transition: background 0.2s;
         }
 
-        .stat-card:last-child { border-right: none; }
-        .stat-card:hover { background: var(--card-hover); }
+        .stat-card:hover { background: var(--hover); }
+        .stat-card i { font-size: 18px; margin-bottom: 8px; display: block; }
+        .stat-card h3 { font-size: 13px; color: var(--text-dim); font-weight: 400; }
+        .stat-card .stat-value { font-size: 24px; font-weight: 800; margin: 4px 0; }
+        .stat-change { font-size: 12px; font-weight: 500; }
 
-        .stat-card h3 {
-            font-size: 13px;
-            color: var(--text-dim);
-            font-weight: 400;
-            margin-bottom: 2px;
-        }
-
-        .stat-card .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .stat-change {
-            font-size: 11px;
-            margin-top: 4px;
-        }
-
-        /* Quick Actions Grid */
+        /* 4. Quick Actions - Slim rows */
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             border-bottom: 1px solid var(--border);
         }
 
         .action-card {
-            padding: 12px 16px;
+            padding: 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            cursor: pointer;
+            gap: 16px;
             border-right: 1px solid var(--border);
+            cursor: pointer;
             transition: background 0.2s;
         }
 
-        .action-card:last-child { border-right: none; }
-        .action-card:hover { background: var(--card-hover); }
+        .action-card:hover { background: var(--hover); }
+        .action-card i { font-size: 24px; color: var(--accent); }
+        .action-card-content h3 { font-size: 15px; font-weight: 700; }
+        .action-card-content p { font-size: 13px; color: var(--text-dim); }
 
-        .action-card i { font-size: 20px; color: var(--accent); }
-        .action-card h3 { font-size: 14px; font-weight: 600; }
-        .action-card p { font-size: 12px; color: var(--text-dim); }
-
-        /* Tabs */
+        /* 5. Tabs - Twitter Style Center Line */
         .tabs {
             display: flex;
             border-bottom: 1px solid var(--border);
+            overflow-x: auto;
         }
 
         .tab {
@@ -140,41 +122,31 @@
             font-size: 14px;
             cursor: pointer;
             position: relative;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.2s;
+            min-width: 120px;
         }
 
-        .tab:hover { background: var(--card-hover); }
+        .tab:hover { background: var(--hover); }
         .tab.active { color: var(--text-main); }
         .tab.active::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
+            left: 20%;
+            width: 60%;
             height: 4px;
             background: var(--accent);
             border-radius: 99px;
         }
 
-        /* Content Sections */
-        .tab-content { display: none; padding: 0; }
-        .tab-content.active { display: block; }
-
+        /* 6. Content Cards & Toolbars */
         .content-card { padding: 0; }
-        .section-header {
-            padding: 16px;
-            font-size: 18px;
-            font-weight: 800;
-            border-bottom: 1px solid var(--border);
-        }
+        .content-card h2 { padding: 16px; font-size: 18px; font-weight: 800; border-bottom: 1px solid var(--border); }
 
-        /* Toolbar & Inputs */
         .toolbar {
-            padding: 8px 16px;
+            padding: 12px 16px;
             display: flex;
             gap: 12px;
-            align-items: center;
             border-bottom: 1px solid var(--border);
             background: var(--bg-black);
         }
@@ -185,37 +157,26 @@
             background: #202327;
             border: 1px solid transparent;
             border-radius: 99px;
-            padding: 8px 16px;
+            padding: 10px 20px;
             color: white;
             font-size: 14px;
-            transition: 0.2s;
         }
-
-        .search-bar input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: var(--bg-black);
-        }
+        .search-bar input:focus { outline: none; border-color: var(--accent); background: var(--bg-black); }
 
         /* Buttons */
         .btn {
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 99px;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            transition: opacity 0.2s;
         }
+        .btn-primary { background: var(--text-main); color: var(--bg-black); }
+        .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
 
-        .btn-primary { background: var(--text-main); color: var(--bg-black); } /* High contrast */
-        .btn-primary:hover { opacity: 0.9; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
-        .logout-btn { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-
-        /* Tables */
+        /* 7. Tables - Tight Visibility */
         .data-table { width: 100%; border-collapse: collapse; }
         .data-table th {
             padding: 12px 16px;
@@ -225,109 +186,78 @@
             text-transform: uppercase;
             border-bottom: 1px solid var(--border);
         }
-        .data-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-        }
-        .data-table tr:hover { background: var(--card-hover); }
+        .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 15px; }
+        .data-table tr:hover { background: var(--hover); }
 
-        /* Modals Modernized */
+        /* Modals - Clean Overlays */
         .modal {
             background: rgba(91, 112, 131, 0.4);
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(4px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1000; justify-content: center; align-items: flex-start; padding-top: 5vh;
         }
-
+        .modal.active { display: flex; }
         .modal-content {
             background: var(--bg-black);
-            border-radius: 16px;
             border: 1px solid var(--border);
-            max-width: 600px;
-            padding: 0;
+            border-radius: 16px;
+            width: 90%; max-width: 600px;
             overflow: hidden;
         }
-
-        .modal-header {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-        }
+        .modal-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .close-modal { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
 
         .form-group { padding: 16px; }
-        textarea {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 18px;
-            resize: none;
-            outline: none;
-            font-family: inherit;
-        }
+        .form-group label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
+        textarea { width: 100%; background: transparent; border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: white; font-size: 16px; resize: vertical; }
 
-        .form-actions {
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
+        /* Status Badges */
+        .badge { font-size: 12px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+        .badge-active { background: rgba(0, 186, 124, 0.1); color: var(--success); }
+        .badge-banned { background: rgba(244, 33, 46, 0.1); color: var(--danger); }
 
-        /* Activity Items */
-        .activity-item {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            gap: 12px;
-        }
-        .activity-item:hover { background: var(--card-hover); }
-
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid var(--border);
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+        .loading { padding: 40px; text-align: center; color: var(--text-dim); }
+        .spinner { border: 3px solid var(--border); border-top: 3px solid var(--accent); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        @media (max-width: 768px) {
-            .stats-grid, .quick-actions { grid-template-columns: 1fr 1fr; }
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1><i class="ri-shield-star-line" style="color: var(--accent);"></i> Dashboard</h1>
-            <div class="header-meta">
-                <span id="adminName">Admin User</span>
-                <button class="btn logout-btn" onclick="handleLogout()">
-                    <i class="ri-logout-box-line"></i>
-                </button>
-            </div>
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="ri-logout-box-line"></i> Logout
+            </button>
+            <h1><i class="ri-shield-star-line"></i> Admin Control Panel</h1>
+            <p id="adminName">Loading...</p>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
+                <i class="ri-user-line" style="color: #667eea;"></i>
                 <h3>Total Users</h3>
-                <div class="stat-value" id="totalUsers">2,482</div>
-                <div class="stat-change" id="userChange" style="color: var(--success);">↑ 12% this week</div>
+                <div class="stat-value" id="totalUsers">-</div>
+                <div class="stat-change" id="userChange">Loading...</div>
             </div>
             <div class="stat-card">
+                <i class="ri-article-line" style="color: #10b981;"></i>
                 <h3>Total Posts</h3>
-                <div class="stat-value" id="totalPosts">856</div>
-                <div class="stat-change" id="postChange" style="color: var(--success);">↑ 5%</div>
+                <div class="stat-value" id="totalPosts">-</div>
+                <div class="stat-change" id="postChange">Loading...</div>
             </div>
             <div class="stat-card">
-                <h3>Comments</h3>
-                <div class="stat-value" id="totalComments">12.4k</div>
-                <div class="stat-change" id="commentChange" style="color: var(--text-dim);">Stable</div>
+                <i class="ri-chat-3-line" style="color: #f59e0b;"></i>
+                <h3>Total Comments</h3>
+                <div class="stat-value" id="totalComments">-</div>
+                <div class="stat-change" id="commentChange">Loading...</div>
             </div>
             <div class="stat-card">
-                <h3>Likes</h3>
-                <div class="stat-value" id="totalLikes">45k</div>
-                <div class="stat-change" id="likeChange" style="color: var(--danger);">↓ 2%</div>
+                <i class="ri-heart-line" style="color: #ef4444;"></i>
+                <h3>Total Likes</h3>
+                <div class="stat-value" id="totalLikes">-</div>
+                <div class="stat-change" id="likeChange">Loading...</div>
             </div>
         </div>
 
@@ -335,86 +265,180 @@
             <div class="action-card" onclick="openBroadcastModal()">
                 <i class="ri-notification-3-line"></i>
                 <div class="action-card-content">
-                    <h3>Announcement</h3>
-                    <p>Post to all users</p>
+                    <h3>Create Announcement</h3>
+                    <p>Post as admin to all users</p>
                 </div>
             </div>
             <div class="action-card" onclick="viewAllNotifications()">
                 <i class="ri-mail-line"></i>
                 <div class="action-card-content">
-                    <h3>Notifications</h3>
-                    <p>System logs</p>
+                    <h3>View Notifications</h3>
+                    <p>Check all user notifications</p>
                 </div>
             </div>
             <div class="action-card" onclick="switchTab('users')">
                 <i class="ri-user-settings-line"></i>
                 <div class="action-card-content">
-                    <h3>Moderation</h3>
-                    <p>Manage users</p>
+                    <h3>Manage Users</h3>
+                    <p>View and moderate users</p>
                 </div>
             </div>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
-            <button class="tab" onclick="switchTab('users')">Users</button>
-            <button class="tab" onclick="switchTab('posts')">Posts</button>
-            <button class="tab" onclick="switchTab('comments')">Comments</button>
-            <button class="tab" onclick="switchTab('announcements')">News</button>  
+            <button class="tab active" onclick="switchTab('dashboard')">
+                <i class="ri-dashboard-line"></i> Dashboard
+            </button>
+            <button class="tab" onclick="switchTab('users')">
+                <i class="ri-user-line"></i> Users
+            </button>
+            <button class="tab" onclick="switchTab('posts')">
+                <i class="ri-article-line"></i> Posts
+            </button>
+            <button class="tab" onclick="switchTab('comments')">
+                <i class="ri-chat-3-line"></i> Comments
+            </button>
+            <button class="tab" onclick="switchTab('announcements')">
+                <i class="ri-megaphone-line"></i> Announcements
+            </button>  
         </div>
 
         <div id="dashboard-tab" class="tab-content active">
-            <div class="section-header">Recent Activity</div>
-            <div id="activityLog">
-                <div class="activity-item">
-                    <i class="ri-user-add-line" style="color: var(--accent);"></i>
-                    <div>
-                        <p><strong>New User Joined:</strong> Alex Rivera just registered.</p>
-                        <span style="font-size: 12px; color: var(--text-dim);">2 minutes ago</span>
-                    </div>
+            <div class="content-card">
+                <h2><i class="ri-time-line"></i> Recent Activity</h2>
+                <div id="activityLog">
+                    <div class="loading"><div class="spinner"></div><p>Loading activity...</p></div>
                 </div>
             </div>
         </div>
 
         <div id="users-tab" class="tab-content">
-            <div class="toolbar">
-                <div class="search-bar">
-                    <input type="text" id="userSearch" placeholder="Search users by name or email...">
+            <div class="content-card">
+                <div class="toolbar">
+                    <div class="search-bar">
+                        <input type="text" id="userSearch" placeholder="🔍 Search users...">
+                    </div>
+                    <button class="btn btn-primary" onclick="loadUsers()">
+                        <i class="ri-refresh-line"></i> Refresh
+                    </button>
                 </div>
-                <button class="btn btn-primary" onclick="loadUsers()">Refresh</button>
+                <div id="usersContainer" class="loading">
+                    <div class="spinner"></div><p>Loading users...</p>
+                </div>
             </div>
-            <div id="usersContainer">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        </tbody>
-                </table>
+        </div>
+
+        <div id="posts-tab" class="tab-content">
+            <div class="content-card">
+                <div class="toolbar">
+                    <div class="search-bar">
+                        <input type="text" id="postSearch" placeholder="🔍 Search posts...">
+                    </div>
+                    <button class="btn btn-primary" onclick="loadPosts()">
+                        <i class="ri-refresh-line"></i> Refresh
+                    </button>
+                </div>
+                <div id="postsContainer" class="loading">
+                    <div class="spinner"></div><p>Loading posts...</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="comments-tab" class="tab-content">
+            <div class="content-card">
+                <div class="toolbar">
+                    <div class="search-bar">
+                        <input type="text" id="commentSearch" placeholder="🔍 Search comments...">
+                    </div>
+                    <button class="btn btn-primary" onclick="loadComments()">
+                        <i class="ri-refresh-line"></i> Refresh
+                    </button>
+                </div>
+                <div id="commentsContainer" class="loading">
+                    <div class="spinner"></div><p>Loading comments...</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="announcements-tab" class="tab-content">  
+            <div class="content-card">  
+                <div class="toolbar">  
+                    <button class="btn btn-primary" onclick="loadAnnouncements()"><i class="ri-refresh-line"></i> Refresh</button>  
+                </div>  
+                <div id="announcementsContainer" class="loading">
+                    <div class="spinner"></div><p>Loading announcements...</p>
+                </div>  
+            </div>  
+        </div>  
+
+        <div id="announcementModal" class="modal">  
+            <div class="modal-content">  
+                <div class="modal-header">  
+                    <h2 id="announcementModalTitle"><i class="ri-megaphone-line"></i> Announcement</h2>  
+                    <button class="close-modal" onclick="closeAnnouncementModal()">&times;</button>  
+                </div>  
+                <div id="announcementModalContent" class="form-group"></div>  
+            </div>  
+        </div>  
+
+        <div id="adminCommentModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="ri-shield-star-line"></i> Comment as Admin</h2>
+                    <button class="close-modal" onclick="closeCommentModal()">&times;</button>
+                </div>
+                <div class="form-group" id="postCommentsContainer" style="max-height: 300px; overflow-y: auto;">
+                    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
+                </div>
+                <form id="adminCommentForm">
+                    <div class="form-group">
+                        <textarea id="adminCommentText" placeholder="Write your comment..." required></textarea>
+                    </div>
+                    <div class="form-actions" style="padding: 16px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px;">
+                        <button type="button" class="btn btn-secondary" onclick="closeCommentModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="postCommentBtn">Post Comment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="broadcastModal" class="modal">  
+            <div class="modal-content">  
+                <div class="modal-header">  
+                    <h2><i class="ri-megaphone-line"></i> Post Announcement</h2>  
+                    <button class="close-modal" onclick="closeBroadcastModal()">&times;</button>  
+                </div>  
+                <form id="broadcastForm">  
+                    <div class="form-group">  
+                        <label for="broadcastContent">Announcement Content</label>  
+                        <textarea id="broadcastContent" required></textarea>  
+                    </div>  
+                    <div class="form-group">  
+                        <label>Select Users</label>  
+                        <div id="userCheckboxes" style="max-height: 150px; overflow-y: auto; border: 1px solid var(--border); padding: 8px;">  
+                        </div>  
+                    </div>  
+                    <div class="form-actions" style="padding: 16px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px;">  
+                        <button type="button" class="btn btn-secondary" onclick="closeBroadcastModal()">Cancel</button>  
+                        <button type="submit" class="btn btn-primary" id="postBroadcastBtn">Post Announcement</button>  
+                    </div>  
+                </form>  
+            </div>  
+        </div> 
+
+        <div id="notificationsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="ri-mail-line"></i> Notifications</h2>
+                    <button class="close-modal" onclick="closeNotificationsModal()">&times;</button>
+                </div>
+                <div id="notificationsContainer" style="max-height: 500px; overflow-y: auto;">
+                    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="broadcastModal" class="modal">  
-        <div class="modal-content" style="margin-top: 10vh;">  
-            <div class="modal-header">  
-                <button class="btn" style="background: transparent; color: white;" onclick="closeBroadcastModal()">✕</button>
-                <h2 style="font-size: 16px;">New Announcement</h2>  
-            </div>  
-            <form id="broadcastForm">  
-                <div class="form-group">  
-                    <textarea id="broadcastContent" placeholder="What's happening?" rows="4" required></textarea>  
-                </div>  
-                <div class="form-actions">  
-                    <button type="submit" class="btn btn-primary" id="postBroadcastBtn">Post</button>  
-                </div>  
-            </form>  
-        </div>  
-    </div> 
 
 <script type="module">  
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
