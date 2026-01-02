@@ -1,462 +1,634 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link rel="icon" href="logo.png" type="image/x-icon">
-<meta name="title" content="VYNAL Artist Dashboard — Music Feed, Uploads, Debates & Creator Tools">
-<meta name="description" content="Manage your music, upload tracks, join debates, explore states, follow creators, and stay connected with the full VYNAL artist dashboard — all in one fast, powerful interface.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #10b981;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius-md: 16px;
+            --radius-lg: 20px;
+        }
 
-<!-- Keywords (Optional but clean) -->
-<meta name="keywords" content="VYNAL, artist dashboard, music platform, upload music, debates, creator tools, vynal.dev, music community, artist feed, digital music tools">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- Canonical -->
-<link rel="canonical" href="https://vynal.dev/">
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+        }
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://vynal.dev/">
-<meta property="og:title" content="VYNAL Artist Dashboard — Manage Your Music & Creator Tools">
-<meta property="og:description" content="Your central hub for music uploads, debates, states, creator insights, metrics, and community interactions on VYNAL.">
-<meta property="og:image" content="https://vynal.dev/logo.png">
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            animation: slideUp 0.4s ease;
+        }
 
-<!-- Twitter / X -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://vynal.dev/">
-<meta name="twitter:title" content="VYNAL Artist Dashboard — Manage Your Music & Creator Tools">
-<meta name="twitter:description" content="Access the full VYNAL artist experience — music uploads, debates, metrics, states, and social interactions in one dashboard.">
-<meta name="twitter:image" content="https://vynal.dev/logo.png">
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-<!-- Theme Color -->
-<meta name="theme-color" content="#000000">
+        .login-header {
+            background: var(--accent-gradient);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-<!-- Robots -->
-<meta name="robots" content="index, follow">
+        .login-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: rotate 60s linear infinite;
+        }
 
-<title>VYNAL Artist Dashboard</title>
-<link rel="stylesheet" href="remixicon.min.css">
-<link rel="stylesheet" href="start.css">
-<link rel="stylesheet" href="mall.css">
-<link rel="stylesheet" href="inter.css">
-<div id="progress"></div>
-<style>
-#progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 3px;
-  width: 0;
-  background: var(--brand);
-  transition: width 0.3s ease;
-  z-index: 9999;
-}
-</style>
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
 
-<script>
-function showProgress() {
-  const bar = document.getElementById('progress');
-  bar.style.width = '30%';
-  setTimeout(() => bar.style.width = '80%', 200);
-}
-function hideProgress() {
-  const bar = document.getElementById('progress');
-  bar.style.width = '100%';
-  setTimeout(() => bar.style.display = 'none', 300);
-}
-showProgress();
-// simulate loading content
-window.addEventListener('load', hideProgress);
-</script>
+        .login-icon {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 32px;
+            color: var(--accent-primary);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 1;
+        }
 
+        .login-header h1 {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-form {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .password-toggle:active {
+            background: var(--bg-primary);
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.6s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-login.loading .spinner {
+            display: block;
+        }
+
+        .btn-login.loading .btn-text {
+            display: none;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        .login-footer {
+            padding: 20px 30px;
+            background: var(--bg-primary);
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .login-footer p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .login-footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                border-radius: 0;
+            }
+
+            .login-header {
+                padding: 30px 20px;
+            }
+
+            .login-form {
+                padding: 20px;
+            }
+
+            .login-footer {
+                padding: 15px 20px;
+            }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #323232;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            box-shadow: var(--shadow-xl);
+            animation: toastSlideUp 0.3s ease;
+            max-width: calc(100vw - 32px);
+            font-size: 14px;
+        }
+
+        @keyframes toastSlideUp {
+            from {
+                transform: translate(-50%, 100px);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- ===== Header ===== -->
-<header class="header" role="banner">
-
-<div class="searchbar">
-
-
-</div>
-<div class="actions">
- <button class="btn primary uploading">Register Now</button>
- <button class="btn ghost Login-btn">Dashboard</button>
- <a> <img class="avatar uploading" src="user.webp"></a>
-</div>
-
-</header>
-<main class="main">
-<section class="grid-12" aria-label="Key metrics">
-<div class="span-12 special-before">
- <img src="logo.png" height="40" style="margin-right: 10px">
- <div style="font-weight:800; font-size:18px;line-height: 1.0;margin-bottom: 5px;margin-right: 10px">VYNAL Developers</div>
-<p style="font-size:14px;margin-right:10px;border-left: 1px solid rgb(255, 255, 255);padding-left:10px;">Let's get ourselves popular, Grab most of trends &<span style="color:var(--brand);font-weight:600"> artist stategies</span> to let you started.!</p> 
-
- </div>
-</section>
-<section class="grid-12" aria-label="Key metrics">
-<div class="card span-4" style="padding: 16px;border-radius: var(--autoradius);">
-<div style="display:flex; gap:14px; align-items:center;">
-<div>
-<div style="font-weight:600; font-size:20px;line-height: 1.0;margin-bottom: 5px;"> VYNAL developers programme</div>
-<div style="color: rgba(255, 255, 255, 0.849);">Understand what's inside, why running the programme, our paterners & sponsored contents.</div>
-</div>
-
-</div>
-<div class="divider"></div>
-<div class="row">
-<div class="col-4">
-<div class="t-s">Author</div>
-<div class="nowrap" style="color: var(--brand-2)">admin & LTI</div>
-</div>
-<div class="col-4">
-
-<div class="t-bold">20.28k</div>
-<div class="t-s">Readers</div>
-</div>
-<div class="col-4">
-
-<div style=" display:flex; gap:8px;">
- <button class="btn primary"><i class="ri-book-2-line ri-l"></i>Docs</button>
-
-</div>
-</div>
-</div>
-</div>
-<div class="card span-4"style="padding:16px; box-sizing:border-box; height:100%;border-radius: var(--autoradius);">
-<div style="display:flex; gap:14px; align-items:center;">
-<div class="cover" style="width:60px; height:60px;border: 1px solid var(--border);border-radius: var(--autoradius);">
-<img src="user.webp" style=" border-radius: var(--autoradius);">
-</div>
-<div>
-<div style="font-weight:800; font-size:18px;" >Nabobeatz</div>
-<div class="t-sm">Music Producer</div>
-</div>
-<div style="margin-left:auto; display:flex; gap:8px;">
-
-<button class="btn ghost" style="border: none">Sponsored</button>
-</div>
-</div>
-<div class="divider"></div>
-<div class="row">
-<div class="col-4">
-<div class="t-s">Top Track</div>
-<div class="nowrap t-800">Midnight</div>
-</div>
-<div class="col-4">
-<div class="t-s">Likes</div>
-<div class="t-800">100,000,000</div>
-</div>
-<div class="col-4">
-<div><span class="btn secondary"><i class="ri-arrow-right-up-line ri-xl"></i></span></div>
-</div>
-</div>
-</div>
-
-</section>
-<section class="grid-12" aria-label="Key metrics">
-<div class="span-4 special-before" style="height: auto">
- <div style="font-size:20px;line-height: 1.0;">What's Inside <span class="t-800"> VYNAL</span> Developers</div>
-
-
- </div>
-</section>
-<section class="grid-12" aria-label="Key metrics">
-<div class="span-4 special" style="border: 1px solid var(--border);">
- <div style="font-weight:600; font-size:20px;line-height: 1.0;margin-bottom: 5px;margin-right: 10px">New Lessons Available</div>
-<p style="font-size:14px;margin-right:10px;border-left: 1px solid rgb(255, 255, 255);padding-left:10px;">Check out some new lessons from the popular music proffesionals inside</p> 
- <a href="start"><button class="btn-icon" style="color: rgb(255, 255, 255);border: none;background: #ffffff17"><i class="ri-book-2-line ri-xl"></i></button>
-</a>
- </div>
- <div class="span-4 special" style="border: 1px solid var(--border);">
- <div style="font-weight:600; font-size:20px;line-height: 1.0;margin-bottom: 5px;margin-right: 10px">Expert Artistic Interface</div>
-<p style="font-size:14px;margin-right:10px;border-left: 1px solid rgb(255, 255, 255);padding-left:10px;"> Create contents for your next Artistic move by <span class="t-800"> Create feature</span> with Proffesional interface made for you.</p> 
- <a href="start"><button class="btn-icon" style="color: rgb(255, 255, 255);border: none;background: #ffffff17"><i class="ri-device-line ri-xl"></i></button>
-</a>
- </div>
- <div class="span-4 special" style="border: 1px solid var(--border);">
- <div style="font-weight:600; font-size:20px;line-height: 1.0;margin-bottom: 5px;margin-right: 10px">Sample Packages Download</div>
-<p style="font-size:14px;margin-right:10px;border-left: 1px solid rgb(255, 255, 255);padding-left:10px;">Stunning samples from the best samplers worldwide, Grab them today.</p> 
- <a href="start"><button class="btn-icon" style="color: rgb(255, 255, 255);border: none;background: #ffffff17"><i class="ri-download-line ri-xl"></i></button>
-</a>
- </div>
- <div class="card span-4"style="padding:16px; box-sizing:border-box; height:100%;border-radius: var(--autoradius);">
-<div style="display:flex; gap:14px; align-items:center;">
-<div class="cover" style="width:60px; height:60px;border: 1px solid var(--border);border-radius: var(--autoradius);">
-<img src="user.webp" style=" border-radius: var(--autoradius);">
-</div>
-<div>
-<div style="font-weight:800; font-size:18px;" >Nabobeatz</div>
-<div class="t-sm">Music Producer</div>
-</div>
-<div style="margin-left:auto; display:flex; gap:8px;">
-
-<button class="btn ghost" style="border: none">Sponsored</button>
-</div>
-</div>
-<div class="divider"></div>
-<div class="row">
-<div class="col-4">
-<div class="t-s">Top Track</div>
-<div class="nowrap t-800">Midnight</div>
-</div>
-<div class="col-4">
-<div class="t-s">Likes</div>
-<div class="t-800">100,000,000</div>
-</div>
-<div class="col-4">
-<div><span class="btn secondary"><i class="ri-arrow-right-up-line ri-xl"></i></span></div>
-</div>
-</div>
-</div>
- <div class="span-4 special" style="border: 1px solid var(--border);">
- <div style="font-weight:600; font-size:20px;line-height: 1.0;margin-bottom: 5px;margin-right: 10px">Share Debate Thoughts</div>
-<p style="font-size:14px;margin-right:10px;border-left: 1px solid rgb(255, 255, 255);padding-left:10px;">Debates! Debates! Let's discuss on what the cause and solution in this industry.</p> 
- <a href="start"><button class="btn-icon" style="color: rgb(255, 255, 255);border: none;background: ffffff17"><i class="ri-chat-1-line ri-xl"></i></button>
-</a>
- </div>
- <div class="card span-4"style="padding:16px; box-sizing:border-box; height:100%;border-radius: var(--autoradius);">
-<div style="display:flex; gap:14px; align-items:center;">
-<div class="cover" style="width:60px; height:60px;border: 1px solid var(--border);border-radius: var(--autoradius);">
-<img src="user.webp" style=" border-radius: var(--autoradius);">
-</div>
-<div>
-<div style="font-weight:800; font-size:18px;" >Nabobeatz</div>
-<div class="t-sm">Music Producer</div>
-</div>
-<div style="margin-left:auto; display:flex; gap:8px;">
-
-<button class="btn ghost" style="border: none">Sponsored</button>
-</div>
-</div>
-<div class="divider"></div>
-<div class="row">
-<div class="col-4">
-<div class="t-s">Top Track</div>
-<div class="nowrap t-800">Midnight</div>
-</div>
-<div class="col-4">
-<div class="t-s">Likes</div>
-<div class="t-800">100,000,000</div>
-</div>
-<div class="col-4">
-<div><span class="btn secondary"><i class="ri-arrow-right-up-line ri-xl"></i></span></div>
-</div>
-</div>
-</div>
- <div class="span-4 special" style="border: 1px solid var(--border);">
- <div style="font-weight:600; font-size:20px;line-height: 1.0;margin-bottom: 5px;margin-right: 10px">Post Global Creation</div>
-<p style="font-size:14px;margin-right:10px;border-left: 1px solid rgb(255, 255, 255);padding-left:10px;">Post your next project inside. Allow them to like and comment your work.</p> 
- <a href="start"><button class="btn-icon" style="color: rgb(255, 255, 255);border: none;background: #ffffff17"><i class="ri-add-line ri-xl"></i></button>
-</a>
- </div> 
- <div class="span-4 special" style="border: 1px solid var(--border);">
- <div style="font-weight:600; font-size:20px;line-height: 1.0;margin-bottom: 5px;margin-right: 10px">Clean Account Settings</div>
-<p style="font-size:14px;margin-right:10px;border-left: 1px solid rgb(255, 255, 255);padding-left:10px;">Customize your profile to behave like your life, additional addons for high engagement.</p> 
- <a href="start"><button class="btn-icon" style="color: rgb(255, 255, 255);border: none;background: #ffffff17"><i class="ri-settings-3-fill ri-xl"></i></button>
-</a>
- </div>
- <div class="card span-4" style="padding: 16px;border-radius: var(--autoradius);">
-<div style="display:flex; gap:14px; align-items:center;">
-<div>
-<div style="font-weight:600; font-size:20px;line-height: 1.0;margin-bottom: 5px;"> VYNAL developers programme</div>
-<div style="color: rgba(255, 255, 255, 0.849);">Understand what's inside, why running the programme, our paterners & sponsored contents.</div>
-</div>
-
-</div>
-<div class="divider"></div>
-<div class="row">
-<div class="col-4">
-<div class="t-s">Author</div>
-<div class="nowrap" style="color: var(--brand-2)">admin & LTI</div>
-</div>
-<div class="col-4">
-
-<div class="t-bold">20.28k</div>
-<div class="t-s">Readers</div>
-</div>
-<div class="col-4">
-
-<div style=" display:flex; gap:8px;">
- <button class="btn ghost"><i class="ri-book-2-line ri-l"></i>Docs</button>
-
-</div>
-</div>
-</div>
-</div>
- </section>
-<section class="grid-12" aria-label="Key metrics">
-<div class="span-4 special-before" style="height: auto;">
-<div style="font-size:20px;line-height: 1.0;">Meet<span class="t-800"> VYNAL</span> Creators Team</div>
- </div>
- </section>
- <section class="grid-121" aria-label="Key metrics">
-<div class="post-card-2" style="padding:16px; box-sizing:border-box; height:100%;border-radius: var(--autoradius);">
-<div style="display:flex; gap:14px; align-items:center;">
-<div class="cover atoll™" style="width:60px; height:60px;border: 1px solid var(--border);border-radius: var(--autoradius);">
-<img src="user.webp" style=" border-radius: var(--autoradius);">
-</div>
-<a href="" class="btn"><i class="ri-whatsapp-line ri-xl"></i></a>
-</div>
-<div class="divider"></div>
-<div class="nowrap t-800 atoll™">Atoll™</div>
-<div class="t-s">Position - C.E.O</div>
-</div>
-<div class="post-card-2" style="padding:16px; box-sizing:border-box; height:100%;border-radius: var(--autoradius);">
-<div style="display:flex; gap:14px; align-items:center;">
-<div class="cover" style="width:60px; height:60px;border: 1px solid var(--border);border-radius: var(--autoradius);">
-<img src="user.webp" style=" border-radius: var(--autoradius);">
-</div>
-<a href="" class="btn"><i class="ri-whatsapp-line ri-xl"></i></a>
-</div>
-<div class="divider"></div>
-<div class="nowrap t-800">Life Time Investor LTI</div>
-<div class="t-s">Position - Manager</div>
-</div>
-<div class="post-card-2" style="padding:16px; box-sizing:border-box; height:100%;border-radius: var(--autoradius);">
-<div style="display:flex; gap:14px; align-items:center;">
-<div class="cover" style="width:60px; height:60px;border: 1px solid var(--border);border-radius: var(--autoradius);">
-<img src="user.webp" style=" border-radius: var(--autoradius);">
-</div>
-<a href="" class="btn"><i class="ri-whatsapp-line ri-xl"></i></a>
-</div>
-<div class="divider"></div>
-<div class="nowrap t-800">Nabobeatz</div>
-<div class="t-s">Position - A-Manager</div>
-</div>
-<div class="post-card-2" style="padding:16px; box-sizing:border-box; height:100%;border-radius: var(--autoradius);background: var(--border)">
-<div style="display:flex; gap:14px; align-items:center;">
-<div class="cover" style="width:60px; height:60px;border: 1px solid var(--border);border-radius: var(--autoradius);">
-<img src="test.jpg" style=" border-radius: var(--autoradius);">
-</div>
-</div>
-<div class="divider"></div>
-<div class="nowrap t-800">Steven</div>
-<div class="t-s">Position - Sponsor lvl 1</div>
-</div>
-</section>
-</main>
-
-<div class="modal-backdrop hidden" id="uploadModal">
-<div class="modal" role="document" style="width: 400px;background: url(bg1.png);background-size: cover;">
-<h2>Create an account</h2>
- <p class="muted" style="margin-top: -15px">Join the VYNAL developers programme </p>
-<form class="signup">
-        <div class="put">
-            <input class="input" type="text" placeholder="Email*" required>
-        </div>
-        <div class="put">
-            <input class="input" type="password" placeholder="Password *" required>
-        </div>
-        <div class="put">
-            <input class="input" type="password" placeholder="Repeat password *" required>
-        </div>
-        <div class="row">
-            <div class="col-6"><input class="input" type="text" placeholder="Stage name *" required></div>
-            <div class="col-6">
-                <select class="input">
-                    Who are you?
-                    <option>Musician</option>
-                    <option>Teacher</option>
-                    <option>Producer</option>
-                    <option>Song writter</option>
-                </select>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-icon">
+                <i class="ri-shield-star-fill"></i>
             </div>
+            <h1>Admin Login</h1>
+            <p>Access your dashboard securely</p>
         </div>
-        
-            <div style="width:100%"><input class="input" type="text" id="uDesc" placeholder="Add short bio"></div>
-       
-        
-            <div style="width:100%;margin-bottom: 10px;">
-  <label class="file-input-wrapper">
-  <span class="file-btn">Upload Cover</span>
-  <span class="file-name">No file chosen</span>
-  <input class="input file-input" type="file" id="uCover" accept="image/*">
-</label>
 
-             </div>
+        <div class="login-form">
+            <div id="alertContainer"></div>
 
-        <div class="progress" aria-hidden="true" style="display:none;"><i id="uProgress" style="width:0%;display:block;height:4px;background:#4CAF50;transition:width 0.3s;"></i></div>
-        <div style="display:flex; gap:8px; justify-content:flex-end;">
-            <button type="button" class="btn ghost" title="Why cancel?" id="uploadClose" style="color: #181818;">Cancel</button>
-            <button class="btn primary" id="uSubmit" title="Let's get popular" type="submit"> Create Account</button>
-        </div>
-    </form>
-</div>
-</div>
-<!-- Login modal -->
-<div class="modal-backdrop hidden" id="loginModal">
-    <div class="modal" role="document" style="width: 380px;background: url(bg1.png);">
-      <h2>Sign in to Dashboard</h2>  
-<p class="muted" style="margin-top: -10px">Enter your stagename and password to continue</p>  
-<form id="loginForm">  
-    <div class="put"><input id="loginEmail" class="input" type="text" placeholder="Email or Stage name*"  
-            required></div>  
-    <br>  
-    <div class="put"><input id="loginPassword" class="input" type="password" placeholder="Password*" required>  
-    </div>  
-    <div id="loginMessage" class="t-s" style="margin-top:8px;color:#ffdddd"></div>  
-    <a class="t-s" style="margin-top:10px;display:block;" id="forgotPasswordLink" href="forgot-password.html">Forgot your password?</a> <!-- Direct link to the forgot-password page -->  
-    <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:10px;">  
-        <button type="button" class="btn ghost" id="loginClose" style="color: #181818;">Cancel</button>  
-        <button type="submit" class="btn primary" id="loginSubmit">Sign in</button>  
-    </div>  
-  
-</form>  
-    </div>
-</div>
- 
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="ri-mail-line"></i>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="admin@example.com" 
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+                </div>
 
-<div class="modal-backdrop hidden" id="atollModal">
-<div class="modal" role="document" style="width: 400px;background: #181818;">
-<div style="display:flex; gap:14px; align-items:center;">
-<div class="cover" style="width:60px; height:60px;border: 1px solid var(--border);border-radius: var(--autoradius);">
-<img src="user.webp" style=" border-radius: var(--autoradius);">
-</div>
-<div>
-<div style="font-weight:800; font-size:18px;color:white" >Atoll™</div>
-<div class="t-sm" style="color:white">Position - C.E.O</div>
-</div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="ri-lock-line"></i>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Enter your password" 
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            <i class="ri-eye-line"></i>
+                        </button>
+                    </div>
+                </div>
 
-<div style="margin-left:auto; display:flex; gap:8px;">
-<button class="btn ghost" id="atollClose" style="border:none;background: var(--border);" data-close="giftModal">
-                    <i class="ri-close-line t-l"></i>
+                <div class="forgot-password">
+                    <a href="#" onclick="handleForgotPassword(event)">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn-login" id="loginBtn">
+                    <div class="spinner"></div>
+                    <span class="btn-text">
+                        <i class="ri-login-box-line"></i>
+                        Sign In
+                    </span>
                 </button>
-</div>
-</div>
-<div class="btn t-m" style="border: none;color: white;">
- Hi, we are Atoll™. As the C.E.O of VYNAL we are going to build the nextkin huge artists profiles. Join now and never be an upcoming again.
-</div>
- <div style="display:flex; gap:8px; justify-content:flex-end;">
-<button class="btn primary" id="uSubmit" title="Let's chat"><i class="ri-whatsapp-line"></i> Chat WhatsApp</button>
-</div>
-</div>
-</div>
-<script>
- // Comments toggle + Share Modal
-document.addEventListener("click", e => {
-if (e.target.closest(".uploading")) {
-document.getElementById("uploadModal").classList.remove("hidden");
-}
-if (e.target.closest("#uploadClose") || e.target.id === "uploadModal") {
-document.getElementById("uploadModal").classList.add("hidden");
-}
+            </form>
+        </div>
 
-if (e.target.closest(".atoll™")) {
-document.getElementById("atollModal").classList.remove("hidden");
-}
-if (e.target.closest("#atollClose") || e.target.id === "atollModal") {
-document.getElementById("atollModal").classList.add("hidden");
-}
+        <div class="login-footer">
+            <p>Don't have an account? <a href="signup.html">Create Account</a></p>
+        </div>
+    </div>
 
-if (e.target.closest(".Login-btn")) {
-document.getElementById("loginModal").classList.remove("hidden");
-}
-if (e.target.closest("#loginClose") || e.target.id === "loginModal") {
-document.getElementById("loginModal").classList.add("hidden");
-}
-});
-</script>
- <script src="auth.js" type="module"></script>
-<script src="another.js" defer></script>
+    <script type="module">
+        import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+        const supabaseUrl = 'https://xaudpqhyyxburjazfips.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhdWRwcWh5eXhidXJqYXpmaXBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMTY1NDUsImV4cCI6MjA3Nzg5MjU0NX0.LxRbfT0TsxJ38dwTQyKhn_Hi1cuZXZ6tpE04YPatGkQ'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        // Password toggle
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'ri-eye-off-line';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'ri-eye-line';
+            }
+        });
+
+        // Show alert
+        function showAlert(message, type = 'error') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'error' ? 'alert-error' : type === 'success' ? 'alert-success' : 'alert-info';
+            const icon = type === 'error' ? 'ri-error-warning-line' : type === 'success' ? 'ri-checkbox-circle-line' : 'ri-information-line';
+            
+            alertContainer.innerHTML = `
+                <div class="alert ${alertClass}">
+                    <i class="${icon}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Show toast
+        window.showToast = function(message, color = '#10b981') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.borderLeft = `4px solid ${color}`;
+
+            let icon = 'ri-check-line';
+            if (color === '#ef4444') icon = 'ri-error-warning-line';
+            else if (color === '#f59e0b') icon = 'ri-alert-line';
+            else if (color === '#3b82f6') icon = 'ri-information-line';
+
+            toast.innerHTML = `
+                <i class="${icon}" style="color: ${color}; font-size: 20px;"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toastSlideUp 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Check if already logged in
+        async function checkExistingSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            if (session) {
+                // Check if user is admin
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('user_type, is_admin')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (profile && (profile.user_type === 'Admin' || profile.is_admin)) {
+                    showToast('Already logged in! Redirecting...', '#10b981');
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1000);
+                }
+            }
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+
+            // Validation
+            if (!email || !password) {
+                showAlert('Please fill in all fields', 'error');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showAlert('Please enter a valid email address', 'error');
+                return;
+            }
+
+            // Disable button and show loading
+            loginBtn.disabled = true;
+            loginBtn.classList.add('loading');
+
+            try {
+                // Sign in with Supabase
+                const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (authError) {
+                    throw authError;
+                }
+
+                if (!authData.session) {
+                    throw new Error('Login failed - no session created');
+                }
+
+                // Check if user is admin
+                const { data: profile, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('user_type, is_admin, stage_name')
+                    .eq('id', authData.user.id)
+                    .single();
+
+                if (profileError) {
+                    throw new Error('Failed to load profile');
+                }
+
+                if (!profile) {
+                    throw new Error('Profile not found');
+                }
+
+                // Verify admin access
+                if (profile.user_type !== 'Admin' && !profile.is_admin) {
+                    await supabase.auth.signOut();
+                    throw new Error('Access denied: Admin privileges required');
+                }
+
+                // Success
+                showAlert(`Welcome back, ${profile.stage_name || 'Admin'}!`, 'success');
+                showToast('Login successful! Redirecting...', '#10b981');
+
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                let errorMessage = 'Login failed. Please try again.';
+                
+                if (error.message.includes('Invalid login credentials')) {
+                    errorMessage = 'Invalid email or password';
+                } else if (error.message.includes('Email not confirmed')) {
+                    errorMessage = 'Please verify your email before logging in';
+                } else if (error.message.includes('Access denied')) {
+                    errorMessage = error.message;
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+
+                showAlert(errorMessage, 'error');
+                showToast(errorMessage, '#ef4444');
+
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.classList.remove('loading');
+            }
+        });
+
+        // Forgot password handler
+        window.handleForgotPassword = function(event) {
+            event.preventDefault();
+            showToast('Password reset feature - Contact administrator', '#3b82f6');
+        }
+
+        // Initialize
+        checkExistingSession();
+
+        // Auto-focus email field
+        document.getElementById('email').focus();
+    </script>
 </body>
 </html>
