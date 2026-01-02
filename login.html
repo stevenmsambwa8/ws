@@ -352,9 +352,10 @@
             transform: translateX(-50%);
             background: #323232;
             color: white;
-            padding: 14px 24px;
+            padding: 14px 44px;
             border-radius: 8px;
             display: flex;
+            width: 100%;
             align-items: center;
             gap: 12px;
             z-index: 9999;
@@ -591,7 +592,7 @@
                 showToast('Login successful! Redirecting...', '#10b981');
 
                 setTimeout(() => {
-                    window.location.href = 'admin.html';
+                    window.location.href = 'index.html';
                 }, 1500);
 
             } catch (error) {
