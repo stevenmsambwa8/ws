@@ -204,6 +204,12 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .notif-msg{font-size:13px;color:var(--text2);margin-top:2px;}
 .notif-time{font-size:11px;color:var(--text3);margin-top:3px;font-family:'JetBrains Mono',monospace;}
 
+/* ─── FORM GRIDS ─── */
+.form-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+@media(max-width:480px){.form-grid2{grid-template-columns:1fr;}.form-grid3{grid-template-columns:1fr 1fr;}}
+.section-label{font-size:11px;font-weight:800;color:var(--indigo);text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:6px;padding:4px 0 2px;border-bottom:1px solid var(--border);margin-bottom:2px;}
+.section-label i{font-size:13px;}
 /* ─── PREVIEW BOX ─── */
 .preview-box{background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-wrap;word-break:break-word;max-height:220px;overflow-y:auto;}
 
@@ -400,24 +406,97 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 </div>
 
 <div id="editUserModal" class="modal">
-    <div class="modal-sheet">
+    <div class="modal-sheet" style="max-width:680px;">
         <div class="modal-handle"></div>
         <div class="modal-hdr"><i class="ri-user-settings-line modal-icon"></i><h3>Edit User</h3><button class="close-btn" onclick="closeEditUserModal()">✕</button></div>
         <input type="hidden" id="editUserId">
-        <div class="form-grp"><label>Stage Name</label><input type="text" id="editStageName" placeholder="Stage name"></div>
-        <div class="form-grp" style="padding-top:0;"><label>Email</label><input type="email" id="editEmail" placeholder="Email address"></div>
-        <div class="form-grp" style="padding-top:0;"><label>User Type</label>
-            <select id="editUserType"><option value="User">User</option><option value="Artist">Artist</option><option value="Admin">Admin</option></select>
+
+        <!-- Section: Identity -->
+        <div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-user-line"></i> Identity</p></div>
+        <div class="form-grp form-grid2">
+            <div><label>Stage Name</label><input type="text" id="editStageName" placeholder="Stage name"></div>
+            <div><label>Email</label><input type="email" id="editEmail" placeholder="Email"></div>
         </div>
-        <div class="form-grp" style="padding-top:0;"><label>Admin Access</label>
-            <div class="toggle-row" onclick="document.getElementById('editIsAdmin').click()">
-                <label for="editIsAdmin">Grant is_admin = true</label>
-                <input type="checkbox" id="editIsAdmin">
+        <div class="form-grp form-grid2" style="padding-top:0;">
+            <div><label>User Type</label>
+                <select id="editUserType"><option value="User">User</option><option value="Artist">Artist</option><option value="Admin">Admin</option></select>
+            </div>
+            <div><label>Role</label>
+                <select id="editRole"><option value="user">user</option><option value="artist">artist</option><option value="admin">admin</option><option value="moderator">moderator</option></select>
             </div>
         </div>
+        <div class="form-grp" style="padding-top:0;">
+            <label>Bio</label>
+            <textarea id="editBio" placeholder="User bio…" style="min-height:70px;"></textarea>
+        </div>
+        <div class="form-grp form-grid2" style="padding-top:0;">
+            <div><label>Profile Picture URL</label><input type="text" id="editProfilePicture" placeholder="https://…"></div>
+            <div><label>Search Key</label><input type="text" id="editSearchKey" placeholder="search_key"></div>
+        </div>
+        <div class="form-grp" style="padding-top:0;">
+            <label>Status Badge</label>
+            <input type="text" id="editStatusBadge" placeholder="e.g. 🎤 Verified Artist">
+        </div>
+
+        <!-- Section: Tier & Payments -->
+        <div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-vip-crown-line"></i> Tier & Payments</p></div>
+        <div class="form-grp form-grid2">
+            <div><label>Tier</label>
+                <select id="editTier"><option value="basic">basic</option><option value="pro">pro</option><option value="premium">premium</option></select>
+            </div>
+            <div><label>Payment ID</label><input type="text" id="editPaymentId" placeholder="payment_id"></div>
+        </div>
+        <div class="form-grp form-grid2" style="padding-top:0;">
+            <div><label>Coins</label><input type="number" id="editCoins" placeholder="0" min="0"></div>
+            <div><label>Score</label><input type="number" id="editScore" placeholder="0" min="0"></div>
+        </div>
+        <div class="form-grp" style="padding-top:0;">
+            <label>Upgraded At</label>
+            <input type="datetime-local" id="editUpgradedAt">
+        </div>
+
+        <!-- Section: Limits -->
+        <div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-settings-3-line"></i> Limits & Counts</p></div>
+        <div class="form-grp form-grid3">
+            <div><label>Max Audio Previews</label><input type="number" id="editMaxAudioPreviews" min="0"></div>
+            <div><label>Max Releases</label><input type="number" id="editMaxReleases" min="0"></div>
+            <div><label>Max Edits</label><input type="number" id="editMaxEdits" min="0"></div>
+        </div>
+        <div class="form-grp form-grid3" style="padding-top:0;">
+            <div><label>Current Audio Count</label><input type="number" id="editCurrentAudioCount" min="0"></div>
+            <div><label>Current Release Count</label><input type="number" id="editCurrentReleaseCount" min="0"></div>
+            <div><label>Edits Remaining</label><input type="number" id="editEditsRemaining" min="0"></div>
+        </div>
+        <div class="form-grp form-grid3" style="padding-top:0;">
+            <div><label>Track Count</label><input type="number" id="editTrackCount" min="0"></div>
+            <div><label>Collab Count</label><input type="number" id="editCollabCount" min="0"></div>
+            <div><label>Invite Count</label><input type="number" id="editInviteCount" min="0"></div>
+        </div>
+        <div class="form-grp form-grid2" style="padding-top:0;">
+            <div><label>Invite Pro</label><input type="number" id="editInvitePro" min="0" placeholder="0"></div>
+            <div><label>Invite Code</label><input type="text" id="editInviteCode" placeholder="invite_code"></div>
+        </div>
+        <div class="form-grp" style="padding-top:0;">
+            <label>Invited By Code</label>
+            <input type="text" id="editInvitedByCode" placeholder="Code used at signup">
+        </div>
+
+        <!-- Section: Access Flags -->
+        <div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-shield-check-line"></i> Access Flags</p></div>
+        <div class="form-grp" style="display:flex;flex-direction:column;gap:8px;">
+            <div class="toggle-row" onclick="document.getElementById('editIsAdmin').click()">
+                <label for="editIsAdmin">Admin access (is_admin)</label>
+                <input type="checkbox" id="editIsAdmin">
+            </div>
+            <div class="toggle-row" onclick="document.getElementById('editCanSeeInvite').click()">
+                <label for="editCanSeeInvite">Can see invite page (can_see_invite)</label>
+                <input type="checkbox" id="editCanSeeInvite">
+            </div>
+        </div>
+
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeEditUserModal()">Cancel</button>
-            <button class="btn btn-primary" onclick="saveUserEdit()"><i class="ri-save-line"></i>Save</button>
+            <button class="btn btn-primary" onclick="saveUserEdit()"><i class="ri-save-line"></i>Save Changes</button>
         </div>
     </div>
 </div>
@@ -544,13 +623,33 @@ window.loadUsers = async function() {
     const {data,error}=await supabase.from('profiles').select('*').order('created_at',{ascending:false});
     if(error){c.innerHTML=err();return;}
     allUsers=data||[];
-    let f=allUsers; if(s) f=allUsers.filter(u=>u.stage_name?.toLowerCase().includes(s)||u.email?.toLowerCase().includes(s)||u.user_type?.toLowerCase().includes(s));
+    let f=allUsers; if(s) f=allUsers.filter(u=>
+        u.stage_name?.toLowerCase().includes(s)||
+        u.email?.toLowerCase().includes(s)||
+        u.user_type?.toLowerCase().includes(s)||
+        u.tier?.toLowerCase().includes(s)||
+        u.role?.toLowerCase().includes(s)
+    );
     if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-user-line"></i><p>No users found</p></div>';return;}
-    c.innerHTML=`<table class="data-table"><thead><tr><th>User</th><th>Type</th><th>Admin</th><th>Joined</th><th>Actions</th></tr></thead><tbody>${
+    c.innerHTML=`<table class="data-table"><thead><tr>
+        <th>User</th><th>Type / Role</th><th>Tier</th><th>Admin</th>
+        <th>Score</th><th>Coins</th><th>Tracks</th><th>Invites</th><th>Joined</th><th>Actions</th>
+    </tr></thead><tbody>${
         f.map(u=>`<tr>
-        <td data-label="User" class="no-label"><div class="user-cell"><img src="${u.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.stage_name||'U')}&background=4f46e5&color=fff'"><div><div class="user-name">${u.stage_name||'—'}</div><div class="user-sub">${u.email||u.id.substring(0,10)+'…'}</div></div></div></td>
-        <td data-label="Type"><span class="badge ${u.user_type==='Admin'?'badge-admin':'badge-user'}">${u.user_type||'User'}</span></td>
+        <td data-label="User" class="no-label"><div class="user-cell">
+            <img src="${u.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.stage_name||'U')}&background=4f46e5&color=fff'">
+            <div><div class="user-name">${u.stage_name||'—'}</div><div class="user-sub">${u.email||u.id.substring(0,10)+'…'}</div></div>
+        </div></td>
+        <td data-label="Type/Role"><div style="display:flex;flex-direction:column;gap:3px;">
+            <span class="badge ${u.user_type==='Admin'?'badge-admin':'badge-user'}">${u.user_type||'User'}</span>
+            <span style="font-size:11px;color:var(--text3);">${u.role||'user'}</span>
+        </div></td>
+        <td data-label="Tier"><span class="badge ${u.tier==='pro'?'badge-amber':u.tier==='premium'?'badge-admin':'badge-user'}">${u.tier||'basic'}</span></td>
         <td data-label="Admin">${u.is_admin?'<span class="badge badge-active"><i class="ri-shield-check-line"></i> Yes</span>':'<span class="badge badge-user">No</span>'}</td>
+        <td data-label="Score"><strong>${u.score??0}</strong></td>
+        <td data-label="Coins"><strong>${u.coins??0}</strong></td>
+        <td data-label="Tracks"><strong>${u.track_count??0}</strong></td>
+        <td data-label="Invites"><strong>${u.invite_count??0}</strong></td>
         <td data-label="Joined">${new Date(u.created_at).toLocaleDateString()}</td>
         <td class="no-label" style="padding-top:6px;"><div class="act-group">
             <button class="act-btn edit" title="Edit" onclick="openEditUser('${u.id}')"><i class="ri-edit-line"></i></button>
@@ -559,9 +658,85 @@ window.loadUsers = async function() {
         </div></td></tr>`).join('')
     }</tbody></table>`;
 };
-window.openEditUser=function(id){const u=allUsers.find(x=>x.id===id);if(!u)return;document.getElementById('editUserId').value=u.id;document.getElementById('editStageName').value=u.stage_name||'';document.getElementById('editEmail').value=u.email||'';document.getElementById('editUserType').value=u.user_type||'User';document.getElementById('editIsAdmin').checked=!!u.is_admin;document.getElementById('editUserModal').classList.add('active');};
+
+window.openEditUser=function(id){
+    const u=allUsers.find(x=>x.id===id); if(!u) return;
+    // Identity
+    document.getElementById('editUserId').value          = u.id;
+    document.getElementById('editStageName').value       = u.stage_name||'';
+    document.getElementById('editEmail').value           = u.email||'';
+    document.getElementById('editUserType').value        = u.user_type||'User';
+    document.getElementById('editRole').value            = u.role||'user';
+    document.getElementById('editBio').value             = u.bio||'';
+    document.getElementById('editProfilePicture').value  = u.profile_picture||'';
+    document.getElementById('editSearchKey').value       = u.search_key||'';
+    document.getElementById('editStatusBadge').value     = u.status_badge||'';
+    // Tier & payments
+    document.getElementById('editTier').value            = u.tier||'basic';
+    document.getElementById('editPaymentId').value       = u.payment_id||'';
+    document.getElementById('editCoins').value           = u.coins??0;
+    document.getElementById('editScore').value           = u.score??0;
+    document.getElementById('editUpgradedAt').value      = u.upgraded_at ? u.upgraded_at.substring(0,16) : '';
+    // Limits & counts
+    document.getElementById('editMaxAudioPreviews').value   = u.max_audio_previews??10;
+    document.getElementById('editMaxReleases').value        = u.max_releases??6;
+    document.getElementById('editMaxEdits').value           = u.max_edits??1;
+    document.getElementById('editCurrentAudioCount').value  = u.current_audio_count??0;
+    document.getElementById('editCurrentReleaseCount').value= u.current_release_count??0;
+    document.getElementById('editEditsRemaining').value     = u.edits_remaining??1;
+    document.getElementById('editTrackCount').value         = u.track_count??0;
+    document.getElementById('editCollabCount').value        = u.collab_count??0;
+    document.getElementById('editInviteCount').value        = u.invite_count??0;
+    document.getElementById('editInvitePro').value          = u.invite_pro??0;
+    document.getElementById('editInviteCode').value         = u.invite_code||'';
+    document.getElementById('editInvitedByCode').value      = u.invited_by_code||'';
+    // Flags
+    document.getElementById('editIsAdmin').checked      = !!u.is_admin;
+    document.getElementById('editCanSeeInvite').checked = !!u.can_see_invite;
+    document.getElementById('editUserModal').classList.add('active');
+};
+
 window.closeEditUserModal=()=>document.getElementById('editUserModal').classList.remove('active');
-window.saveUserEdit=async function(){const id=document.getElementById('editUserId').value;const{error}=await supabase.from('profiles').update({stage_name:document.getElementById('editStageName').value,email:document.getElementById('editEmail').value,user_type:document.getElementById('editUserType').value,is_admin:document.getElementById('editIsAdmin').checked}).eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast('User updated!','emerald');closeEditUserModal();loadUsers();};
+
+window.saveUserEdit=async function(){
+    const id=document.getElementById('editUserId').value;
+    const upgAt=document.getElementById('editUpgradedAt').value;
+    const payload={
+        stage_name:           document.getElementById('editStageName').value,
+        email:                document.getElementById('editEmail').value,
+        user_type:            document.getElementById('editUserType').value,
+        role:                 document.getElementById('editRole').value,
+        bio:                  document.getElementById('editBio').value,
+        profile_picture:      document.getElementById('editProfilePicture').value,
+        search_key:           document.getElementById('editSearchKey').value,
+        status_badge:         document.getElementById('editStatusBadge').value,
+        tier:                 document.getElementById('editTier').value,
+        payment_id:           document.getElementById('editPaymentId').value||null,
+        coins:         parseInt(document.getElementById('editCoins').value)||0,
+        score:         parseInt(document.getElementById('editScore').value)||0,
+        upgraded_at:          upgAt ? new Date(upgAt).toISOString() : null,
+        max_audio_previews:   parseInt(document.getElementById('editMaxAudioPreviews').value)||10,
+        max_releases:         parseInt(document.getElementById('editMaxReleases').value)||6,
+        max_edits:            parseInt(document.getElementById('editMaxEdits').value)||1,
+        current_audio_count:  parseInt(document.getElementById('editCurrentAudioCount').value)||0,
+        current_release_count:parseInt(document.getElementById('editCurrentReleaseCount').value)||0,
+        edits_remaining:      parseInt(document.getElementById('editEditsRemaining').value)||0,
+        track_count:          parseInt(document.getElementById('editTrackCount').value)||0,
+        collab_count:         parseInt(document.getElementById('editCollabCount').value)||0,
+        invite_count:         parseInt(document.getElementById('editInviteCount').value)||0,
+        invite_pro:           parseInt(document.getElementById('editInvitePro').value)||0,
+        invite_code:          document.getElementById('editInviteCode').value||null,
+        invited_by_code:      document.getElementById('editInvitedByCode').value||null,
+        is_admin:             document.getElementById('editIsAdmin').checked,
+        can_see_invite:       document.getElementById('editCanSeeInvite').checked,
+        last_profile_update:  new Date().toISOString(),
+    };
+    const{error}=await supabase.from('profiles').update(payload).eq('id',id);
+    if(error){showToast('Error: '+error.message,'rose');return;}
+    showToast('User updated!','emerald');
+    closeEditUserModal();
+    loadUsers();
+};
 window.toggleAdmin=async function(id,cur){if(!confirm(`${cur?'Revoke':'Grant'} admin for this user?`))return;const{error}=await supabase.from('profiles').update({is_admin:!cur}).eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast(cur?'Admin revoked':'Admin granted!',cur?'amber':'emerald');loadUsers();};
 window.deleteUser=async function(id,name){if(!confirm(`Delete ${name}? This permanently removes all their data!`))return;await Promise.all([supabase.from('posts').delete().eq('user_id',id),supabase.from('comments').delete().eq('user_id',id),supabase.from('post_likes').delete().eq('user_id',id),supabase.from('post_shares').delete().eq('user_id',id),supabase.from('post_bookmarks').delete().eq('user_id',id),supabase.from('notifications').delete().eq('user_id',id)]);await supabase.from('profiles').delete().eq('id',id);showToast(`${name} deleted`,'rose');loadUsers();loadStats();};
 
