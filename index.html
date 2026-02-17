@@ -383,11 +383,32 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
     <div class="modal-sheet">
         <div class="modal-handle"></div>
         <div class="modal-hdr"><i class="ri-megaphone-line modal-icon"></i><h3>Post Announcement</h3><button class="close-btn" onclick="closeBroadcastModal()">✕</button></div>
-        <div class="form-grp"><label>Message</label><textarea id="broadcastContent" placeholder="Write your announcement…"></textarea></div>
+        <div class="form-grp"><label>Message</label><textarea id="broadcastContent" placeholder="Write your announcement… (include https:// links for clickable)"></textarea></div>
         <div class="form-grp" style="padding-top:0;">
             <label>Recipients</label>
-            <button id="selectAllBtn" onclick="toggleSelectAll()">Select All</button>
-            <div id="userCheckboxes" style="margin-top:6px;"><div class="loading-inner" style="padding:12px;"><div class="spinner" style="width:22px;height:22px;border-width:2px;"></div></div></div>
+            <div class="form-grp">
+                <label>Filter by Type</label>
+                <select id="filterType">
+                    <option value="">All</option>
+                    <option value="User">User</option>
+                    <option value="Artist">Artist</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div class="form-grp" style="padding-top:0;">
+                <label>Filter by Role</label>
+                <select id="filterRole">
+                    <option value="">All</option>
+                    <option value="user">user</option>
+                    <option value="artist">artist</option>
+                    <option value="admin">admin</option>
+                    <option value="moderator">moderator</option>
+                </select>
+            </div>
+            <div class="form-grp" style="padding-top:0;">
+                <label>Max Recipients (0 for all)</label>
+                <input type="number" id="maxRecipients" min="0" value="0">
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeBroadcastModal()">Cancel</button>
@@ -611,7 +632,7 @@ async function loadActivityLog() {
             const [ico,bg,clr,lbl]=a.type==='post'?['ri-article-line','var(--emerald-l)','var(--emerald)','created a post']:
                 a.type==='comment'?['ri-chat-3-line','var(--amber-l)','var(--amber)','posted a comment']:
                 ['ri-user-add-line','var(--indigo-l)','var(--indigo)','just joined'];
-            return `<div class="activity-item"><div class="act-dot" style="background:${bg};color:${clr};"><i class="${ico}"></i></div><div><div class="act-text"><strong>${a.name}</strong> ${lbl}</div><div class="act-time">${timeAgo(a.time)}</div></div></div>`;
+            return `<div class="activity-item"><div class="act-dot" style="background:\( {bg};color: \){clr};"><i class="\( {ico}"></i></div><div><div class="act-text"><strong> \){a.name}</strong> \( {lbl}</div><div class="act-time"> \){timeAgo(a.time)}</div></div></div>`;
         }).join('');
     } catch(e){el.innerHTML='<div class="empty-state"><p>Error loading activity</p></div>';}
 }
@@ -637,14 +658,14 @@ window.loadUsers = async function() {
     </tr></thead><tbody>${
         f.map(u=>`<tr>
         <td data-label="User" class="no-label"><div class="user-cell">
-            <img src="${u.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.stage_name||'U')}&background=4f46e5&color=fff'">
-            <div><div class="user-name">${u.stage_name||'—'}</div><div class="user-sub">${u.email||u.id.substring(0,10)+'…'}</div></div>
+            <img src="\( {u.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name= \){encodeURIComponent(u.stage_name||'U')}&background=4f46e5&color=fff'">
+            <div><div class="user-name">\( {u.stage_name||'—'}</div><div class="user-sub"> \){u.email||u.id.substring(0,10)+'…'}</div></div>
         </div></td>
         <td data-label="Type/Role"><div style="display:flex;flex-direction:column;gap:3px;">
-            <span class="badge ${u.user_type==='Admin'?'badge-admin':'badge-user'}">${u.user_type||'User'}</span>
+            <span class="badge \( {u.user_type==='Admin'?'badge-admin':'badge-user'}"> \){u.user_type||'User'}</span>
             <span style="font-size:11px;color:var(--text3);">${u.role||'user'}</span>
         </div></td>
-        <td data-label="Tier"><span class="badge ${u.tier==='pro'?'badge-amber':u.tier==='premium'?'badge-admin':'badge-user'}">${u.tier||'basic'}</span></td>
+        <td data-label="Tier"><span class="badge \( {u.tier==='pro'?'badge-amber':u.tier==='premium'?'badge-admin':'badge-user'}"> \){u.tier||'basic'}</span></td>
         <td data-label="Admin">${u.is_admin?'<span class="badge badge-active"><i class="ri-shield-check-line"></i> Yes</span>':'<span class="badge badge-user">No</span>'}</td>
         <td data-label="Score"><strong>${u.score??0}</strong></td>
         <td data-label="Coins"><strong>${u.coins??0}</strong></td>
@@ -653,8 +674,8 @@ window.loadUsers = async function() {
         <td data-label="Joined">${new Date(u.created_at).toLocaleDateString()}</td>
         <td class="no-label" style="padding-top:6px;"><div class="act-group">
             <button class="act-btn edit" title="Edit" onclick="openEditUser('${u.id}')"><i class="ri-edit-line"></i></button>
-            <button class="act-btn promote" title="${u.is_admin?'Revoke admin':'Make admin'}" onclick="toggleAdmin('${u.id}',${u.is_admin})"><i class="ri-${u.is_admin?'user-line':'shield-star-line'}"></i></button>
-            <button class="act-btn del" title="Delete" onclick="deleteUser('${u.id}','${(u.stage_name||'').replace(/'/g,"\\'")}')"><i class="ri-delete-bin-line"></i></button>
+            <button class="act-btn promote" title="\( {u.is_admin?'Revoke admin':'Make admin'}" onclick="toggleAdmin(' \){u.id}',\( {u.is_admin})"><i class="ri- \){u.is_admin?'user-line':'shield-star-line'}"></i></button>
+            <button class="act-btn del" title="Delete" onclick="deleteUser('\( {u.id}',' \){(u.stage_name||'').replace(/'/g,"\\'")}')"><i class="ri-delete-bin-line"></i></button>
         </div></td></tr>`).join('')
     }</tbody></table>`;
 };
@@ -738,13 +759,13 @@ window.saveUserEdit=async function(){
     loadUsers();
 };
 window.toggleAdmin=async function(id,cur){if(!confirm(`${cur?'Revoke':'Grant'} admin for this user?`))return;const{error}=await supabase.from('profiles').update({is_admin:!cur}).eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast(cur?'Admin revoked':'Admin granted!',cur?'amber':'emerald');loadUsers();};
-window.deleteUser=async function(id,name){if(!confirm(`Delete ${name}? This permanently removes all their data!`))return;await Promise.all([supabase.from('posts').delete().eq('user_id',id),supabase.from('comments').delete().eq('user_id',id),supabase.from('post_likes').delete().eq('user_id',id),supabase.from('post_shares').delete().eq('user_id',id),supabase.from('post_bookmarks').delete().eq('user_id',id),supabase.from('notifications').delete().eq('user_id',id)]);await supabase.from('profiles').delete().eq('id',id);showToast(`${name} deleted`,'rose');loadUsers();loadStats();};
+window.deleteUser=async function(id,name){if(!confirm(`Delete \( {name}? This permanently removes all their data!`))return;await Promise.all([supabase.from('posts').delete().eq('user_id',id),supabase.from('comments').delete().eq('user_id',id),supabase.from('post_likes').delete().eq('user_id',id),supabase.from('post_shares').delete().eq('user_id',id),supabase.from('post_bookmarks').delete().eq('user_id',id),supabase.from('notifications').delete().eq('user_id',id)]);await supabase.from('profiles').delete().eq('id',id);showToast(` \){name} deleted`,'rose');loadUsers();loadStats();};
 
 /* POSTS */
 window.loadPosts=async function(){const c=document.getElementById('postsContainer');c.innerHTML=loading();const s=(document.getElementById('postSearch')?.value||'').toLowerCase();const{data,error}=await supabase.from('posts').select('*,profiles(stage_name,profile_picture)').order('created_at',{ascending:false});if(error){c.innerHTML=err();return;}allPosts=data||[];let f=allPosts;if(s)f=allPosts.filter(p=>p.content?.toLowerCase().includes(s)||p.profiles?.stage_name?.toLowerCase().includes(s));if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-article-line"></i><p>No posts found</p></div>';return;}
 c.innerHTML=`<table class="data-table"><thead><tr><th>Author</th><th>Content</th><th>❤️</th><th>💬</th><th>Date</th><th>Actions</th></tr></thead><tbody>${
     f.map(p=>{const prev=(p.content||'').substring(0,70)+(p.content?.length>70?'…':'');return`<tr>
-    <td class="no-label"><div class="user-cell"><img src="${p.profiles?.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><span class="user-name">${p.profiles?.stage_name||'—'}</span></div></td>
+    <td class="no-label"><div class="user-cell"><img src="\( {p.profiles?.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name= \){encodeURIComponent(p.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><span class="user-name">${p.profiles?.stage_name||'—'}</span></div></td>
     <td data-label="Content" style="max-width:200px;">${prev}</td>
     <td data-label="Likes"><strong>${p.likes||0}</strong></td>
     <td data-label="Comments"><strong>${p.comments||0}</strong></td>
@@ -762,20 +783,20 @@ window.savePostEdit=async function(){const id=document.getElementById('editPostI
 window.deletePost=async function(id){if(!confirm('Delete this post and all comments?'))return;await Promise.all([supabase.from('comments').delete().eq('post_id',id),supabase.from('post_likes').delete().eq('post_id',id),supabase.from('post_shares').delete().eq('post_id',id),supabase.from('post_bookmarks').delete().eq('post_id',id)]);await supabase.from('posts').delete().eq('id',id);showToast('Post deleted','rose');loadPosts();loadStats();};
 window.openAdminComment=async function(id){currentPostForComment=id;document.getElementById('adminCommentText').value='';document.getElementById('adminCommentModal').classList.add('active');await loadPostComments(id);};
 window.closeAdminCommentModal=function(){document.getElementById('adminCommentModal').classList.remove('active');currentPostForComment=null;};
-async function loadPostComments(postId){const el=document.getElementById('postCommentsContainer');const{data}=await supabase.from('comments').select('*,profiles(stage_name,profile_picture,is_admin)').eq('post_id',postId).order('created_at',{ascending:false});if(!data?.length){el.innerHTML='<p style="padding:12px 16px;color:var(--text3);font-size:13px;">No comments yet.</p>';return;}el.innerHTML=data.map(cc=>`<div class="notif-row"><img src="${cc.profiles?.profile_picture||'user.webp'}" class="user-avatar" style="width:28px;height:28px;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cc.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><div class="notif-body"><div class="notif-who">${cc.profiles?.stage_name||'—'}${cc.profiles?.is_admin?'<span class="badge badge-admin">Admin</span>':''}</div><div class="notif-msg">${cc.content}</div><div class="notif-time">${timeAgo(cc.created_at)}</div></div></div>`).join('');}
+async function loadPostComments(postId){const el=document.getElementById('postCommentsContainer');const{data}=await supabase.from('comments').select('*,profiles(stage_name,profile_picture,is_admin)').eq('post_id',postId).order('created_at',{ascending:false});if(!data?.length){el.innerHTML='<p style="padding:12px 16px;color:var(--text3);font-size:13px;">No comments yet.</p>';return;}el.innerHTML=data.map(cc=>`<div class="notif-row"><img src="\( {cc.profiles?.profile_picture||'user.webp'}" class="user-avatar" style="width:28px;height:28px;" onerror="this.src='https://ui-avatars.com/api/?name= \){encodeURIComponent(cc.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><div class="notif-body"><div class="notif-who">\( {cc.profiles?.stage_name||'—'} \){cc.profiles?.is_admin?'<span class="badge badge-admin">Admin</span>':''}</div><div class="notif-msg">\( {cc.content}</div><div class="notif-time"> \){timeAgo(cc.created_at)}</div></div></div>`).join('');}
 window.postAdminComment=async function(){const content=document.getElementById('adminCommentText').value.trim();if(!content){showToast('Write something first','amber');return;}const{error}=await supabase.from('comments').insert({post_id:currentPostForComment,user_id:currentAdmin.id,content});if(error){showToast('Error: '+error.message,'rose');return;}const{data:post}=await supabase.from('posts').select('comments').eq('id',currentPostForComment).single();await supabase.from('posts').update({comments:(post?.comments||0)+1}).eq('id',currentPostForComment);showToast('Comment posted!','emerald');document.getElementById('adminCommentText').value='';await loadPostComments(currentPostForComment);loadPosts();loadStats();};
 
 /* COMMENTS */
 window.loadComments=async function(){const c=document.getElementById('commentsContainer');c.innerHTML=loading();const s=(document.getElementById('commentSearch')?.value||'').toLowerCase();const{data,error}=await supabase.from('comments').select('*,profiles(stage_name,profile_picture),posts(content)').order('created_at',{ascending:false}).limit(200);if(error){c.innerHTML=err();return;}allComments=data||[];let f=allComments;if(s)f=allComments.filter(x=>x.content?.toLowerCase().includes(s)||x.profiles?.stage_name?.toLowerCase().includes(s));if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-chat-3-line"></i><p>No comments found</p></div>';return;}
 c.innerHTML=`<table class="data-table"><thead><tr><th>Author</th><th>Comment</th><th>Post</th><th>Date</th><th>Actions</th></tr></thead><tbody>${
     f.map(x=>`<tr>
-    <td class="no-label"><div class="user-cell"><img src="${x.profiles?.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(x.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><span class="user-name">${x.profiles?.stage_name||'—'}</span></div></td>
-    <td data-label="Comment" style="max-width:180px;">${(x.content||'').substring(0,70)}${x.content?.length>70?'…':''}</td>
+    <td class="no-label"><div class="user-cell"><img src="\( {x.profiles?.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name= \){encodeURIComponent(x.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><span class="user-name">${x.profiles?.stage_name||'—'}</span></div></td>
+    <td data-label="Comment" style="max-width:180px;">\( {(x.content||'').substring(0,70)} \){x.content?.length>70?'…':''}</td>
     <td data-label="Post" style="max-width:120px;color:var(--text3);font-size:12px;">${(x.posts?.content||'').substring(0,40)}…</td>
     <td data-label="Date">${new Date(x.created_at).toLocaleDateString()}</td>
     <td class="no-label" style="padding-top:6px;"><div class="act-group">
         <button class="act-btn edit" title="Edit" onclick="openEditComment('${x.id}')"><i class="ri-edit-line"></i></button>
-        <button class="act-btn del" title="Delete" onclick="deleteComment('${x.id}','${x.post_id}')"><i class="ri-delete-bin-line"></i></button>
+        <button class="act-btn del" title="Delete" onclick="deleteComment('\( {x.id}',' \){x.post_id}')"><i class="ri-delete-bin-line"></i></button>
     </div></td></tr>`).join('')
 }</tbody></table>`;};
 window.openEditComment=function(id){const x=allComments.find(c=>c.id===id);if(!x)return;document.getElementById('editCommentId').value=x.id;document.getElementById('editCommentContent').value=x.content||'';document.getElementById('editCommentModal').classList.add('active');};
@@ -784,17 +805,16 @@ window.saveCommentEdit=async function(){const id=document.getElementById('editCo
 window.deleteComment=async function(id,postId){if(!confirm('Delete this comment?'))return;await supabase.from('comments').delete().eq('id',id);const{data:post}=await supabase.from('posts').select('comments').eq('id',postId).single();await supabase.from('posts').update({comments:Math.max(0,(post?.comments||1)-1)}).eq('id',postId);showToast('Comment deleted','rose');loadComments();loadStats();};
 
 /* ANNOUNCEMENTS */
-window.openBroadcastModal=async function(){document.getElementById('broadcastContent').value='';document.getElementById('broadcastModal').classList.add('active');const box=document.getElementById('userCheckboxes');const{data}=await supabase.from('profiles').select('id,stage_name').order('stage_name');if(!data?.length){box.innerHTML='<p style="padding:8px;font-size:12px;color:var(--text3);">No users</p>';return;}box.innerHTML=data.filter(u=>u.id!==currentAdmin?.id).map(u=>`<div class="ucheck"><input type="checkbox" id="uc_${u.id}" value="${u.id}" checked><label for="uc_${u.id}">${u.stage_name||u.id}</label></div>`).join('');};
+window.openBroadcastModal=async function(){document.getElementById('broadcastContent').value='';document.getElementById('filterType').value='';document.getElementById('filterRole').value='';document.getElementById('maxRecipients').value=0;document.getElementById('broadcastModal').classList.add('active');};
 window.closeBroadcastModal=()=>document.getElementById('broadcastModal').classList.remove('active');
-window.toggleSelectAll=function(){const all=[...document.querySelectorAll('#userCheckboxes input[type="checkbox"]')];const checked=all.every(c=>c.checked);all.forEach(c=>c.checked=!checked);document.getElementById('selectAllBtn').textContent=checked?'Select All':'Deselect All';};
-window.postAnnouncement=async function(){const content=document.getElementById('broadcastContent').value.trim();if(!content){showToast('Write a message first','amber');return;}const ids=[...document.querySelectorAll('#userCheckboxes input:checked')].map(c=>c.value);if(!ids.length){showToast('Select at least one recipient','amber');return;}const{error}=await supabase.from('notifications').insert(ids.map(uid=>({user_id:uid,actor_id:currentAdmin.id,type:'announcement',content})));if(error){showToast('Error: '+error.message,'rose');return;}showToast(`Sent to ${ids.length} users!`,'emerald');closeBroadcastModal();if(document.getElementById('announcements-tab').classList.contains('active'))loadAnnouncements();};
-window.loadAnnouncements=async function(){const c=document.getElementById('announcementsContainer');c.innerHTML=loading();const{data,error}=await supabase.from('notifications').select('id,content,created_at,actor_id').eq('actor_id',currentAdmin?.id).neq('user_id',currentAdmin?.id).order('created_at',{ascending:false});if(error){c.innerHTML=err();return;}const seen=new Set();const unique=(data||[]).filter(n=>{const k=n.content+n.created_at;if(seen.has(k))return false;seen.add(k);return true;});if(!unique.length){c.innerHTML='<div class="empty-state"><i class="ri-megaphone-line"></i><p>No announcements yet</p></div>';return;}c.innerHTML=unique.map(a=>`<div class="notif-row"><div class="notif-dot" style="background:var(--indigo);"></div><div class="notif-body"><div class="notif-who"><span class="badge badge-admin">Announcement</span></div><div class="notif-msg">${(a.content||'').substring(0,100)}${a.content?.length>100?'…':''}</div><div class="notif-time">${new Date(a.created_at).toLocaleString()}</div></div><div class="act-group" style="flex-direction:column;gap:4px;"><button class="act-btn view" title="View" onclick="viewAnnouncement('${a.id}')"><i class="ri-eye-line"></i></button><button class="act-btn del" title="Delete" onclick="deleteAnnouncement(\`${a.content.replace(/`/g,'\\`')}\`,'${a.created_at}')"><i class="ri-delete-bin-line"></i></button></div></div>`).join('');};
-window.viewAnnouncement=async function(id){const{data}=await supabase.from('notifications').select('content,created_at').eq('id',id).single();if(!data)return;document.getElementById('announcementModalContent').innerHTML=`<p style="font-size:12px;color:var(--text3);margin-bottom:10px;">Sent: ${new Date(data.created_at).toLocaleString()}</p><div class="preview-box">${data.content}</div>`;document.getElementById('announcementModal').classList.add('active');};
+window.postAnnouncement=async function(){const content=document.getElementById('broadcastContent').value.trim();if(!content){showToast('Write a message first','amber');return;}const type=document.getElementById('filterType').value;const role=document.getElementById('filterRole').value;const max=parseInt(document.getElementById('maxRecipients').value)||0;let query=supabase.from('profiles').select('id').neq('id',currentAdmin.id);if(type)query=query.eq('user_type',type);if(role)query=query.eq('role',role);query=query.order('created_at',{ascending:false});if(max>0)query=query.limit(max);const{data:users,error}=await query;if(error){showToast('Error: '+error.message,'rose');return;}const ids=users?.map(u=>u.id)||[];if(!ids.length){showToast('No users match filters','amber');return;}const{error:insErr}=await supabase.from('notifications').insert(ids.map(uid=>({user_id:uid,actor_id:currentAdmin.id,type:'announcement',content})));if(insErr){showToast('Error: '+insErr.message,'rose');return;}showToast(`Sent to ${ids.length} users!`,'emerald');closeBroadcastModal();if(document.getElementById('announcements-tab').classList.contains('active'))loadAnnouncements();};
+window.loadAnnouncements=async function(){const c=document.getElementById('announcementsContainer');c.innerHTML=loading();const{data,error}=await supabase.from('notifications').select('id,content,created_at,actor_id').eq('actor_id',currentAdmin?.id).neq('user_id',currentAdmin?.id).order('created_at',{ascending:false});if(error){c.innerHTML=err();return;}const seen=new Set();const unique=(data||[]).filter(n=>{const k=n.content+n.created_at;if(seen.has(k))return false;seen.add(k);return true;});if(!unique.length){c.innerHTML='<div class="empty-state"><i class="ri-megaphone-line"></i><p>No announcements yet</p></div>';return;}c.innerHTML=unique.map(a=>`<div class="notif-row"><div class="notif-dot" style="background:var(--indigo);"></div><div class="notif-body"><div class="notif-who"><span class="badge badge-admin">Announcement</span></div><div class="notif-msg">\( {linkify((a.content||'').substring(0,100))} \){a.content?.length>100?'…':''}</div><div class="notif-time">\( {new Date(a.created_at).toLocaleString()}</div></div><div class="act-group" style="flex-direction:column;gap:4px;"><button class="act-btn view" title="View" onclick="viewAnnouncement(' \){a.id}')"><i class="ri-eye-line"></i></button><button class="act-btn del" title="Delete" onclick="deleteAnnouncement(\`\( {a.content.replace(/`/g,'\\`')}\`,' \){a.created_at}')"><i class="ri-delete-bin-line"></i></button></div></div>`).join('');};
+window.viewAnnouncement=async function(id){const{data}=await supabase.from('notifications').select('content,created_at').eq('id',id).single();if(!data)return;document.getElementById('announcementModalContent').innerHTML=`<p style="font-size:12px;color:var(--text3);margin-bottom:10px;">Sent: \( {new Date(data.created_at).toLocaleString()}</p><div class="preview-box"> \){linkify(data.content)}</div>`;document.getElementById('announcementModal').classList.add('active');};
 window.closeAnnouncementModal=()=>document.getElementById('announcementModal').classList.remove('active');
 window.deleteAnnouncement=async function(content,createdAt){if(!confirm('Delete for all recipients?'))return;const{error}=await supabase.from('notifications').delete().eq('content',content).eq('created_at',createdAt).eq('actor_id',currentAdmin.id);if(error){showToast('Error: '+error.message,'rose');return;}showToast('Announcement deleted','rose');loadAnnouncements();};
 
 /* NOTIFICATIONS */
-window.loadAllNotifications=async function(){const c=document.getElementById('notificationsContainer');c.innerHTML=loading();const s=(document.getElementById('notificationSearch')?.value||'').toLowerCase();const{data,error}=await supabase.from('notifications').select('*,profiles!notifications_user_id_fkey(stage_name)').order('created_at',{ascending:false}).limit(200);if(error){c.innerHTML=err();return;}allNotifications=data||[];let f=allNotifications;if(s)f=allNotifications.filter(n=>n.content?.toLowerCase().includes(s)||n.profiles?.stage_name?.toLowerCase().includes(s));if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-bell-line"></i><p>No notifications</p></div>';return;}c.innerHTML=f.map(n=>`<div class="notif-row"><div class="notif-dot" style="background:${n.type==='announcement'?'var(--indigo)':'var(--emerald)'};"></div><div class="notif-body"><div class="notif-who">${n.profiles?.stage_name||'—'}<span class="badge ${n.type==='announcement'?'badge-admin':'badge-active'}">${n.type||'notif'}</span></div><div class="notif-msg">${(n.content||'').substring(0,100)}${n.content?.length>100?'…':''}</div><div class="notif-time">${timeAgo(n.created_at)}</div></div><button class="act-btn del" title="Delete" onclick="deleteNotification('${n.id}')"><i class="ri-delete-bin-line"></i></button></div>`).join('');};
+window.loadAllNotifications=async function(){const c=document.getElementById('notificationsContainer');c.innerHTML=loading();const s=(document.getElementById('notificationSearch')?.value||'').toLowerCase();const{data,error}=await supabase.from('notifications').select('*,profiles!notifications_user_id_fkey(stage_name)').order('created_at',{ascending:false}).limit(200);if(error){c.innerHTML=err();return;}allNotifications=data||[];let f=allNotifications;if(s)f=allNotifications.filter(n=>n.content?.toLowerCase().includes(s)||n.profiles?.stage_name?.toLowerCase().includes(s));if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-bell-line"></i><p>No notifications</p></div>';return;}c.innerHTML=f.map(n=>`<div class="notif-row"><div class="notif-dot" style="background:\( {n.type==='announcement'?'var(--indigo)':'var(--emerald)'};"></div><div class="notif-body"><div class="notif-who"> \){n.profiles?.stage_name||'—'}<span class="badge \( {n.type==='announcement'?'badge-admin':'badge-active'}"> \){n.type||'notif'}</span></div><div class="notif-msg">\( {n.type==='announcement'?linkify((n.content||'').substring(0,100)):(n.content||'').substring(0,100)} \){n.content?.length>100?'…':''}</div><div class="notif-time">\( {timeAgo(n.created_at)}</div></div><button class="act-btn del" title="Delete" onclick="deleteNotification(' \){n.id}')"><i class="ri-delete-bin-line"></i></button></div>`).join('');};
 window.deleteNotification=async function(id){if(!confirm('Delete this notification?'))return;const{error}=await supabase.from('notifications').delete().eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast('Deleted','rose');loadAllNotifications();};
 
 /* GENERIC VIEW */
@@ -802,19 +822,20 @@ window.viewContent=function(title,content){document.getElementById('viewModalTit
 window.closeViewModal=()=>document.getElementById('viewModal').classList.remove('active');
 
 /* TABS */
-window.switchTab=function(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.querySelector(`[data-tab="${tab}"]`)?.classList.add('active');document.getElementById(`${tab}-tab`)?.classList.add('active');if(tab==='dashboard')loadActivityLog();else if(tab==='users')loadUsers();else if(tab==='posts')loadPosts();else if(tab==='comments')loadComments();else if(tab==='announcements')loadAnnouncements();else if(tab==='notifications')loadAllNotifications();};
+window.switchTab=function(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.querySelector(`[data-tab="\( {tab}"]`)?.classList.add('active');document.getElementById(` \){tab}-tab`)?.classList.add('active');if(tab==='dashboard')loadActivityLog();else if(tab==='users')loadUsers();else if(tab==='posts')loadPosts();else if(tab==='comments')loadComments();else if(tab==='announcements')loadAnnouncements();else if(tab==='notifications')loadAllNotifications();};
 
 /* LOGOUT */
 window.handleLogout=async function(){if(confirm('Log out?')){await supabase.auth.signOut();window.location.href='login.html';}};
 
 /* TOAST */
-window.showToast=function(msg,type='emerald'){const clr={emerald:'#059669',rose:'#e11d48',amber:'#d97706',indigo:'#4f46e5'};const ico={emerald:'ri-check-line',rose:'ri-error-warning-line',amber:'ri-alert-line',indigo:'ri-information-line'};const t=document.createElement('div');t.className='toast';t.style.borderLeft=`3px solid ${clr[type]||clr.emerald}`;t.innerHTML=`<i class="${ico[type]||ico.emerald}" style="color:${clr[type]||clr.emerald}"></i><span>${msg}</span>`;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},3000);};
+window.showToast=function(msg,type='emerald'){const clr={emerald:'#059669',rose:'#e11d48',amber:'#d97706',indigo:'#4f46e5'};const ico={emerald:'ri-check-line',rose:'ri-error-warning-line',amber:'ri-alert-line',indigo:'ri-information-line'};const t=document.createElement('div');t.className='toast';t.style.borderLeft=`3px solid \( {clr[type]||clr.emerald}`;t.innerHTML=`<i class=" \){ico[type]||ico.emerald}" style="color:\( {clr[type]||clr.emerald}"></i><span> \){msg}</span>`;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},3000);};
 
 /* HELPERS */
 function loading(){return'<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';}
 function err(){return'<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error loading data</p></div>';}
-function timeAgo(d){const s=Math.floor((Date.now()-new Date(d))/1000);if(s<60)return`${s}s ago`;if(s<3600)return`${Math.floor(s/60)}m ago`;if(s<86400)return`${Math.floor(s/3600)}h ago`;if(s<2592000)return`${Math.floor(s/86400)}d ago`;return new Date(d).toLocaleDateString();}
+function timeAgo(d){const s=Math.floor((Date.now()-new Date(d))/1000);if(s<60)return`\( {s}s ago`;if(s<3600)return` \){Math.floor(s/60)}m ago`;if(s<86400)return`\( {Math.floor(s/3600)}h ago`;if(s<2592000)return` \){Math.floor(s/86400)}d ago`;return new Date(d).toLocaleDateString();}
 function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
+function linkify(text){return text.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" style="color:var(--indigo);text-decoration:underline;">$1</a>');}
 
 /* REALTIME */
 function wireRealtime(){
