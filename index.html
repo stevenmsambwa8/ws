@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Keli Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Keli Admin</title>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg:        #f5f6fa;
-    --bg2:       #eef0f6;
-    --white:     #ffffff;
-    --border:    #e3e6ef;
-    --border2:   #d0d5e8;
-    --text:      #141928;
-    --text2:     #4a5074;
-    --text3:     #8b93b8;
-    --indigo:    #4f46e5;
-    --indigo-l:  #ede9fe;
-    --indigo-m:  #c4b5fd;
-    --violet:    #7c3aed;
-    --emerald:   #059669;
-    --emerald-l: #d1fae5;
-    --amber:     #d97706;
-    --amber-l:   #fef3c7;
-    --rose:      #e11d48;
-    --rose-l:    #ffe4e6;
-    --grad:      linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-    --shadow-xs: 0 1px 3px rgba(20,25,40,0.06);
-    --shadow-sm: 0 2px 8px rgba(20,25,40,0.08);
-    --shadow-md: 0 4px 16px rgba(20,25,40,0.10);
-    --shadow-lg: 0 8px 32px rgba(20,25,40,0.14);
-    --r-sm:  8px;
-    --r:     12px;
-    --r-lg:  16px;
-    --r-xl:  20px;
-    --header-h: 56px;
-    --tab-h:    48px;
+--bg: #f5f6fa;
+--bg2: #eef0f6;
+--white: #ffffff;
+--border: #e3e6ef;
+--border2: #d0d5e8;
+--text: #141928;
+--text2: #4a5074;
+--text3: #8b93b8;
+--indigo: #4f46e5;
+--indigo-l: #ede9fe;
+--indigo-m: #c4b5fd;
+--violet: #7c3aed;
+--emerald: #059669;
+--emerald-l: #d1fae5;
+--amber: #d97706;
+--amber-l: #fef3c7;
+--rose: #e11d48;
+--rose-l: #ffe4e6;
+--grad: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+--shadow-xs: 0 1px 3px rgba(20,25,40,0.06);
+--shadow-sm: 0 2px 8px rgba(20,25,40,0.08);
+--shadow-md: 0 4px 16px rgba(20,25,40,0.10);
+--shadow-lg: 0 8px 32px rgba(20,25,40,0.14);
+--r-sm: 8px;
+--r: 12px;
+--r-lg: 16px;
+--r-xl: 20px;
+--header-h: 56px;
+--tab-h: 48px;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -110,6 +110,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .btn-primary:hover{box-shadow:0 4px 14px rgba(79,70,229,0.35);transform:translateY(-1px);}
 .btn-secondary{background:var(--white);border:1px solid var(--border2);color:var(--text2);}
 .btn-secondary:hover{border-color:var(--indigo);color:var(--indigo);background:var(--indigo-l);}
+.btn-sm{padding:6px 12px;font-size:12px;}
 
 /* ─── TABLE ─── */
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
@@ -123,14 +124,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 /* Mobile card layout */
 @media(max-width:520px){
-    .data-table{min-width:unset;}
-    .data-table thead{display:none;}
-    .data-table,.data-table tbody,.data-table tr,.data-table td{display:block;width:100%;}
-    .data-table tr{border-bottom:1px solid var(--border);padding:10px 0;}
-    .data-table td{border-bottom:none;padding:4px 14px;display:flex;align-items:flex-start;gap:8px;min-height:28px;}
-    .data-table td::before{content:attr(data-label);font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;min-width:68px;flex-shrink:0;padding-top:1px;}
-    .data-table td.no-label::before{display:none;}
-    .data-table td.no-label{padding-top:8px;}
+.data-table{min-width:unset;}
+.data-table thead{display:none;}
+.data-table,.data-table tbody,.data-table tr,.data-table td{display:block;width:100%;}
+.data-table tr{border-bottom:1px solid var(--border);padding:10px 0;}
+.data-table td{border-bottom:none;padding:4px 14px;display:flex;align-items:flex-start;gap:8px;min-height:28px;}
+.data-table td::before{content:attr(data-label);font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;min-width:68px;flex-shrink:0;padding-top:1px;}
+.data-table td.no-label::before{display:none;}
+.data-table td.no-label{padding-top:8px;}
 }
 
 /* ─── USER CELL ─── */
@@ -170,7 +171,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .form-grp{padding:14px 16px;}
 .form-grp+.form-grp{padding-top:0;}
 .form-grp label{display:block;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:7px;}
-.form-grp textarea,.form-grp input[type="text"],.form-grp input[type="email"]{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 13px;color:var(--text);font-size:14px;font-family:inherit;font-weight:500;resize:vertical;outline:none;transition:all 0.2s;}
+.form-grp textarea,.form-grp input[type="text"],.form-grp input[type="email"],.form-grp input[type="number"]{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 13px;color:var(--text);font-size:14px;font-family:inherit;font-weight:500;resize:vertical;outline:none;transition:all 0.2s;}
 .form-grp textarea:focus,.form-grp input:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(79,70,229,0.1);}
 .form-grp textarea{min-height:90px;}
 .form-grp select{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 13px;color:var(--text);font-size:14px;font-family:inherit;font-weight:500;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b93b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;}
@@ -181,12 +182,61 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .toggle-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;}
 
 /* ─── CHECKBOXES ─── */
-#userCheckboxes{max-height:180px;overflow-y:auto;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px;display:flex;flex-direction:column;gap:2px;}
+#userCheckboxes{max-height:200px;overflow-y:auto;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px;display:flex;flex-direction:column;gap:2px;}
 .ucheck{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;cursor:pointer;transition:background 0.12s;}
 .ucheck:hover{background:var(--indigo-l);}
 .ucheck input[type="checkbox"]{width:16px;height:16px;accent-color:var(--indigo);flex-shrink:0;}
 .ucheck label{font-size:13px;font-weight:600;color:var(--text);cursor:pointer;flex:1;}
+.ucheck .user-role-tag{font-size:10px;color:var(--text3);font-weight:600;background:var(--bg2);padding:2px 7px;border-radius:999px;text-transform:uppercase;flex-shrink:0;}
 #selectAllBtn{font-size:12px;font-weight:700;color:var(--indigo);background:none;border:none;cursor:pointer;text-align:right;padding:4px 0;font-family:inherit;display:block;width:100%;}
+
+/* ─── BROADCAST MODAL ENHANCEMENTS ─── */
+.recipient-mode-tabs{display:flex;gap:6px;margin-bottom:10px;}
+.rmode-btn{flex:1;padding:9px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--bg);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.15s;text-align:center;}
+.rmode-btn.active{background:var(--indigo-l);border-color:var(--indigo-m);color:var(--indigo);}
+.rmode-btn:hover:not(.active){border-color:var(--border);background:var(--bg2);}
+
+.role-filter-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px;}
+@media(min-width:420px){.role-filter-grid{grid-template-columns:repeat(4,1fr);}}
+.role-chip{border:1.5px solid var(--border2);border-radius:var(--r-sm);padding:8px 10px;cursor:pointer;background:var(--bg);transition:all 0.15s;text-align:center;user-select:none;}
+.role-chip:hover{border-color:var(--indigo-m);background:var(--indigo-l);}
+.role-chip.selected{border-color:var(--indigo);background:var(--indigo-l);}
+.role-chip .rc-icon{font-size:18px;display:block;margin-bottom:4px;}
+.role-chip .rc-label{font-size:11px;font-weight:700;color:var(--text2);}
+.role-chip.selected .rc-label{color:var(--indigo);}
+.role-chip .rc-count{font-size:10px;color:var(--text3);margin-top:2px;}
+
+.count-control-row{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 13px;}
+.count-control-row .cc-label{flex:1;font-size:13px;font-weight:600;color:var(--text);}
+.count-control-row .cc-sub{font-size:11px;color:var(--text3);}
+.count-input-wrap{display:flex;align-items:center;gap:6px;}
+.count-input-wrap input[type="number"]{width:70px;text-align:center;padding:7px 10px;font-size:13px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--white);color:var(--text);font-family:inherit;font-weight:700;outline:none;}
+.count-input-wrap input:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(79,70,229,0.1);}
+.count-adj-btn{width:28px;height:28px;border-radius:7px;border:1px solid var(--border2);background:var(--white);color:var(--text2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;transition:all 0.15s;font-family:inherit;line-height:1;}
+.count-adj-btn:hover{border-color:var(--indigo);color:var(--indigo);background:var(--indigo-l);}
+
+.recipient-summary{background:var(--indigo-l);border:1px solid var(--indigo-m);border-radius:var(--r-sm);padding:10px 13px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--indigo);}
+.recipient-summary i{font-size:16px;}
+
+/* ─── LINK BUILDER ─── */
+.link-toolbar{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.link-toolbar-btn{padding:6px 11px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--bg);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.15s;display:flex;align-items:center;gap:5px;}
+.link-toolbar-btn:hover{border-color:var(--indigo-m);color:var(--indigo);background:var(--indigo-l);}
+.link-toolbar-btn i{font-size:14px;}
+
+.link-input-row{display:flex;gap:6px;align-items:center;padding:8px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);margin-bottom:8px;}
+.link-input-row input{flex:1;background:var(--white);border:1px solid var(--border2);border-radius:6px;padding:7px 10px;font-size:13px;font-family:inherit;color:var(--text);outline:none;}
+.link-input-row input:focus{border-color:var(--indigo);}
+.link-input-row input::placeholder{color:var(--text3);}
+
+/* ─── CONTENT PREVIEW ─── */
+.preview-box{background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;font-size:13px;color:var(--text2);line-height:1.7;word-break:break-word;max-height:220px;overflow-y:auto;}
+.preview-box a{color:var(--indigo);text-decoration:underline;font-weight:600;word-break:break-all;}
+.preview-box a:hover{color:var(--violet);}
+
+/* Announcement message with link rendering */
+.ann-msg-rendered{font-size:13px;color:var(--text2);line-height:1.7;word-break:break-word;}
+.ann-msg-rendered a{color:var(--indigo);text-decoration:underline;font-weight:600;}
 
 /* ─── ACTIVITY ─── */
 .activity-item{display:flex;gap:11px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid var(--border);}
@@ -199,7 +249,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .notif-row{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-bottom:1px solid var(--border);}
 .notif-row:last-child{border-bottom:none;}
 .notif-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.notif-body{flex:1;}
+.notif-body{flex:1;min-width:0;}
 .notif-who{font-size:12px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 .notif-msg{font-size:13px;color:var(--text2);margin-top:2px;}
 .notif-time{font-size:11px;color:var(--text3);margin-top:3px;font-family:'JetBrains Mono',monospace;}
@@ -210,8 +260,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 @media(max-width:480px){.form-grid2{grid-template-columns:1fr;}.form-grid3{grid-template-columns:1fr 1fr;}}
 .section-label{font-size:11px;font-weight:800;color:var(--indigo);text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:6px;padding:4px 0 2px;border-bottom:1px solid var(--border);margin-bottom:2px;}
 .section-label i{font-size:13px;}
-/* ─── PREVIEW BOX ─── */
-.preview-box{background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-wrap;word-break:break-word;max-height:220px;overflow-y:auto;}
 
 /* ─── TOAST ─── */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:white;padding:11px 18px;border-radius:10px;display:flex;align-items:center;gap:9px;z-index:9999;box-shadow:var(--shadow-lg);animation:toastIn 0.3s cubic-bezier(0.34,1.04,0.64,1);max-width:calc(100vw - 32px);font-size:13px;font-weight:600;}
@@ -227,347 +275,394 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:380px){
-    .header-logo{font-size:17px;}
-    #adminName{display:none;}
-    .logout-btn span{display:none;}
-    .logout-btn{padding:8px 10px;}
-    .stat-value{font-size:22px;}
-    .quick-actions{grid-template-columns:1fr;}
+.header-logo{font-size:17px;}
+#adminName{display:none;}
+.logout-btn span{display:none;}
+.logout-btn{padding:8px 10px;}
+.stat-value{font-size:22px;}
+.quick-actions{grid-template-columns:1fr;}
 }
 @media(min-width:768px){
-    .stats-grid{padding:18px 20px 0;gap:14px;}
-    .quick-actions{padding:14px 20px;gap:12px;}
-    .panel{margin:14px 20px;}
-    .tabs{padding:0 14px;}
-    .header{padding:0 20px;}
+.stats-grid{padding:18px 20px 0;gap:14px;}
+.quick-actions{padding:14px 20px;gap:12px;}
+.panel{margin:14px 20px;}
+.tabs{padding:0 14px;}
+.header{padding:0 20px;}
 }
 </style>
 </head>
 <body>
 
 <div id="loadingOverlay">
-    <div class="load-logo">Keli</div>
-    <div class="load-ring"></div>
-    <p class="load-msg">Verifying admin access…</p>
+<div class="load-logo">Keli</div>
+<div class="load-ring"></div>
+<p class="load-msg">Verifying admin access…</p>
 </div>
 
 <div id="app" style="display:none;">
 
 <header class="header">
-    <span class="header-logo">Keli</span>
-    <span class="header-chip">Admin</span>
-    <span class="header-spacer"></span>
-    <span id="adminName">Loading…</span>
-    <button class="logout-btn" onclick="handleLogout()">
-        <i class="ri-logout-box-line"></i><span>Logout</span>
-    </button>
+<span class="header-logo">Keli</span>
+<span class="header-chip">Admin</span>
+<span class="header-spacer"></span>
+<span id="adminName">Loading…</span>
+<button class="logout-btn" onclick="handleLogout()">
+<i class="ri-logout-box-line"></i><span>Logout</span>
+</button>
 </header>
 
 <div class="stats-grid">
-    <div class="stat-card s-indigo">
-        <div class="stat-icon"><i class="ri-user-3-line"></i></div>
-        <div class="stat-label">Users</div>
-        <div class="stat-value" id="totalUsers">—</div>
-        <div class="stat-sub" id="userSub">Loading…</div>
-    </div>
-    <div class="stat-card s-emerald">
-        <div class="stat-icon"><i class="ri-article-line"></i></div>
-        <div class="stat-label">Posts</div>
-        <div class="stat-value" id="totalPosts">—</div>
-        <div class="stat-sub" id="postSub">Loading…</div>
-    </div>
-    <div class="stat-card s-amber">
-        <div class="stat-icon"><i class="ri-chat-3-line"></i></div>
-        <div class="stat-label">Comments</div>
-        <div class="stat-value" id="totalComments">—</div>
-        <div class="stat-sub" id="commentSub">Loading…</div>
-    </div>
-    <div class="stat-card s-rose">
-        <div class="stat-icon"><i class="ri-heart-3-line"></i></div>
-        <div class="stat-label">Likes</div>
-        <div class="stat-value" id="totalLikes">—</div>
-        <div class="stat-sub" id="likeSub">Loading…</div>
-    </div>
+<div class="stat-card s-indigo">
+<div class="stat-icon"><i class="ri-user-3-line"></i></div>
+<div class="stat-label">Users</div>
+<div class="stat-value" id="totalUsers">—</div>
+<div class="stat-sub" id="userSub">Loading…</div>
+</div>
+<div class="stat-card s-emerald">
+<div class="stat-icon"><i class="ri-article-line"></i></div>
+<div class="stat-label">Posts</div>
+<div class="stat-value" id="totalPosts">—</div>
+<div class="stat-sub" id="postSub">Loading…</div>
+</div>
+<div class="stat-card s-amber">
+<div class="stat-icon"><i class="ri-chat-3-line"></i></div>
+<div class="stat-label">Comments</div>
+<div class="stat-value" id="totalComments">—</div>
+<div class="stat-sub" id="commentSub">Loading…</div>
+</div>
+<div class="stat-card s-rose">
+<div class="stat-icon"><i class="ri-heart-3-line"></i></div>
+<div class="stat-label">Likes</div>
+<div class="stat-value" id="totalLikes">—</div>
+<div class="stat-sub" id="likeSub">Loading…</div>
+</div>
 </div>
 
 <div class="quick-actions">
-    <div class="qaction" onclick="openBroadcastModal()">
-        <i class="ri-megaphone-line"></i>
-        <div><div class="qa-title">Announce</div><div class="qa-sub">Broadcast to users</div></div>
-    </div>
-    <div class="qaction" onclick="switchTab('users')">
-        <i class="ri-user-settings-line"></i>
-        <div><div class="qa-title">Manage Users</div><div class="qa-sub">Edit, promote, delete</div></div>
-    </div>
-    <div class="qaction" onclick="switchTab('posts')">
-        <i class="ri-article-line"></i>
-        <div><div class="qa-title">Manage Posts</div><div class="qa-sub">Edit, delete posts</div></div>
-    </div>
+<div class="qaction" onclick="openBroadcastModal()">
+<i class="ri-megaphone-line"></i>
+<div><div class="qa-title">Announce</div><div class="qa-sub">Broadcast to users</div></div>
+</div>
+<div class="qaction" onclick="switchTab('users')">
+<i class="ri-user-settings-line"></i>
+<div><div class="qa-title">Manage Users</div><div class="qa-sub">Edit, promote, delete</div></div>
+</div>
+<div class="qaction" onclick="switchTab('posts')">
+<i class="ri-article-line"></i>
+<div><div class="qa-title">Manage Posts</div><div class="qa-sub">Edit, delete posts</div></div>
+</div>
 </div>
 
 <div class="tabs-wrap">
-    <div class="tabs">
-        <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')"><i class="ri-dashboard-line"></i>Dashboard</button>
-        <button class="tab" data-tab="users" onclick="switchTab('users')"><i class="ri-user-line"></i>Users</button>
-        <button class="tab" data-tab="posts" onclick="switchTab('posts')"><i class="ri-article-line"></i>Posts</button>
-        <button class="tab" data-tab="comments" onclick="switchTab('comments')"><i class="ri-chat-3-line"></i>Comments</button>
-        <button class="tab" data-tab="announcements" onclick="switchTab('announcements')"><i class="ri-megaphone-line"></i>Announce</button>
-        <button class="tab" data-tab="notifications" onclick="switchTab('notifications')"><i class="ri-bell-line"></i>Notifications</button>
-    </div>
+<div class="tabs">
+<button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')"><i class="ri-dashboard-line"></i>Dashboard</button>
+<button class="tab" data-tab="users" onclick="switchTab('users')"><i class="ri-user-line"></i>Users</button>
+<button class="tab" data-tab="posts" onclick="switchTab('posts')"><i class="ri-article-line"></i>Posts</button>
+<button class="tab" data-tab="comments" onclick="switchTab('comments')"><i class="ri-chat-3-line"></i>Comments</button>
+<button class="tab" data-tab="announcements" onclick="switchTab('announcements')"><i class="ri-megaphone-line"></i>Announce</button>
+<button class="tab" data-tab="notifications" onclick="switchTab('notifications')"><i class="ri-bell-line"></i>Notifications</button>
+</div>
 </div>
 
 <div id="dashboard-tab" class="tab-content active">
-    <div class="panel">
-        <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
-            <i class="ri-pulse-line" style="color:var(--indigo);font-size:18px;"></i>
-            <span style="font-size:15px;font-weight:700;">Recent Activity</span>
-        </div>
-        <div id="activityLog"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div>
-    </div>
+<div class="panel">
+<div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+<i class="ri-pulse-line" style="color:var(--indigo);font-size:18px;"></i>
+<span style="font-size:15px;font-weight:700;">Recent Activity</span>
+</div>
+<div id="activityLog"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div>
+</div>
 </div>
 
 <div id="users-tab" class="tab-content">
-    <div class="panel">
-        <div class="toolbar">
-            <div class="search-bar"><input type="text" id="userSearch" placeholder="🔍 Search users…"></div>
-            <button class="btn btn-secondary" onclick="loadUsers()"><i class="ri-refresh-line"></i>Refresh</button>
-        </div>
-        <div class="table-wrap"><div id="usersContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div></div>
-    </div>
+<div class="panel">
+<div class="toolbar">
+<div class="search-bar"><input type="text" id="userSearch" placeholder="🔍 Search users…"></div>
+<button class="btn btn-secondary" onclick="loadUsers()"><i class="ri-refresh-line"></i>Refresh</button>
+</div>
+<div class="table-wrap"><div id="usersContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div></div>
+</div>
 </div>
 
 <div id="posts-tab" class="tab-content">
-    <div class="panel">
-        <div class="toolbar">
-            <div class="search-bar"><input type="text" id="postSearch" placeholder="🔍 Search posts…"></div>
-            <button class="btn btn-secondary" onclick="loadPosts()"><i class="ri-refresh-line"></i>Refresh</button>
-        </div>
-        <div class="table-wrap"><div id="postsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div></div>
-    </div>
+<div class="panel">
+<div class="toolbar">
+<div class="search-bar"><input type="text" id="postSearch" placeholder="🔍 Search posts…"></div>
+<button class="btn btn-secondary" onclick="loadPosts()"><i class="ri-refresh-line"></i>Refresh</button>
+</div>
+<div class="table-wrap"><div id="postsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div></div>
+</div>
 </div>
 
 <div id="comments-tab" class="tab-content">
-    <div class="panel">
-        <div class="toolbar">
-            <div class="search-bar"><input type="text" id="commentSearch" placeholder="🔍 Search comments…"></div>
-            <button class="btn btn-secondary" onclick="loadComments()"><i class="ri-refresh-line"></i>Refresh</button>
-        </div>
-        <div class="table-wrap"><div id="commentsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div></div>
-    </div>
+<div class="panel">
+<div class="toolbar">
+<div class="search-bar"><input type="text" id="commentSearch" placeholder="🔍 Search comments…"></div>
+<button class="btn btn-secondary" onclick="loadComments()"><i class="ri-refresh-line"></i>Refresh</button>
+</div>
+<div class="table-wrap"><div id="commentsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div></div>
+</div>
 </div>
 
 <div id="announcements-tab" class="tab-content">
-    <div class="panel">
-        <div class="toolbar">
-            <button class="btn btn-primary" onclick="openBroadcastModal()"><i class="ri-add-line"></i>New</button>
-            <button class="btn btn-secondary" onclick="loadAnnouncements()"><i class="ri-refresh-line"></i>Refresh</button>
-        </div>
-        <div id="announcementsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div>
-    </div>
+<div class="panel">
+<div class="toolbar">
+<button class="btn btn-primary" onclick="openBroadcastModal()"><i class="ri-add-line"></i>New</button>
+<button class="btn btn-secondary" onclick="loadAnnouncements()"><i class="ri-refresh-line"></i>Refresh</button>
+</div>
+<div id="announcementsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div>
+</div>
 </div>
 
 <div id="notifications-tab" class="tab-content">
-    <div class="panel">
-        <div class="toolbar">
-            <div class="search-bar"><input type="text" id="notificationSearch" placeholder="🔍 Search notifications…"></div>
-            <button class="btn btn-secondary" onclick="loadAllNotifications()"><i class="ri-refresh-line"></i>Refresh</button>
-        </div>
-        <div id="notificationsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div>
-    </div>
+<div class="panel">
+<div class="toolbar">
+<div class="search-bar"><input type="text" id="notificationSearch" placeholder="🔍 Search notifications…"></div>
+<button class="btn btn-secondary" onclick="loadAllNotifications()"><i class="ri-refresh-line"></i>Refresh</button>
+</div>
+<div id="notificationsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div></div>
+</div>
 </div>
 
 </div>
 
-<!-- MODALS -->
+<!-- ══════════════════════════════════════════
+     BROADCAST MODAL (Enhanced)
+══════════════════════════════════════════ -->
 <div id="broadcastModal" class="modal">
-    <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-hdr"><i class="ri-megaphone-line modal-icon"></i><h3>Post Announcement</h3><button class="close-btn" onclick="closeBroadcastModal()">✕</button></div>
-        <div class="form-grp"><label>Message</label><textarea id="broadcastContent" placeholder="Write your announcement… (include https:// links for clickable)"></textarea></div>
-        <div class="form-grp" style="padding-top:0;">
-            <label>Recipients</label>
-            <div class="form-grp">
-                <label>Filter by Type</label>
-                <select id="filterType">
-                    <option value="">All</option>
-                    <option value="User">User</option>
-                    <option value="Artist">Artist</option>
-                    <option value="Admin">Admin</option>
-                </select>
-            </div>
-            <div class="form-grp" style="padding-top:0;">
-                <label>Filter by Role</label>
-                <select id="filterRole">
-                    <option value="">All</option>
-                    <option value="user">user</option>
-                    <option value="artist">artist</option>
-                    <option value="admin">admin</option>
-                    <option value="moderator">moderator</option>
-                </select>
-            </div>
-            <div class="form-grp" style="padding-top:0;">
-                <label>Max Recipients (0 for all)</label>
-                <input type="number" id="maxRecipients" min="0" value="0">
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeBroadcastModal()">Cancel</button>
-            <button class="btn btn-primary" onclick="postAnnouncement()"><i class="ri-send-plane-line"></i>Send</button>
-        </div>
-    </div>
+<div class="modal-sheet">
+<div class="modal-handle"></div>
+<div class="modal-hdr">
+<i class="ri-megaphone-line modal-icon"></i>
+<h3>Post Announcement</h3>
+<button class="close-btn" onclick="closeBroadcastModal()">✕</button>
 </div>
 
+<!-- Message with link toolbar -->
+<div class="form-grp">
+<label>Message</label>
+<div class="link-toolbar">
+<button class="link-toolbar-btn" onclick="toggleLinkPanel()" id="linkToggleBtn">
+<i class="ri-link"></i> Add Link
+</button>
+<button class="link-toolbar-btn" onclick="previewAnnouncement()">
+<i class="ri-eye-line"></i> Preview
+</button>
+</div>
+
+<!-- Link builder panel (hidden by default) -->
+<div id="linkPanel" style="display:none;">
+<div class="link-input-row">
+<input type="text" id="linkText" placeholder="Link label (e.g. Click here)">
+<input type="text" id="linkUrl" placeholder="https://…">
+<button class="btn btn-primary btn-sm" onclick="insertLink()">Insert</button>
+</div>
+</div>
+
+<textarea id="broadcastContent" placeholder="Write your announcement… Links will be clickable when received." style="min-height:110px;"></textarea>
+</div>
+
+<!-- Preview box (hidden until toggled) -->
+<div id="previewPane" style="display:none;" class="form-grp" style="padding-top:0;">
+<label>Preview</label>
+<div id="previewContent" class="preview-box"></div>
+</div>
+
+<!-- Recipient Mode Tabs -->
+<div class="form-grp" style="padding-top:0;">
+<label>Send To</label>
+<div class="recipient-mode-tabs">
+<button class="rmode-btn active" id="modeByRole" onclick="setRecipientMode('role')">
+<i class="ri-group-line"></i> By Role / Type
+</button>
+<button class="rmode-btn" id="modeByUser" onclick="setRecipientMode('user')">
+<i class="ri-user-search-line"></i> Pick Users
+</button>
+<button class="rmode-btn" id="modeAll" onclick="setRecipientMode('all')">
+<i class="ri-broadcast-line"></i> Everyone
+</button>
+</div>
+
+<!-- MODE: By Role -->
+<div id="recipientByRole">
+<p style="font-size:12px;color:var(--text3);margin-bottom:10px;font-weight:500;">Select which roles/types receive this announcement:</p>
+<div class="role-filter-grid" id="roleChips">
+<!-- populated by JS -->
+</div>
+<!-- Per-role count controls -->
+<div id="roleCountControls" style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+<!-- populated by JS -->
+</div>
+</div>
+
+<!-- MODE: Pick Users -->
+<div id="recipientByUser" style="display:none;">
+<button id="selectAllBtn" onclick="toggleSelectAll()">Select All</button>
+<div id="userCheckboxes" style="margin-top:6px;">
+<div class="loading-inner" style="padding:12px;">
+<div class="spinner" style="width:22px;height:22px;border-width:2px;"></div>
+</div>
+</div>
+</div>
+
+<!-- MODE: Everyone -->
+<div id="recipientAll" style="display:none;">
+<div class="recipient-summary">
+<i class="ri-broadcast-line"></i>
+<span id="everyoneCount">This will send to all users.</span>
+</div>
+</div>
+</div>
+
+<!-- Recipient summary -->
+<div class="form-grp" style="padding-top:0;">
+<div class="recipient-summary" id="recipientSummary">
+<i class="ri-user-3-line"></i>
+<span id="summaryText">Select recipients above</span>
+</div>
+</div>
+
+<div class="modal-footer">
+<button class="btn btn-secondary" onclick="closeBroadcastModal()">Cancel</button>
+<button class="btn btn-primary" onclick="postAnnouncement()"><i class="ri-send-plane-line"></i>Send</button>
+</div>
+</div>
+</div>
+
+<!-- VIEW MODAL -->
 <div id="viewModal" class="modal">
-    <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-hdr"><i class="ri-eye-line modal-icon"></i><h3 id="viewModalTitle">Preview</h3><button class="close-btn" onclick="closeViewModal()">✕</button></div>
-        <div class="form-grp"><div id="viewModalContent" class="preview-box"></div></div>
-        <div class="modal-footer"><button class="btn btn-secondary" onclick="closeViewModal()">Close</button></div>
-    </div>
+<div class="modal-sheet">
+<div class="modal-handle"></div>
+<div class="modal-hdr"><i class="ri-eye-line modal-icon"></i><h3 id="viewModalTitle">Preview</h3><button class="close-btn" onclick="closeViewModal()">✕</button></div>
+<div class="form-grp"><div id="viewModalContent" class="preview-box"></div></div>
+<div class="modal-footer"><button class="btn btn-secondary" onclick="closeViewModal()">Close</button></div>
+</div>
 </div>
 
+<!-- EDIT USER MODAL -->
 <div id="editUserModal" class="modal">
-    <div class="modal-sheet" style="max-width:680px;">
-        <div class="modal-handle"></div>
-        <div class="modal-hdr"><i class="ri-user-settings-line modal-icon"></i><h3>Edit User</h3><button class="close-btn" onclick="closeEditUserModal()">✕</button></div>
-        <input type="hidden" id="editUserId">
-
-        <!-- Section: Identity -->
-        <div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-user-line"></i> Identity</p></div>
-        <div class="form-grp form-grid2">
-            <div><label>Stage Name</label><input type="text" id="editStageName" placeholder="Stage name"></div>
-            <div><label>Email</label><input type="email" id="editEmail" placeholder="Email"></div>
-        </div>
-        <div class="form-grp form-grid2" style="padding-top:0;">
-            <div><label>User Type</label>
-                <select id="editUserType"><option value="User">User</option><option value="Artist">Artist</option><option value="Admin">Admin</option></select>
-            </div>
-            <div><label>Role</label>
-                <select id="editRole"><option value="user">user</option><option value="artist">artist</option><option value="admin">admin</option><option value="moderator">moderator</option></select>
-            </div>
-        </div>
-        <div class="form-grp" style="padding-top:0;">
-            <label>Bio</label>
-            <textarea id="editBio" placeholder="User bio…" style="min-height:70px;"></textarea>
-        </div>
-        <div class="form-grp form-grid2" style="padding-top:0;">
-            <div><label>Profile Picture URL</label><input type="text" id="editProfilePicture" placeholder="https://…"></div>
-            <div><label>Search Key</label><input type="text" id="editSearchKey" placeholder="search_key"></div>
-        </div>
-        <div class="form-grp" style="padding-top:0;">
-            <label>Status Badge</label>
-            <input type="text" id="editStatusBadge" placeholder="e.g. 🎤 Verified Artist">
-        </div>
-
-        <!-- Section: Tier & Payments -->
-        <div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-vip-crown-line"></i> Tier & Payments</p></div>
-        <div class="form-grp form-grid2">
-            <div><label>Tier</label>
-                <select id="editTier"><option value="basic">basic</option><option value="pro">pro</option><option value="premium">premium</option></select>
-            </div>
-            <div><label>Payment ID</label><input type="text" id="editPaymentId" placeholder="payment_id"></div>
-        </div>
-        <div class="form-grp form-grid2" style="padding-top:0;">
-            <div><label>Coins</label><input type="number" id="editCoins" placeholder="0" min="0"></div>
-            <div><label>Score</label><input type="number" id="editScore" placeholder="0" min="0"></div>
-        </div>
-        <div class="form-grp" style="padding-top:0;">
-            <label>Upgraded At</label>
-            <input type="datetime-local" id="editUpgradedAt">
-        </div>
-
-        <!-- Section: Limits -->
-        <div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-settings-3-line"></i> Limits & Counts</p></div>
-        <div class="form-grp form-grid3">
-            <div><label>Max Audio Previews</label><input type="number" id="editMaxAudioPreviews" min="0"></div>
-            <div><label>Max Releases</label><input type="number" id="editMaxReleases" min="0"></div>
-            <div><label>Max Edits</label><input type="number" id="editMaxEdits" min="0"></div>
-        </div>
-        <div class="form-grp form-grid3" style="padding-top:0;">
-            <div><label>Current Audio Count</label><input type="number" id="editCurrentAudioCount" min="0"></div>
-            <div><label>Current Release Count</label><input type="number" id="editCurrentReleaseCount" min="0"></div>
-            <div><label>Edits Remaining</label><input type="number" id="editEditsRemaining" min="0"></div>
-        </div>
-        <div class="form-grp form-grid3" style="padding-top:0;">
-            <div><label>Track Count</label><input type="number" id="editTrackCount" min="0"></div>
-            <div><label>Collab Count</label><input type="number" id="editCollabCount" min="0"></div>
-            <div><label>Invite Count</label><input type="number" id="editInviteCount" min="0"></div>
-        </div>
-        <div class="form-grp form-grid2" style="padding-top:0;">
-            <div><label>Invite Pro</label><input type="number" id="editInvitePro" min="0" placeholder="0"></div>
-            <div><label>Invite Code</label><input type="text" id="editInviteCode" placeholder="invite_code"></div>
-        </div>
-        <div class="form-grp" style="padding-top:0;">
-            <label>Invited By Code</label>
-            <input type="text" id="editInvitedByCode" placeholder="Code used at signup">
-        </div>
-
-        <!-- Section: Access Flags -->
-        <div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-shield-check-line"></i> Access Flags</p></div>
-        <div class="form-grp" style="display:flex;flex-direction:column;gap:8px;">
-            <div class="toggle-row" onclick="document.getElementById('editIsAdmin').click()">
-                <label for="editIsAdmin">Admin access (is_admin)</label>
-                <input type="checkbox" id="editIsAdmin">
-            </div>
-            <div class="toggle-row" onclick="document.getElementById('editCanSeeInvite').click()">
-                <label for="editCanSeeInvite">Can see invite page (can_see_invite)</label>
-                <input type="checkbox" id="editCanSeeInvite">
-            </div>
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeEditUserModal()">Cancel</button>
-            <button class="btn btn-primary" onclick="saveUserEdit()"><i class="ri-save-line"></i>Save Changes</button>
-        </div>
-    </div>
+<div class="modal-sheet" style="max-width:680px;">
+<div class="modal-handle"></div>
+<div class="modal-hdr"><i class="ri-user-settings-line modal-icon"></i><h3>Edit User</h3><button class="close-btn" onclick="closeEditUserModal()">✕</button></div>
+<input type="hidden" id="editUserId">
+<div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-user-line"></i> Identity</p></div>
+<div class="form-grp form-grid2">
+<div><label>Stage Name</label><input type="text" id="editStageName" placeholder="Stage name"></div>
+<div><label>Email</label><input type="email" id="editEmail" placeholder="Email"></div>
+</div>
+<div class="form-grp form-grid2" style="padding-top:0;">
+<div><label>User Type</label>
+<select id="editUserType"><option value="User">User</option><option value="Artist">Artist</option><option value="Admin">Admin</option></select>
+</div>
+<div><label>Role</label>
+<select id="editRole"><option value="user">user</option><option value="artist">artist</option><option value="admin">admin</option><option value="moderator">moderator</option></select>
+</div>
+</div>
+<div class="form-grp" style="padding-top:0;"><label>Bio</label><textarea id="editBio" placeholder="User bio…" style="min-height:70px;"></textarea></div>
+<div class="form-grp form-grid2" style="padding-top:0;">
+<div><label>Profile Picture URL</label><input type="text" id="editProfilePicture" placeholder="https://…"></div>
+<div><label>Search Key</label><input type="text" id="editSearchKey" placeholder="search_key"></div>
+</div>
+<div class="form-grp" style="padding-top:0;"><label>Status Badge</label><input type="text" id="editStatusBadge" placeholder="e.g. 🎤 Verified Artist"></div>
+<div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-vip-crown-line"></i> Tier & Payments</p></div>
+<div class="form-grp form-grid2">
+<div><label>Tier</label><select id="editTier"><option value="basic">basic</option><option value="pro">pro</option><option value="premium">premium</option></select></div>
+<div><label>Payment ID</label><input type="text" id="editPaymentId" placeholder="payment_id"></div>
+</div>
+<div class="form-grp form-grid2" style="padding-top:0;">
+<div><label>Coins</label><input type="number" id="editCoins" placeholder="0" min="0"></div>
+<div><label>Score</label><input type="number" id="editScore" placeholder="0" min="0"></div>
+</div>
+<div class="form-grp" style="padding-top:0;"><label>Upgraded At</label><input type="datetime-local" id="editUpgradedAt"></div>
+<div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-settings-3-line"></i> Limits & Counts</p></div>
+<div class="form-grp form-grid3">
+<div><label>Max Audio Previews</label><input type="number" id="editMaxAudioPreviews" min="0"></div>
+<div><label>Max Releases</label><input type="number" id="editMaxReleases" min="0"></div>
+<div><label>Max Edits</label><input type="number" id="editMaxEdits" min="0"></div>
+</div>
+<div class="form-grp form-grid3" style="padding-top:0;">
+<div><label>Current Audio Count</label><input type="number" id="editCurrentAudioCount" min="0"></div>
+<div><label>Current Release Count</label><input type="number" id="editCurrentReleaseCount" min="0"></div>
+<div><label>Edits Remaining</label><input type="number" id="editEditsRemaining" min="0"></div>
+</div>
+<div class="form-grp form-grid3" style="padding-top:0;">
+<div><label>Track Count</label><input type="number" id="editTrackCount" min="0"></div>
+<div><label>Collab Count</label><input type="number" id="editCollabCount" min="0"></div>
+<div><label>Invite Count</label><input type="number" id="editInviteCount" min="0"></div>
+</div>
+<div class="form-grp form-grid2" style="padding-top:0;">
+<div><label>Invite Pro</label><input type="number" id="editInvitePro" min="0" placeholder="0"></div>
+<div><label>Invite Code</label><input type="text" id="editInviteCode" placeholder="invite_code"></div>
+</div>
+<div class="form-grp" style="padding-top:0;"><label>Invited By Code</label><input type="text" id="editInvitedByCode" placeholder="Code used at signup"></div>
+<div style="padding:12px 16px 4px;"><p class="section-label"><i class="ri-shield-check-line"></i> Access Flags</p></div>
+<div class="form-grp" style="display:flex;flex-direction:column;gap:8px;">
+<div class="toggle-row" onclick="document.getElementById('editIsAdmin').click()">
+<label for="editIsAdmin">Admin access (is_admin)</label>
+<input type="checkbox" id="editIsAdmin">
+</div>
+<div class="toggle-row" onclick="document.getElementById('editCanSeeInvite').click()">
+<label for="editCanSeeInvite">Can see invite page (can_see_invite)</label>
+<input type="checkbox" id="editCanSeeInvite">
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn btn-secondary" onclick="closeEditUserModal()">Cancel</button>
+<button class="btn btn-primary" onclick="saveUserEdit()"><i class="ri-save-line"></i>Save Changes</button>
+</div>
+</div>
 </div>
 
+<!-- EDIT POST MODAL -->
 <div id="editPostModal" class="modal">
-    <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-hdr"><i class="ri-edit-line modal-icon"></i><h3>Edit Post</h3><button class="close-btn" onclick="closeEditPostModal()">✕</button></div>
-        <input type="hidden" id="editPostId">
-        <div class="form-grp"><label>Content</label><textarea id="editPostContent" placeholder="Post content…" style="min-height:130px;"></textarea></div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeEditPostModal()">Cancel</button>
-            <button class="btn btn-primary" onclick="savePostEdit()"><i class="ri-save-line"></i>Save</button>
-        </div>
-    </div>
+<div class="modal-sheet">
+<div class="modal-handle"></div>
+<div class="modal-hdr"><i class="ri-edit-line modal-icon"></i><h3>Edit Post</h3><button class="close-btn" onclick="closeEditPostModal()">✕</button></div>
+<input type="hidden" id="editPostId">
+<div class="form-grp"><label>Content</label><textarea id="editPostContent" placeholder="Post content…" style="min-height:130px;"></textarea></div>
+<div class="modal-footer">
+<button class="btn btn-secondary" onclick="closeEditPostModal()">Cancel</button>
+<button class="btn btn-primary" onclick="savePostEdit()"><i class="ri-save-line"></i>Save</button>
+</div>
+</div>
 </div>
 
+<!-- EDIT COMMENT MODAL -->
 <div id="editCommentModal" class="modal">
-    <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-hdr"><i class="ri-edit-line modal-icon"></i><h3>Edit Comment</h3><button class="close-btn" onclick="closeEditCommentModal()">✕</button></div>
-        <input type="hidden" id="editCommentId">
-        <div class="form-grp"><label>Content</label><textarea id="editCommentContent" placeholder="Comment content…"></textarea></div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeEditCommentModal()">Cancel</button>
-            <button class="btn btn-primary" onclick="saveCommentEdit()"><i class="ri-save-line"></i>Save</button>
-        </div>
-    </div>
+<div class="modal-sheet">
+<div class="modal-handle"></div>
+<div class="modal-hdr"><i class="ri-edit-line modal-icon"></i><h3>Edit Comment</h3><button class="close-btn" onclick="closeEditCommentModal()">✕</button></div>
+<input type="hidden" id="editCommentId">
+<div class="form-grp"><label>Content</label><textarea id="editCommentContent" placeholder="Comment content…"></textarea></div>
+<div class="modal-footer">
+<button class="btn btn-secondary" onclick="closeEditCommentModal()">Cancel</button>
+<button class="btn btn-primary" onclick="saveCommentEdit()"><i class="ri-save-line"></i>Save</button>
+</div>
+</div>
 </div>
 
+<!-- ADMIN COMMENT MODAL -->
 <div id="adminCommentModal" class="modal">
-    <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-hdr"><i class="ri-shield-star-line modal-icon"></i><h3>Comment as Admin</h3><button class="close-btn" onclick="closeAdminCommentModal()">✕</button></div>
-        <div id="postCommentsContainer" style="max-height:200px;overflow-y:auto;border-bottom:1px solid var(--border);"><div class="loading-inner" style="padding:16px;"><div class="spinner" style="width:22px;height:22px;border-width:2px;"></div></div></div>
-        <div class="form-grp"><label>Your Comment</label><textarea id="adminCommentText" placeholder="Write your comment…"></textarea></div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeAdminCommentModal()">Cancel</button>
-            <button class="btn btn-primary" onclick="postAdminComment()"><i class="ri-send-plane-line"></i>Post</button>
-        </div>
-    </div>
+<div class="modal-sheet">
+<div class="modal-handle"></div>
+<div class="modal-hdr"><i class="ri-shield-star-line modal-icon"></i><h3>Comment as Admin</h3><button class="close-btn" onclick="closeAdminCommentModal()">✕</button></div>
+<div id="postCommentsContainer" style="max-height:200px;overflow-y:auto;border-bottom:1px solid var(--border);"><div class="loading-inner" style="padding:16px;"><div class="spinner" style="width:22px;height:22px;border-width:2px;"></div></div></div>
+<div class="form-grp"><label>Your Comment</label><textarea id="adminCommentText" placeholder="Write your comment…"></textarea></div>
+<div class="modal-footer">
+<button class="btn btn-secondary" onclick="closeAdminCommentModal()">Cancel</button>
+<button class="btn btn-primary" onclick="postAdminComment()"><i class="ri-send-plane-line"></i>Post</button>
+</div>
+</div>
 </div>
 
+<!-- VIEW ANNOUNCEMENT MODAL -->
 <div id="announcementModal" class="modal">
-    <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-hdr"><i class="ri-megaphone-line modal-icon"></i><h3>Announcement</h3><button class="close-btn" onclick="closeAnnouncementModal()">✕</button></div>
-        <div class="form-grp" id="announcementModalContent"></div>
-        <div class="modal-footer"><button class="btn btn-secondary" onclick="closeAnnouncementModal()">Close</button></div>
-    </div>
+<div class="modal-sheet">
+<div class="modal-handle"></div>
+<div class="modal-hdr"><i class="ri-megaphone-line modal-icon"></i><h3>Announcement</h3><button class="close-btn" onclick="closeAnnouncementModal()">✕</button></div>
+<div class="form-grp" id="announcementModalContent"></div>
+<div class="modal-footer"><button class="btn btn-secondary" onclick="closeAnnouncementModal()">Close</button></div>
+</div>
 </div>
 
 <script type="module">
@@ -580,202 +675,237 @@ window.supabase = supabase;
 
 let currentAdmin = null, currentPostForComment = null;
 let allUsers = [], allPosts = [], allComments = [], allNotifications = [];
+let recipientMode = 'role'; // 'role' | 'user' | 'all'
 
-/* AUTH */
+// Role & UserType definitions for the broadcast modal
+const ROLES = [
+  { key: 'user',      label: 'User',      icon: 'ri-user-line',        field: 'role' },
+  { key: 'artist',    label: 'Artist',    icon: 'ri-music-line',       field: 'role' },
+  { key: 'admin',     label: 'Admin',     icon: 'ri-shield-star-line', field: 'role' },
+  { key: 'moderator', label: 'Moderator', icon: 'ri-eye-line',         field: 'role' },
+];
+const USER_TYPES = [
+  { key: 'User',   label: 'User',   icon: 'ri-user-3-line',    field: 'user_type' },
+  { key: 'Artist', label: 'Artist', icon: 'ri-mic-line',       field: 'user_type' },
+  { key: 'Admin',  label: 'Admin',  icon: 'ri-admin-line',     field: 'user_type' },
+];
+
+// Combined chips for role selector (roles + user types, deduplicated by display)
+const ALL_CHIPS = [
+  { key: 'role:user',       label: 'Role: User',       icon: 'ri-user-line',        field: 'role',      value: 'user' },
+  { key: 'role:artist',     label: 'Role: Artist',     icon: 'ri-music-line',       field: 'role',      value: 'artist' },
+  { key: 'role:admin',      label: 'Role: Admin',      icon: 'ri-shield-star-line', field: 'role',      value: 'admin' },
+  { key: 'role:moderator',  label: 'Role: Moderator',  icon: 'ri-eye-line',         field: 'role',      value: 'moderator' },
+  { key: 'type:User',       label: 'Type: User',       icon: 'ri-user-3-line',      field: 'user_type', value: 'User' },
+  { key: 'type:Artist',     label: 'Type: Artist',     icon: 'ri-mic-line',         field: 'user_type', value: 'Artist' },
+  { key: 'type:Admin',      label: 'Type: Admin',      icon: 'ri-admin-line',       field: 'user_type', value: 'Admin' },
+];
+
+let selectedChips = new Set(); // keys of selected chips
+let chipCounts = {};            // key → { max, chosen }
+let broadcastUsers = [];        // all users loaded for broadcast
+
+/* ──────────────────────────────────────────
+   AUTH
+────────────────────────────────────────── */
 async function checkAdmin() {
-    const { data:{session} } = await supabase.auth.getSession();
-    if (!session) { window.location.href='login.html'; return false; }
-    const { data:p, error } = await supabase.from('profiles').select('*').eq('id',session.user.id).single();
-    if (error||!p) { showToast('Error loading profile','rose'); return false; }
-    currentAdmin = p;
-    document.getElementById('adminName').textContent = `Hi, ${p.stage_name||'Admin'}`;
-    if (p.user_type!=='Admin' && !p.is_admin) { showToast('Access denied','rose'); setTimeout(()=>window.location.href='home.html',2000); return false; }
-    return true;
+  const { data:{session} } = await supabase.auth.getSession();
+  if (!session) { window.location.href='login.html'; return false; }
+  const { data:p, error } = await supabase.from('profiles').select('*').eq('id',session.user.id).single();
+  if (error||!p) { showToast('Error loading profile','rose'); return false; }
+  currentAdmin = p;
+  document.getElementById('adminName').textContent = `Hi, ${p.stage_name||'Admin'}`;
+  if (p.user_type!=='Admin' && !p.is_admin) { showToast('Access denied','rose'); setTimeout(()=>window.location.href='home.html',2000); return false; }
+  return true;
 }
 
-/* STATS */
+/* ──────────────────────────────────────────
+   STATS
+────────────────────────────────────────── */
 async function loadStats() {
-    try {
-        const [u,po,c,l] = await Promise.all([
-            supabase.from('profiles').select('id',{count:'exact',head:true}),
-            supabase.from('posts').select('id',{count:'exact',head:true}),
-            supabase.from('comments').select('id',{count:'exact',head:true}),
-            supabase.from('post_likes').select('id',{count:'exact',head:true})
-        ]);
-        document.getElementById('totalUsers').textContent=u.count??0;
-        document.getElementById('totalPosts').textContent=po.count??0;
-        document.getElementById('totalComments').textContent=c.count??0;
-        document.getElementById('totalLikes').textContent=l.count??0;
-        document.getElementById('userSub').textContent=`${u.count??0} registered`;
-        document.getElementById('postSub').textContent=`${po.count??0} published`;
-        document.getElementById('commentSub').textContent=`${c.count??0} total`;
-        document.getElementById('likeSub').textContent=`${l.count??0} total`;
-    } catch(e){console.error(e);}
+  try {
+    const [u,po,c,l] = await Promise.all([
+      supabase.from('profiles').select('id',{count:'exact',head:true}),
+      supabase.from('posts').select('id',{count:'exact',head:true}),
+      supabase.from('comments').select('id',{count:'exact',head:true}),
+      supabase.from('post_likes').select('id',{count:'exact',head:true})
+    ]);
+    document.getElementById('totalUsers').textContent=u.count??0;
+    document.getElementById('totalPosts').textContent=po.count??0;
+    document.getElementById('totalComments').textContent=c.count??0;
+    document.getElementById('totalLikes').textContent=l.count??0;
+    document.getElementById('userSub').textContent=`${u.count??0} registered`;
+    document.getElementById('postSub').textContent=`${po.count??0} published`;
+    document.getElementById('commentSub').textContent=`${c.count??0} total`;
+    document.getElementById('likeSub').textContent=`${l.count??0} total`;
+  } catch(e){console.error(e);}
 }
 
-/* ACTIVITY */
+/* ──────────────────────────────────────────
+   ACTIVITY
+────────────────────────────────────────── */
 async function loadActivityLog() {
-    const el = document.getElementById('activityLog');
-    try {
-        const [{data:posts},{data:comments},{data:users}] = await Promise.all([
-            supabase.from('posts').select('*,profiles(stage_name)').order('created_at',{ascending:false}).limit(6),
-            supabase.from('comments').select('*,profiles(stage_name)').order('created_at',{ascending:false}).limit(6),
-            supabase.from('profiles').select('*').order('created_at',{ascending:false}).limit(5)
-        ]);
-        const items = [
-            ...(posts||[]).map(p=>({type:'post',name:p.profiles?.stage_name||'User',time:p.created_at})),
-            ...(comments||[]).map(c=>({type:'comment',name:c.profiles?.stage_name||'User',time:c.created_at})),
-            ...(users||[]).map(u=>({type:'user',name:u.stage_name||'Someone',time:u.created_at}))
-        ].sort((a,b)=>new Date(b.time)-new Date(a.time)).slice(0,18);
-        if(!items.length){el.innerHTML='<div class="empty-state"><i class="ri-inbox-line"></i><p>No activity yet</p></div>';return;}
-        el.innerHTML=items.map(a=>{
-            const [ico,bg,clr,lbl]=a.type==='post'?['ri-article-line','var(--emerald-l)','var(--emerald)','created a post']:
-                a.type==='comment'?['ri-chat-3-line','var(--amber-l)','var(--amber)','posted a comment']:
-                ['ri-user-add-line','var(--indigo-l)','var(--indigo)','just joined'];
-            return `<div class="activity-item"><div class="act-dot" style="background:\( {bg};color: \){clr};"><i class="\( {ico}"></i></div><div><div class="act-text"><strong> \){a.name}</strong> \( {lbl}</div><div class="act-time"> \){timeAgo(a.time)}</div></div></div>`;
-        }).join('');
-    } catch(e){el.innerHTML='<div class="empty-state"><p>Error loading activity</p></div>';}
+  const el = document.getElementById('activityLog');
+  try {
+    const [{data:posts},{data:comments},{data:users}] = await Promise.all([
+      supabase.from('posts').select('*,profiles(stage_name)').order('created_at',{ascending:false}).limit(6),
+      supabase.from('comments').select('*,profiles(stage_name)').order('created_at',{ascending:false}).limit(6),
+      supabase.from('profiles').select('*').order('created_at',{ascending:false}).limit(5)
+    ]);
+    const items = [
+      ...(posts||[]).map(p=>({type:'post',name:p.profiles?.stage_name||'User',time:p.created_at})),
+      ...(comments||[]).map(c=>({type:'comment',name:c.profiles?.stage_name||'User',time:c.created_at})),
+      ...(users||[]).map(u=>({type:'user',name:u.stage_name||'Someone',time:u.created_at}))
+    ].sort((a,b)=>new Date(b.time)-new Date(a.time)).slice(0,18);
+    if(!items.length){el.innerHTML='<div class="empty-state"><i class="ri-inbox-line"></i><p>No activity yet</p></div>';return;}
+    el.innerHTML=items.map(a=>{
+      const [ico,bg,clr,lbl]=a.type==='post'?['ri-article-line','var(--emerald-l)','var(--emerald)','created a post']:
+        a.type==='comment'?['ri-chat-3-line','var(--amber-l)','var(--amber)','posted a comment']:
+        ['ri-user-add-line','var(--indigo-l)','var(--indigo)','just joined'];
+      return `<div class="activity-item"><div class="act-dot" style="background:${bg};color:${clr};"><i class="${ico}"></i></div><div><div class="act-text"><strong>${a.name}</strong> ${lbl}</div><div class="act-time">${timeAgo(a.time)}</div></div></div>`;
+    }).join('');
+  } catch(e){el.innerHTML='<div class="empty-state"><p>Error loading activity</p></div>';}
 }
 
-/* USERS */
+/* ──────────────────────────────────────────
+   USERS
+────────────────────────────────────────── */
 window.loadUsers = async function() {
-    const c=document.getElementById('usersContainer'); c.innerHTML=loading();
-    const s=(document.getElementById('userSearch')?.value||'').toLowerCase();
-    const {data,error}=await supabase.from('profiles').select('*').order('created_at',{ascending:false});
-    if(error){c.innerHTML=err();return;}
-    allUsers=data||[];
-    let f=allUsers; if(s) f=allUsers.filter(u=>
-        u.stage_name?.toLowerCase().includes(s)||
-        u.email?.toLowerCase().includes(s)||
-        u.user_type?.toLowerCase().includes(s)||
-        u.tier?.toLowerCase().includes(s)||
-        u.role?.toLowerCase().includes(s)
-    );
-    if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-user-line"></i><p>No users found</p></div>';return;}
-    c.innerHTML=`<table class="data-table"><thead><tr>
-        <th>User</th><th>Type / Role</th><th>Tier</th><th>Admin</th>
-        <th>Score</th><th>Coins</th><th>Tracks</th><th>Invites</th><th>Joined</th><th>Actions</th>
-    </tr></thead><tbody>${
-        f.map(u=>`<tr>
-        <td data-label="User" class="no-label"><div class="user-cell">
-            <img src="\( {u.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name= \){encodeURIComponent(u.stage_name||'U')}&background=4f46e5&color=fff'">
-            <div><div class="user-name">\( {u.stage_name||'—'}</div><div class="user-sub"> \){u.email||u.id.substring(0,10)+'…'}</div></div>
-        </div></td>
-        <td data-label="Type/Role"><div style="display:flex;flex-direction:column;gap:3px;">
-            <span class="badge \( {u.user_type==='Admin'?'badge-admin':'badge-user'}"> \){u.user_type||'User'}</span>
-            <span style="font-size:11px;color:var(--text3);">${u.role||'user'}</span>
-        </div></td>
-        <td data-label="Tier"><span class="badge \( {u.tier==='pro'?'badge-amber':u.tier==='premium'?'badge-admin':'badge-user'}"> \){u.tier||'basic'}</span></td>
-        <td data-label="Admin">${u.is_admin?'<span class="badge badge-active"><i class="ri-shield-check-line"></i> Yes</span>':'<span class="badge badge-user">No</span>'}</td>
-        <td data-label="Score"><strong>${u.score??0}</strong></td>
-        <td data-label="Coins"><strong>${u.coins??0}</strong></td>
-        <td data-label="Tracks"><strong>${u.track_count??0}</strong></td>
-        <td data-label="Invites"><strong>${u.invite_count??0}</strong></td>
-        <td data-label="Joined">${new Date(u.created_at).toLocaleDateString()}</td>
-        <td class="no-label" style="padding-top:6px;"><div class="act-group">
-            <button class="act-btn edit" title="Edit" onclick="openEditUser('${u.id}')"><i class="ri-edit-line"></i></button>
-            <button class="act-btn promote" title="\( {u.is_admin?'Revoke admin':'Make admin'}" onclick="toggleAdmin(' \){u.id}',\( {u.is_admin})"><i class="ri- \){u.is_admin?'user-line':'shield-star-line'}"></i></button>
-            <button class="act-btn del" title="Delete" onclick="deleteUser('\( {u.id}',' \){(u.stage_name||'').replace(/'/g,"\\'")}')"><i class="ri-delete-bin-line"></i></button>
-        </div></td></tr>`).join('')
-    }</tbody></table>`;
+  const c=document.getElementById('usersContainer'); c.innerHTML=loading();
+  const s=(document.getElementById('userSearch')?.value||'').toLowerCase();
+  const {data,error}=await supabase.from('profiles').select('*').order('created_at',{ascending:false});
+  if(error){c.innerHTML=err();return;}
+  allUsers=data||[];
+  let f=allUsers; if(s) f=allUsers.filter(u=>
+    u.stage_name?.toLowerCase().includes(s)||
+    u.email?.toLowerCase().includes(s)||
+    u.user_type?.toLowerCase().includes(s)||
+    u.tier?.toLowerCase().includes(s)||
+    u.role?.toLowerCase().includes(s)
+  );
+  if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-user-line"></i><p>No users found</p></div>';return;}
+  c.innerHTML=`<table class="data-table"><thead><tr>
+    <th>User</th><th>Type / Role</th><th>Tier</th><th>Admin</th>
+    <th>Score</th><th>Coins</th><th>Tracks</th><th>Invites</th><th>Joined</th><th>Actions</th>
+  </tr></thead><tbody>${
+    f.map(u=>`<tr>
+      <td data-label="User" class="no-label"><div class="user-cell">
+        <img src="${u.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.stage_name||'U')}&background=4f46e5&color=fff'">
+        <div><div class="user-name">${u.stage_name||'—'}</div><div class="user-sub">${u.email||u.id.substring(0,10)+'…'}</div></div>
+      </div></td>
+      <td data-label="Type/Role"><div style="display:flex;flex-direction:column;gap:3px;">
+        <span class="badge ${u.user_type==='Admin'?'badge-admin':'badge-user'}">${u.user_type||'User'}</span>
+        <span style="font-size:11px;color:var(--text3);">${u.role||'user'}</span>
+      </div></td>
+      <td data-label="Tier"><span class="badge ${u.tier==='pro'?'badge-amber':u.tier==='premium'?'badge-admin':'badge-user'}">${u.tier||'basic'}</span></td>
+      <td data-label="Admin">${u.is_admin?'<span class="badge badge-active"><i class="ri-shield-check-line"></i> Yes</span>':'<span class="badge badge-user">No</span>'}</td>
+      <td data-label="Score"><strong>${u.score??0}</strong></td>
+      <td data-label="Coins"><strong>${u.coins??0}</strong></td>
+      <td data-label="Tracks"><strong>${u.track_count??0}</strong></td>
+      <td data-label="Invites"><strong>${u.invite_count??0}</strong></td>
+      <td data-label="Joined">${new Date(u.created_at).toLocaleDateString()}</td>
+      <td class="no-label" style="padding-top:6px;"><div class="act-group">
+        <button class="act-btn edit" title="Edit" onclick="openEditUser('${u.id}')"><i class="ri-edit-line"></i></button>
+        <button class="act-btn promote" title="${u.is_admin?'Revoke admin':'Make admin'}" onclick="toggleAdmin('${u.id}',${u.is_admin})"><i class="ri-${u.is_admin?'user-line':'shield-star-line'}"></i></button>
+        <button class="act-btn del" title="Delete" onclick="deleteUser('${u.id}','${(u.stage_name||'').replace(/'/g,"\\'")}')"><i class="ri-delete-bin-line"></i></button>
+      </div></td></tr>`).join('')
+  }</tbody></table>`;
 };
 
 window.openEditUser=function(id){
-    const u=allUsers.find(x=>x.id===id); if(!u) return;
-    // Identity
-    document.getElementById('editUserId').value          = u.id;
-    document.getElementById('editStageName').value       = u.stage_name||'';
-    document.getElementById('editEmail').value           = u.email||'';
-    document.getElementById('editUserType').value        = u.user_type||'User';
-    document.getElementById('editRole').value            = u.role||'user';
-    document.getElementById('editBio').value             = u.bio||'';
-    document.getElementById('editProfilePicture').value  = u.profile_picture||'';
-    document.getElementById('editSearchKey').value       = u.search_key||'';
-    document.getElementById('editStatusBadge').value     = u.status_badge||'';
-    // Tier & payments
-    document.getElementById('editTier').value            = u.tier||'basic';
-    document.getElementById('editPaymentId').value       = u.payment_id||'';
-    document.getElementById('editCoins').value           = u.coins??0;
-    document.getElementById('editScore').value           = u.score??0;
-    document.getElementById('editUpgradedAt').value      = u.upgraded_at ? u.upgraded_at.substring(0,16) : '';
-    // Limits & counts
-    document.getElementById('editMaxAudioPreviews').value   = u.max_audio_previews??10;
-    document.getElementById('editMaxReleases').value        = u.max_releases??6;
-    document.getElementById('editMaxEdits').value           = u.max_edits??1;
-    document.getElementById('editCurrentAudioCount').value  = u.current_audio_count??0;
-    document.getElementById('editCurrentReleaseCount').value= u.current_release_count??0;
-    document.getElementById('editEditsRemaining').value     = u.edits_remaining??1;
-    document.getElementById('editTrackCount').value         = u.track_count??0;
-    document.getElementById('editCollabCount').value        = u.collab_count??0;
-    document.getElementById('editInviteCount').value        = u.invite_count??0;
-    document.getElementById('editInvitePro').value          = u.invite_pro??0;
-    document.getElementById('editInviteCode').value         = u.invite_code||'';
-    document.getElementById('editInvitedByCode').value      = u.invited_by_code||'';
-    // Flags
-    document.getElementById('editIsAdmin').checked      = !!u.is_admin;
-    document.getElementById('editCanSeeInvite').checked = !!u.can_see_invite;
-    document.getElementById('editUserModal').classList.add('active');
+  const u=allUsers.find(x=>x.id===id); if(!u) return;
+  document.getElementById('editUserId').value = u.id;
+  document.getElementById('editStageName').value = u.stage_name||'';
+  document.getElementById('editEmail').value = u.email||'';
+  document.getElementById('editUserType').value = u.user_type||'User';
+  document.getElementById('editRole').value = u.role||'user';
+  document.getElementById('editBio').value = u.bio||'';
+  document.getElementById('editProfilePicture').value = u.profile_picture||'';
+  document.getElementById('editSearchKey').value = u.search_key||'';
+  document.getElementById('editStatusBadge').value = u.status_badge||'';
+  document.getElementById('editTier').value = u.tier||'basic';
+  document.getElementById('editPaymentId').value = u.payment_id||'';
+  document.getElementById('editCoins').value = u.coins??0;
+  document.getElementById('editScore').value = u.score??0;
+  document.getElementById('editUpgradedAt').value = u.upgraded_at ? u.upgraded_at.substring(0,16) : '';
+  document.getElementById('editMaxAudioPreviews').value = u.max_audio_previews??10;
+  document.getElementById('editMaxReleases').value = u.max_releases??6;
+  document.getElementById('editMaxEdits').value = u.max_edits??1;
+  document.getElementById('editCurrentAudioCount').value = u.current_audio_count??0;
+  document.getElementById('editCurrentReleaseCount').value= u.current_release_count??0;
+  document.getElementById('editEditsRemaining').value = u.edits_remaining??1;
+  document.getElementById('editTrackCount').value = u.track_count??0;
+  document.getElementById('editCollabCount').value = u.collab_count??0;
+  document.getElementById('editInviteCount').value = u.invite_count??0;
+  document.getElementById('editInvitePro').value = u.invite_pro??0;
+  document.getElementById('editInviteCode').value = u.invite_code||'';
+  document.getElementById('editInvitedByCode').value = u.invited_by_code||'';
+  document.getElementById('editIsAdmin').checked = !!u.is_admin;
+  document.getElementById('editCanSeeInvite').checked = !!u.can_see_invite;
+  document.getElementById('editUserModal').classList.add('active');
 };
-
 window.closeEditUserModal=()=>document.getElementById('editUserModal').classList.remove('active');
 
 window.saveUserEdit=async function(){
-    const id=document.getElementById('editUserId').value;
-    const upgAt=document.getElementById('editUpgradedAt').value;
-    const payload={
-        stage_name:           document.getElementById('editStageName').value,
-        email:                document.getElementById('editEmail').value,
-        user_type:            document.getElementById('editUserType').value,
-        role:                 document.getElementById('editRole').value,
-        bio:                  document.getElementById('editBio').value,
-        profile_picture:      document.getElementById('editProfilePicture').value,
-        search_key:           document.getElementById('editSearchKey').value,
-        status_badge:         document.getElementById('editStatusBadge').value,
-        tier:                 document.getElementById('editTier').value,
-        payment_id:           document.getElementById('editPaymentId').value||null,
-        coins:         parseInt(document.getElementById('editCoins').value)||0,
-        score:         parseInt(document.getElementById('editScore').value)||0,
-        upgraded_at:          upgAt ? new Date(upgAt).toISOString() : null,
-        max_audio_previews:   parseInt(document.getElementById('editMaxAudioPreviews').value)||10,
-        max_releases:         parseInt(document.getElementById('editMaxReleases').value)||6,
-        max_edits:            parseInt(document.getElementById('editMaxEdits').value)||1,
-        current_audio_count:  parseInt(document.getElementById('editCurrentAudioCount').value)||0,
-        current_release_count:parseInt(document.getElementById('editCurrentReleaseCount').value)||0,
-        edits_remaining:      parseInt(document.getElementById('editEditsRemaining').value)||0,
-        track_count:          parseInt(document.getElementById('editTrackCount').value)||0,
-        collab_count:         parseInt(document.getElementById('editCollabCount').value)||0,
-        invite_count:         parseInt(document.getElementById('editInviteCount').value)||0,
-        invite_pro:           parseInt(document.getElementById('editInvitePro').value)||0,
-        invite_code:          document.getElementById('editInviteCode').value||null,
-        invited_by_code:      document.getElementById('editInvitedByCode').value||null,
-        is_admin:             document.getElementById('editIsAdmin').checked,
-        can_see_invite:       document.getElementById('editCanSeeInvite').checked,
-        last_profile_update:  new Date().toISOString(),
-    };
-    const{error}=await supabase.from('profiles').update(payload).eq('id',id);
-    if(error){showToast('Error: '+error.message,'rose');return;}
-    showToast('User updated!','emerald');
-    closeEditUserModal();
-    loadUsers();
+  const id=document.getElementById('editUserId').value;
+  const upgAt=document.getElementById('editUpgradedAt').value;
+  const payload={
+    stage_name: document.getElementById('editStageName').value,
+    email: document.getElementById('editEmail').value,
+    user_type: document.getElementById('editUserType').value,
+    role: document.getElementById('editRole').value,
+    bio: document.getElementById('editBio').value,
+    profile_picture: document.getElementById('editProfilePicture').value,
+    search_key: document.getElementById('editSearchKey').value,
+    status_badge: document.getElementById('editStatusBadge').value,
+    tier: document.getElementById('editTier').value,
+    payment_id: document.getElementById('editPaymentId').value||null,
+    coins: parseInt(document.getElementById('editCoins').value)||0,
+    score: parseInt(document.getElementById('editScore').value)||0,
+    upgraded_at: upgAt ? new Date(upgAt).toISOString() : null,
+    max_audio_previews: parseInt(document.getElementById('editMaxAudioPreviews').value)||10,
+    max_releases: parseInt(document.getElementById('editMaxReleases').value)||6,
+    max_edits: parseInt(document.getElementById('editMaxEdits').value)||1,
+    current_audio_count: parseInt(document.getElementById('editCurrentAudioCount').value)||0,
+    current_release_count:parseInt(document.getElementById('editCurrentReleaseCount').value)||0,
+    edits_remaining: parseInt(document.getElementById('editEditsRemaining').value)||0,
+    track_count: parseInt(document.getElementById('editTrackCount').value)||0,
+    collab_count: parseInt(document.getElementById('editCollabCount').value)||0,
+    invite_count: parseInt(document.getElementById('editInviteCount').value)||0,
+    invite_pro: parseInt(document.getElementById('editInvitePro').value)||0,
+    invite_code: document.getElementById('editInviteCode').value||null,
+    invited_by_code: document.getElementById('editInvitedByCode').value||null,
+    is_admin: document.getElementById('editIsAdmin').checked,
+    can_see_invite: document.getElementById('editCanSeeInvite').checked,
+    last_profile_update: new Date().toISOString(),
+  };
+  const{error}=await supabase.from('profiles').update(payload).eq('id',id);
+  if(error){showToast('Error: '+error.message,'rose');return;}
+  showToast('User updated!','emerald');
+  closeEditUserModal();
+  loadUsers();
 };
-window.toggleAdmin=async function(id,cur){if(!confirm(`${cur?'Revoke':'Grant'} admin for this user?`))return;const{error}=await supabase.from('profiles').update({is_admin:!cur}).eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast(cur?'Admin revoked':'Admin granted!',cur?'amber':'emerald');loadUsers();};
-window.deleteUser=async function(id,name){if(!confirm(`Delete \( {name}? This permanently removes all their data!`))return;await Promise.all([supabase.from('posts').delete().eq('user_id',id),supabase.from('comments').delete().eq('user_id',id),supabase.from('post_likes').delete().eq('user_id',id),supabase.from('post_shares').delete().eq('user_id',id),supabase.from('post_bookmarks').delete().eq('user_id',id),supabase.from('notifications').delete().eq('user_id',id)]);await supabase.from('profiles').delete().eq('id',id);showToast(` \){name} deleted`,'rose');loadUsers();loadStats();};
 
-/* POSTS */
+window.toggleAdmin=async function(id,cur){if(!confirm(`${cur?'Revoke':'Grant'} admin for this user?`))return;const{error}=await supabase.from('profiles').update({is_admin:!cur}).eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast(cur?'Admin revoked':'Admin granted!',cur?'amber':'emerald');loadUsers();};
+window.deleteUser=async function(id,name){if(!confirm(`Delete ${name}? This permanently removes all their data!`))return;await Promise.all([supabase.from('posts').delete().eq('user_id',id),supabase.from('comments').delete().eq('user_id',id),supabase.from('post_likes').delete().eq('user_id',id),supabase.from('post_shares').delete().eq('user_id',id),supabase.from('post_bookmarks').delete().eq('user_id',id),supabase.from('notifications').delete().eq('user_id',id)]);await supabase.from('profiles').delete().eq('id',id);showToast(`${name} deleted`,'rose');loadUsers();loadStats();};
+
+/* ──────────────────────────────────────────
+   POSTS
+────────────────────────────────────────── */
 window.loadPosts=async function(){const c=document.getElementById('postsContainer');c.innerHTML=loading();const s=(document.getElementById('postSearch')?.value||'').toLowerCase();const{data,error}=await supabase.from('posts').select('*,profiles(stage_name,profile_picture)').order('created_at',{ascending:false});if(error){c.innerHTML=err();return;}allPosts=data||[];let f=allPosts;if(s)f=allPosts.filter(p=>p.content?.toLowerCase().includes(s)||p.profiles?.stage_name?.toLowerCase().includes(s));if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-article-line"></i><p>No posts found</p></div>';return;}
 c.innerHTML=`<table class="data-table"><thead><tr><th>Author</th><th>Content</th><th>❤️</th><th>💬</th><th>Date</th><th>Actions</th></tr></thead><tbody>${
-    f.map(p=>{const prev=(p.content||'').substring(0,70)+(p.content?.length>70?'…':'');return`<tr>
-    <td class="no-label"><div class="user-cell"><img src="\( {p.profiles?.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name= \){encodeURIComponent(p.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><span class="user-name">${p.profiles?.stage_name||'—'}</span></div></td>
-    <td data-label="Content" style="max-width:200px;">${prev}</td>
-    <td data-label="Likes"><strong>${p.likes||0}</strong></td>
-    <td data-label="Comments"><strong>${p.comments||0}</strong></td>
-    <td data-label="Date">${new Date(p.created_at).toLocaleDateString()}</td>
-    <td class="no-label" style="padding-top:6px;"><div class="act-group">
-        <button class="act-btn view" title="View" onclick="viewContent('Post',\`${(p.content||'').replace(/`/g,'\\`')}\`)"><i class="ri-eye-line"></i></button>
-        <button class="act-btn edit" title="Edit" onclick="openEditPost('${p.id}')"><i class="ri-edit-line"></i></button>
-        <button class="act-btn promote" title="Admin comment" onclick="openAdminComment('${p.id}')"><i class="ri-chat-3-line"></i></button>
-        <button class="act-btn del" title="Delete" onclick="deletePost('${p.id}')"><i class="ri-delete-bin-line"></i></button>
-    </div></td></tr>`;}).join('')
+f.map(p=>{const prev=(p.content||'').substring(0,70)+(p.content?.length>70?'…':'');return`<tr>
+<td class="no-label"><div class="user-cell"><img src="${p.profiles?.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><span class="user-name">${p.profiles?.stage_name||'—'}</span></div></td>
+<td data-label="Content" style="max-width:200px;">${prev}</td>
+<td data-label="Likes"><strong>${p.likes||0}</strong></td>
+<td data-label="Comments"><strong>${p.comments||0}</strong></td>
+<td data-label="Date">${new Date(p.created_at).toLocaleDateString()}</td>
+<td class="no-label" style="padding-top:6px;"><div class="act-group">
+<button class="act-btn view" title="View" onclick="viewContent('Post',\`${(p.content||'').replace(/`/g,'\\`')}\`)"><i class="ri-eye-line"></i></button>
+<button class="act-btn edit" title="Edit" onclick="openEditPost('${p.id}')"><i class="ri-edit-line"></i></button>
+<button class="act-btn promote" title="Admin comment" onclick="openAdminComment('${p.id}')"><i class="ri-chat-3-line"></i></button>
+<button class="act-btn del" title="Delete" onclick="deletePost('${p.id}')"><i class="ri-delete-bin-line"></i></button>
+</div></td></tr>`;}).join('')
 }</tbody></table>`;};
 window.openEditPost=function(id){const p=allPosts.find(x=>x.id===id);if(!p)return;document.getElementById('editPostId').value=p.id;document.getElementById('editPostContent').value=p.content||'';document.getElementById('editPostModal').classList.add('active');};
 window.closeEditPostModal=()=>document.getElementById('editPostModal').classList.remove('active');
@@ -783,81 +913,412 @@ window.savePostEdit=async function(){const id=document.getElementById('editPostI
 window.deletePost=async function(id){if(!confirm('Delete this post and all comments?'))return;await Promise.all([supabase.from('comments').delete().eq('post_id',id),supabase.from('post_likes').delete().eq('post_id',id),supabase.from('post_shares').delete().eq('post_id',id),supabase.from('post_bookmarks').delete().eq('post_id',id)]);await supabase.from('posts').delete().eq('id',id);showToast('Post deleted','rose');loadPosts();loadStats();};
 window.openAdminComment=async function(id){currentPostForComment=id;document.getElementById('adminCommentText').value='';document.getElementById('adminCommentModal').classList.add('active');await loadPostComments(id);};
 window.closeAdminCommentModal=function(){document.getElementById('adminCommentModal').classList.remove('active');currentPostForComment=null;};
-async function loadPostComments(postId){const el=document.getElementById('postCommentsContainer');const{data}=await supabase.from('comments').select('*,profiles(stage_name,profile_picture,is_admin)').eq('post_id',postId).order('created_at',{ascending:false});if(!data?.length){el.innerHTML='<p style="padding:12px 16px;color:var(--text3);font-size:13px;">No comments yet.</p>';return;}el.innerHTML=data.map(cc=>`<div class="notif-row"><img src="\( {cc.profiles?.profile_picture||'user.webp'}" class="user-avatar" style="width:28px;height:28px;" onerror="this.src='https://ui-avatars.com/api/?name= \){encodeURIComponent(cc.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><div class="notif-body"><div class="notif-who">\( {cc.profiles?.stage_name||'—'} \){cc.profiles?.is_admin?'<span class="badge badge-admin">Admin</span>':''}</div><div class="notif-msg">\( {cc.content}</div><div class="notif-time"> \){timeAgo(cc.created_at)}</div></div></div>`).join('');}
+async function loadPostComments(postId){const el=document.getElementById('postCommentsContainer');const{data}=await supabase.from('comments').select('*,profiles(stage_name,profile_picture,is_admin)').eq('post_id',postId).order('created_at',{ascending:false});if(!data?.length){el.innerHTML='<p style="padding:12px 16px;color:var(--text3);font-size:13px;">No comments yet.</p>';return;}el.innerHTML=data.map(cc=>`<div class="notif-row"><img src="${cc.profiles?.profile_picture||'user.webp'}" class="user-avatar" style="width:28px;height:28px;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cc.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><div class="notif-body"><div class="notif-who">${cc.profiles?.stage_name||'—'}${cc.profiles?.is_admin?'<span class="badge badge-admin">Admin</span>':''}</div><div class="notif-msg">${cc.content}</div><div class="notif-time">${timeAgo(cc.created_at)}</div></div></div>`).join('');}
 window.postAdminComment=async function(){const content=document.getElementById('adminCommentText').value.trim();if(!content){showToast('Write something first','amber');return;}const{error}=await supabase.from('comments').insert({post_id:currentPostForComment,user_id:currentAdmin.id,content});if(error){showToast('Error: '+error.message,'rose');return;}const{data:post}=await supabase.from('posts').select('comments').eq('id',currentPostForComment).single();await supabase.from('posts').update({comments:(post?.comments||0)+1}).eq('id',currentPostForComment);showToast('Comment posted!','emerald');document.getElementById('adminCommentText').value='';await loadPostComments(currentPostForComment);loadPosts();loadStats();};
 
-/* COMMENTS */
+/* ──────────────────────────────────────────
+   COMMENTS
+────────────────────────────────────────── */
 window.loadComments=async function(){const c=document.getElementById('commentsContainer');c.innerHTML=loading();const s=(document.getElementById('commentSearch')?.value||'').toLowerCase();const{data,error}=await supabase.from('comments').select('*,profiles(stage_name,profile_picture),posts(content)').order('created_at',{ascending:false}).limit(200);if(error){c.innerHTML=err();return;}allComments=data||[];let f=allComments;if(s)f=allComments.filter(x=>x.content?.toLowerCase().includes(s)||x.profiles?.stage_name?.toLowerCase().includes(s));if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-chat-3-line"></i><p>No comments found</p></div>';return;}
 c.innerHTML=`<table class="data-table"><thead><tr><th>Author</th><th>Comment</th><th>Post</th><th>Date</th><th>Actions</th></tr></thead><tbody>${
-    f.map(x=>`<tr>
-    <td class="no-label"><div class="user-cell"><img src="\( {x.profiles?.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name= \){encodeURIComponent(x.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><span class="user-name">${x.profiles?.stage_name||'—'}</span></div></td>
-    <td data-label="Comment" style="max-width:180px;">\( {(x.content||'').substring(0,70)} \){x.content?.length>70?'…':''}</td>
-    <td data-label="Post" style="max-width:120px;color:var(--text3);font-size:12px;">${(x.posts?.content||'').substring(0,40)}…</td>
-    <td data-label="Date">${new Date(x.created_at).toLocaleDateString()}</td>
-    <td class="no-label" style="padding-top:6px;"><div class="act-group">
-        <button class="act-btn edit" title="Edit" onclick="openEditComment('${x.id}')"><i class="ri-edit-line"></i></button>
-        <button class="act-btn del" title="Delete" onclick="deleteComment('\( {x.id}',' \){x.post_id}')"><i class="ri-delete-bin-line"></i></button>
-    </div></td></tr>`).join('')
+f.map(x=>`<tr>
+<td class="no-label"><div class="user-cell"><img src="${x.profiles?.profile_picture||'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(x.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><span class="user-name">${x.profiles?.stage_name||'—'}</span></div></td>
+<td data-label="Comment" style="max-width:180px;">${(x.content||'').substring(0,70)}${x.content?.length>70?'…':''}</td>
+<td data-label="Post" style="max-width:120px;color:var(--text3);font-size:12px;">${(x.posts?.content||'').substring(0,40)}…</td>
+<td data-label="Date">${new Date(x.created_at).toLocaleDateString()}</td>
+<td class="no-label" style="padding-top:6px;"><div class="act-group">
+<button class="act-btn edit" title="Edit" onclick="openEditComment('${x.id}')"><i class="ri-edit-line"></i></button>
+<button class="act-btn del" title="Delete" onclick="deleteComment('${x.id}','${x.post_id}')"><i class="ri-delete-bin-line"></i></button>
+</div></td></tr>`).join('')
 }</tbody></table>`;};
 window.openEditComment=function(id){const x=allComments.find(c=>c.id===id);if(!x)return;document.getElementById('editCommentId').value=x.id;document.getElementById('editCommentContent').value=x.content||'';document.getElementById('editCommentModal').classList.add('active');};
 window.closeEditCommentModal=()=>document.getElementById('editCommentModal').classList.remove('active');
 window.saveCommentEdit=async function(){const id=document.getElementById('editCommentId').value;const content=document.getElementById('editCommentContent').value;const{error}=await supabase.from('comments').update({content}).eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast('Comment updated!','emerald');closeEditCommentModal();loadComments();};
 window.deleteComment=async function(id,postId){if(!confirm('Delete this comment?'))return;await supabase.from('comments').delete().eq('id',id);const{data:post}=await supabase.from('posts').select('comments').eq('id',postId).single();await supabase.from('posts').update({comments:Math.max(0,(post?.comments||1)-1)}).eq('id',postId);showToast('Comment deleted','rose');loadComments();loadStats();};
 
-/* ANNOUNCEMENTS */
-window.openBroadcastModal=async function(){document.getElementById('broadcastContent').value='';document.getElementById('filterType').value='';document.getElementById('filterRole').value='';document.getElementById('maxRecipients').value=0;document.getElementById('broadcastModal').classList.add('active');};
-window.closeBroadcastModal=()=>document.getElementById('broadcastModal').classList.remove('active');
-window.postAnnouncement=async function(){const content=document.getElementById('broadcastContent').value.trim();if(!content){showToast('Write a message first','amber');return;}const type=document.getElementById('filterType').value;const role=document.getElementById('filterRole').value;const max=parseInt(document.getElementById('maxRecipients').value)||0;let query=supabase.from('profiles').select('id').neq('id',currentAdmin.id);if(type)query=query.eq('user_type',type);if(role)query=query.eq('role',role);query=query.order('created_at',{ascending:false});if(max>0)query=query.limit(max);const{data:users,error}=await query;if(error){showToast('Error: '+error.message,'rose');return;}const ids=users?.map(u=>u.id)||[];if(!ids.length){showToast('No users match filters','amber');return;}const{error:insErr}=await supabase.from('notifications').insert(ids.map(uid=>({user_id:uid,actor_id:currentAdmin.id,type:'announcement',content})));if(insErr){showToast('Error: '+insErr.message,'rose');return;}showToast(`Sent to ${ids.length} users!`,'emerald');closeBroadcastModal();if(document.getElementById('announcements-tab').classList.contains('active'))loadAnnouncements();};
-window.loadAnnouncements=async function(){const c=document.getElementById('announcementsContainer');c.innerHTML=loading();const{data,error}=await supabase.from('notifications').select('id,content,created_at,actor_id').eq('actor_id',currentAdmin?.id).neq('user_id',currentAdmin?.id).order('created_at',{ascending:false});if(error){c.innerHTML=err();return;}const seen=new Set();const unique=(data||[]).filter(n=>{const k=n.content+n.created_at;if(seen.has(k))return false;seen.add(k);return true;});if(!unique.length){c.innerHTML='<div class="empty-state"><i class="ri-megaphone-line"></i><p>No announcements yet</p></div>';return;}c.innerHTML=unique.map(a=>`<div class="notif-row"><div class="notif-dot" style="background:var(--indigo);"></div><div class="notif-body"><div class="notif-who"><span class="badge badge-admin">Announcement</span></div><div class="notif-msg">\( {linkify((a.content||'').substring(0,100))} \){a.content?.length>100?'…':''}</div><div class="notif-time">\( {new Date(a.created_at).toLocaleString()}</div></div><div class="act-group" style="flex-direction:column;gap:4px;"><button class="act-btn view" title="View" onclick="viewAnnouncement(' \){a.id}')"><i class="ri-eye-line"></i></button><button class="act-btn del" title="Delete" onclick="deleteAnnouncement(\`\( {a.content.replace(/`/g,'\\`')}\`,' \){a.created_at}')"><i class="ri-delete-bin-line"></i></button></div></div>`).join('');};
-window.viewAnnouncement=async function(id){const{data}=await supabase.from('notifications').select('content,created_at').eq('id',id).single();if(!data)return;document.getElementById('announcementModalContent').innerHTML=`<p style="font-size:12px;color:var(--text3);margin-bottom:10px;">Sent: \( {new Date(data.created_at).toLocaleString()}</p><div class="preview-box"> \){linkify(data.content)}</div>`;document.getElementById('announcementModal').classList.add('active');};
-window.closeAnnouncementModal=()=>document.getElementById('announcementModal').classList.remove('active');
-window.deleteAnnouncement=async function(content,createdAt){if(!confirm('Delete for all recipients?'))return;const{error}=await supabase.from('notifications').delete().eq('content',content).eq('created_at',createdAt).eq('actor_id',currentAdmin.id);if(error){showToast('Error: '+error.message,'rose');return;}showToast('Announcement deleted','rose');loadAnnouncements();};
+/* ══════════════════════════════════════════
+   ANNOUNCEMENTS — Enhanced
+══════════════════════════════════════════ */
 
-/* NOTIFICATIONS */
-window.loadAllNotifications=async function(){const c=document.getElementById('notificationsContainer');c.innerHTML=loading();const s=(document.getElementById('notificationSearch')?.value||'').toLowerCase();const{data,error}=await supabase.from('notifications').select('*,profiles!notifications_user_id_fkey(stage_name)').order('created_at',{ascending:false}).limit(200);if(error){c.innerHTML=err();return;}allNotifications=data||[];let f=allNotifications;if(s)f=allNotifications.filter(n=>n.content?.toLowerCase().includes(s)||n.profiles?.stage_name?.toLowerCase().includes(s));if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-bell-line"></i><p>No notifications</p></div>';return;}c.innerHTML=f.map(n=>`<div class="notif-row"><div class="notif-dot" style="background:\( {n.type==='announcement'?'var(--indigo)':'var(--emerald)'};"></div><div class="notif-body"><div class="notif-who"> \){n.profiles?.stage_name||'—'}<span class="badge \( {n.type==='announcement'?'badge-admin':'badge-active'}"> \){n.type||'notif'}</span></div><div class="notif-msg">\( {n.type==='announcement'?linkify((n.content||'').substring(0,100)):(n.content||'').substring(0,100)} \){n.content?.length>100?'…':''}</div><div class="notif-time">\( {timeAgo(n.created_at)}</div></div><button class="act-btn del" title="Delete" onclick="deleteNotification(' \){n.id}')"><i class="ri-delete-bin-line"></i></button></div>`).join('');};
-window.deleteNotification=async function(id){if(!confirm('Delete this notification?'))return;const{error}=await supabase.from('notifications').delete().eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast('Deleted','rose');loadAllNotifications();};
+/* Open modal & load users */
+window.openBroadcastModal = async function() {
+  document.getElementById('broadcastContent').value = '';
+  document.getElementById('broadcastModal').classList.add('active');
+  document.getElementById('linkPanel').style.display = 'none';
+  document.getElementById('previewPane').style.display = 'none';
+  document.getElementById('linkToggleBtn').innerHTML = '<i class="ri-link"></i> Add Link';
+  selectedChips.clear();
+  chipCounts = {};
 
-/* GENERIC VIEW */
-window.viewContent=function(title,content){document.getElementById('viewModalTitle').textContent=title;document.getElementById('viewModalContent').textContent=content;document.getElementById('viewModal').classList.add('active');};
-window.closeViewModal=()=>document.getElementById('viewModal').classList.remove('active');
+  // Load all users
+  const { data } = await supabase.from('profiles').select('id,stage_name,role,user_type').order('stage_name');
+  broadcastUsers = (data || []).filter(u => u.id !== currentAdmin?.id);
 
-/* TABS */
-window.switchTab=function(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.querySelector(`[data-tab="\( {tab}"]`)?.classList.add('active');document.getElementById(` \){tab}-tab`)?.classList.add('active');if(tab==='dashboard')loadActivityLog();else if(tab==='users')loadUsers();else if(tab==='posts')loadPosts();else if(tab==='comments')loadComments();else if(tab==='announcements')loadAnnouncements();else if(tab==='notifications')loadAllNotifications();};
+  // Build role chips
+  buildRoleChips();
+  // Default to 'role' mode
+  setRecipientMode('role');
+};
 
-/* LOGOUT */
-window.handleLogout=async function(){if(confirm('Log out?')){await supabase.auth.signOut();window.location.href='login.html';}};
+window.closeBroadcastModal = () => document.getElementById('broadcastModal').classList.remove('active');
 
-/* TOAST */
-window.showToast=function(msg,type='emerald'){const clr={emerald:'#059669',rose:'#e11d48',amber:'#d97706',indigo:'#4f46e5'};const ico={emerald:'ri-check-line',rose:'ri-error-warning-line',amber:'ri-alert-line',indigo:'ri-information-line'};const t=document.createElement('div');t.className='toast';t.style.borderLeft=`3px solid \( {clr[type]||clr.emerald}`;t.innerHTML=`<i class=" \){ico[type]||ico.emerald}" style="color:\( {clr[type]||clr.emerald}"></i><span> \){msg}</span>`;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},3000);};
-
-/* HELPERS */
-function loading(){return'<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';}
-function err(){return'<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error loading data</p></div>';}
-function timeAgo(d){const s=Math.floor((Date.now()-new Date(d))/1000);if(s<60)return`\( {s}s ago`;if(s<3600)return` \){Math.floor(s/60)}m ago`;if(s<86400)return`\( {Math.floor(s/3600)}h ago`;if(s<2592000)return` \){Math.floor(s/86400)}d ago`;return new Date(d).toLocaleDateString();}
-function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
-function linkify(text){return text.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" style="color:var(--indigo);text-decoration:underline;">$1</a>');}
-
-/* REALTIME */
-function wireRealtime(){
-    supabase.channel('keli-admin').on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>{loadStats();if(document.getElementById('users-tab').classList.contains('active'))loadUsers();}).on('postgres_changes',{event:'*',schema:'public',table:'posts'},()=>{loadStats();if(document.getElementById('posts-tab').classList.contains('active'))loadPosts();}).on('postgres_changes',{event:'*',schema:'public',table:'comments'},()=>{loadStats();if(document.getElementById('comments-tab').classList.contains('active'))loadComments();}).on('postgres_changes',{event:'*',schema:'public',table:'notifications'},()=>{if(document.getElementById('announcements-tab').classList.contains('active'))loadAnnouncements();if(document.getElementById('notifications-tab').classList.contains('active'))loadAllNotifications();}).subscribe();
-    setInterval(loadStats,30000);
+/* Build clickable role/type chips */
+function buildRoleChips() {
+  const grid = document.getElementById('roleChips');
+  grid.innerHTML = ALL_CHIPS.map(chip => {
+    const count = broadcastUsers.filter(u => u[chip.field] === chip.value).length;
+    return `<div class="role-chip" id="chip_${chip.key}" onclick="toggleChip('${chip.key}')">
+      <i class="${chip.icon} rc-icon"></i>
+      <div class="rc-label">${chip.label}</div>
+      <div class="rc-count">${count} user${count!==1?'s':''}</div>
+    </div>`;
+  }).join('');
 }
 
-/* INIT */
+/* Toggle a role chip on/off */
+window.toggleChip = function(key) {
+  const chip = ALL_CHIPS.find(c => c.key === key);
+  if (!chip) return;
+  if (selectedChips.has(key)) {
+    selectedChips.delete(key);
+    document.getElementById('chip_'+key)?.classList.remove('selected');
+  } else {
+    selectedChips.add(key);
+    document.getElementById('chip_'+key)?.classList.add('selected');
+    // Init count for this chip
+    const maxCount = broadcastUsers.filter(u => u[chip.field] === chip.value).length;
+    if (!chipCounts[key]) chipCounts[key] = { max: maxCount, chosen: maxCount };
+    else chipCounts[key].max = maxCount;
+  }
+  renderCountControls();
+  updateSummary();
+};
+
+/* Render per-role count controls */
+function renderCountControls() {
+  const container = document.getElementById('roleCountControls');
+  if (selectedChips.size === 0) { container.innerHTML = ''; return; }
+
+  container.innerHTML = [...selectedChips].map(key => {
+    const chip = ALL_CHIPS.find(c => c.key === key);
+    if (!chip) return '';
+    const maxCount = broadcastUsers.filter(u => u[chip.field] === chip.value).length;
+    chipCounts[key] = chipCounts[key] || { max: maxCount, chosen: maxCount };
+    const chosen = chipCounts[key].chosen;
+    return `<div class="count-control-row">
+      <div>
+        <div class="cc-label"><i class="${chip.icon}" style="font-size:14px;vertical-align:middle;margin-right:4px;"></i>${chip.label}</div>
+        <div class="cc-sub">${maxCount} available · send to how many?</div>
+      </div>
+      <div class="count-input-wrap">
+        <button class="count-adj-btn" onclick="adjustCount('${key}',-1)">−</button>
+        <input type="number" min="0" max="${maxCount}" value="${chosen}" id="countInput_${key}"
+          oninput="onCountInput('${key}',this.value)" style="width:70px;text-align:center;padding:7px 10px;font-size:13px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--white);color:var(--text);font-family:inherit;font-weight:700;outline:none;">
+        <button class="count-adj-btn" onclick="adjustCount('${key}',1)">+</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.adjustCount = function(key, delta) {
+  if (!chipCounts[key]) return;
+  const max = chipCounts[key].max;
+  chipCounts[key].chosen = Math.max(0, Math.min(max, chipCounts[key].chosen + delta));
+  const input = document.getElementById('countInput_' + key);
+  if (input) input.value = chipCounts[key].chosen;
+  updateSummary();
+};
+
+window.onCountInput = function(key, val) {
+  if (!chipCounts[key]) return;
+  const parsed = parseInt(val) || 0;
+  chipCounts[key].chosen = Math.max(0, Math.min(chipCounts[key].max, parsed));
+  updateSummary();
+};
+
+/* Update the recipient summary line */
+function updateSummary() {
+  const el = document.getElementById('summaryText');
+  if (recipientMode === 'all') {
+    const total = broadcastUsers.length;
+    el.textContent = `Will send to all ${total} users`;
+    return;
+  }
+  if (recipientMode === 'user') {
+    const checked = document.querySelectorAll('#userCheckboxes input:checked').length;
+    el.textContent = checked > 0 ? `${checked} user${checked!==1?'s':''} selected` : 'No users selected';
+    return;
+  }
+  // role mode — compute resolved unique recipients
+  const ids = resolveRoleRecipients().size;
+  if (ids === 0) {
+    el.textContent = 'Select at least one role above';
+  } else {
+    const parts = [...selectedChips].map(key => {
+      const chip = ALL_CHIPS.find(c => c.key === key);
+      const n = chipCounts[key]?.chosen ?? 0;
+      return `${n} ${chip?.label || key}`;
+    });
+    el.textContent = `${ids} recipient${ids!==1?'s':''} · ${parts.join(', ')}`;
+  }
+}
+
+/* Resolve the set of user IDs for 'role' mode */
+function resolveRoleRecipients() {
+  const idSet = new Set();
+  for (const key of selectedChips) {
+    const chip = ALL_CHIPS.find(c => c.key === key);
+    if (!chip) continue;
+    const matching = broadcastUsers.filter(u => u[chip.field] === chip.value);
+    const count = chipCounts[key]?.chosen ?? matching.length;
+    matching.slice(0, count).forEach(u => idSet.add(u.id));
+  }
+  return idSet;
+}
+
+/* Switch recipient mode */
+window.setRecipientMode = function(mode) {
+  recipientMode = mode;
+  ['role','user','all'].forEach(m => {
+    document.getElementById('recipientBy' + m.charAt(0).toUpperCase() + m.slice(1)).style.display = m === mode ? 'block' : 'none';
+    document.getElementById('mode' + m.charAt(0).toUpperCase() + m.slice(1)).classList.toggle('active', m === mode);
+  });
+
+  // Populate user list for 'user' mode
+  if (mode === 'user') {
+    const box = document.getElementById('userCheckboxes');
+    if (!broadcastUsers.length) { box.innerHTML = '<p style="padding:8px;font-size:12px;color:var(--text3);">No users</p>'; }
+    else {
+      box.innerHTML = broadcastUsers.map(u => `
+        <div class="ucheck">
+          <input type="checkbox" id="uc_${u.id}" value="${u.id}" checked onchange="updateSummary()">
+          <label for="uc_${u.id}">${u.stage_name || u.id}</label>
+          <span class="user-role-tag">${u.role || 'user'}</span>
+        </div>`).join('');
+    }
+  }
+
+  if (mode === 'all') {
+    document.getElementById('everyoneCount').textContent =
+      `This will send to all ${broadcastUsers.length} users.`;
+  }
+
+  updateSummary();
+};
+
+/* Select / Deselect All (user mode) */
+window.toggleSelectAll = function() {
+  const all = [...document.querySelectorAll('#userCheckboxes input[type="checkbox"]')];
+  const checked = all.every(c => c.checked);
+  all.forEach(c => c.checked = !checked);
+  document.getElementById('selectAllBtn').textContent = checked ? 'Select All' : 'Deselect All';
+  updateSummary();
+};
+
+/* ─── LINK BUILDER ─── */
+window.toggleLinkPanel = function() {
+  const panel = document.getElementById('linkPanel');
+  const btn = document.getElementById('linkToggleBtn');
+  const visible = panel.style.display !== 'none';
+  panel.style.display = visible ? 'none' : 'block';
+  btn.innerHTML = visible ? '<i class="ri-link"></i> Add Link' : '<i class="ri-close-line"></i> Close';
+};
+
+window.insertLink = function() {
+  const text = document.getElementById('linkText').value.trim();
+  const url = document.getElementById('linkUrl').value.trim();
+  if (!url) { showToast('Enter a URL first', 'amber'); return; }
+  const label = text || url;
+  const textarea = document.getElementById('broadcastContent');
+  const marker = `[${label}](${url})`;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  textarea.value = textarea.value.substring(0, start) + marker + textarea.value.substring(end);
+  textarea.focus();
+  textarea.selectionStart = textarea.selectionEnd = start + marker.length;
+  document.getElementById('linkText').value = '';
+  document.getElementById('linkUrl').value = '';
+  showToast('Link inserted!', 'emerald');
+};
+
+/* Toggle preview pane */
+window.previewAnnouncement = function() {
+  const pane = document.getElementById('previewPane');
+  const content = document.getElementById('broadcastContent').value;
+  if (pane.style.display === 'none') {
+    document.getElementById('previewContent').innerHTML = renderAnnouncementContent(content) || '<em style="color:var(--text3);">Nothing to preview yet</em>';
+    pane.style.display = 'block';
+  } else {
+    pane.style.display = 'none';
+  }
+};
+
+/* Convert markdown-style [text](url) links to real <a> tags */
+function renderAnnouncementContent(text) {
+  if (!text) return '';
+  // Escape HTML first
+  let safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // Convert [label](url)
+  safe = safe.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,
+    (_, label, url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`);
+  // Auto-link bare URLs not already in links
+  safe = safe.replace(/(?<![">])(https?:\/\/[^\s<]+)/g,
+    url => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+  // Newlines → <br>
+  return safe.replace(/\n/g, '<br>');
+}
+
+/* Send announcement */
+window.postAnnouncement = async function() {
+  const content = document.getElementById('broadcastContent').value.trim();
+  if (!content) { showToast('Write a message first', 'amber'); return; }
+
+  let ids = [];
+  if (recipientMode === 'all') {
+    ids = broadcastUsers.map(u => u.id);
+  } else if (recipientMode === 'user') {
+    ids = [...document.querySelectorAll('#userCheckboxes input:checked')].map(c => c.value);
+  } else {
+    ids = [...resolveRoleRecipients()];
+  }
+
+  if (!ids.length) { showToast('Select at least one recipient', 'amber'); return; }
+
+  const { error } = await supabase.from('notifications').insert(
+    ids.map(uid => ({ user_id: uid, actor_id: currentAdmin.id, type: 'announcement', content }))
+  );
+  if (error) { showToast('Error: ' + error.message, 'rose'); return; }
+  showToast(`Sent to ${ids.length} user${ids.length!==1?'s':''}!`, 'emerald');
+  closeBroadcastModal();
+  if (document.getElementById('announcements-tab').classList.contains('active')) loadAnnouncements();
+};
+
+/* Load announcements list */
+window.loadAnnouncements = async function() {
+  const c = document.getElementById('announcementsContainer');
+  c.innerHTML = loading();
+  const { data, error } = await supabase.from('notifications')
+    .select('id,content,created_at,actor_id')
+    .eq('actor_id', currentAdmin?.id)
+    .neq('user_id', currentAdmin?.id)
+    .order('created_at', { ascending: false });
+  if (error) { c.innerHTML = err(); return; }
+  const seen = new Set();
+  const unique = (data || []).filter(n => {
+    const k = n.content + n.created_at;
+    if (seen.has(k)) return false;
+    seen.add(k); return true;
+  });
+  if (!unique.length) {
+    c.innerHTML = '<div class="empty-state"><i class="ri-megaphone-line"></i><p>No announcements yet</p></div>';
+    return;
+  }
+  c.innerHTML = unique.map(a => {
+    const preview = (a.content || '').substring(0, 120) + (a.content?.length > 120 ? '…' : '');
+    const safeId = a.id;
+    const safeContent = encodeURIComponent(a.content || '');
+    const safeDate = encodeURIComponent(a.created_at);
+    return `<div class="notif-row">
+      <div class="notif-dot" style="background:var(--indigo);margin-top:5px;"></div>
+      <div class="notif-body">
+        <div class="notif-who"><span class="badge badge-admin">Announcement</span></div>
+        <div class="notif-msg ann-msg-rendered">${renderAnnouncementContent(preview)}</div>
+        <div class="notif-time">${new Date(a.created_at).toLocaleString()}</div>
+      </div>
+      <div class="act-group" style="flex-direction:column;gap:4px;">
+        <button class="act-btn view" title="View" onclick="viewAnnouncement('${safeId}')"><i class="ri-eye-line"></i></button>
+        <button class="act-btn del" title="Delete" onclick="deleteAnnouncement('${safeContent}','${safeDate}')"><i class="ri-delete-bin-line"></i></button>
+      </div>
+    </div>`;
+  }).join('');
+};
+
+window.viewAnnouncement = async function(id) {
+  const { data } = await supabase.from('notifications').select('content,created_at').eq('id', id).single();
+  if (!data) return;
+  document.getElementById('announcementModalContent').innerHTML = `
+    <p style="font-size:12px;color:var(--text3);margin-bottom:10px;">Sent: ${new Date(data.created_at).toLocaleString()}</p>
+    <div class="preview-box ann-msg-rendered">${renderAnnouncementContent(data.content)}</div>`;
+  document.getElementById('announcementModal').classList.add('active');
+};
+window.closeAnnouncementModal = () => document.getElementById('announcementModal').classList.remove('active');
+
+window.deleteAnnouncement = async function(encodedContent, encodedDate) {
+  if (!confirm('Delete for all recipients?')) return;
+  const content = decodeURIComponent(encodedContent);
+  const createdAt = decodeURIComponent(encodedDate);
+  const { error } = await supabase.from('notifications').delete()
+    .eq('content', content).eq('created_at', createdAt).eq('actor_id', currentAdmin.id);
+  if (error) { showToast('Error: ' + error.message, 'rose'); return; }
+  showToast('Announcement deleted', 'rose');
+  loadAnnouncements();
+};
+
+/* ──────────────────────────────────────────
+   NOTIFICATIONS
+────────────────────────────────────────── */
+window.loadAllNotifications=async function(){const c=document.getElementById('notificationsContainer');c.innerHTML=loading();const s=(document.getElementById('notificationSearch')?.value||'').toLowerCase();const{data,error}=await supabase.from('notifications').select('*,profiles!notifications_user_id_fkey(stage_name)').order('created_at',{ascending:false}).limit(200);if(error){c.innerHTML=err();return;}allNotifications=data||[];let f=allNotifications;if(s)f=allNotifications.filter(n=>n.content?.toLowerCase().includes(s)||n.profiles?.stage_name?.toLowerCase().includes(s));if(!f.length){c.innerHTML='<div class="empty-state"><i class="ri-bell-line"></i><p>No notifications</p></div>';return;}c.innerHTML=f.map(n=>`<div class="notif-row"><div class="notif-dot" style="background:${n.type==='announcement'?'var(--indigo)':'var(--emerald)'};"></div><div class="notif-body"><div class="notif-who">${n.profiles?.stage_name||'—'}<span class="badge ${n.type==='announcement'?'badge-admin':'badge-active'}">${n.type||'notif'}</span></div><div class="notif-msg ann-msg-rendered">${n.type==='announcement'?renderAnnouncementContent((n.content||'').substring(0,100)):(n.content||'').substring(0,100)}${n.content?.length>100?'…':''}</div><div class="notif-time">${timeAgo(n.created_at)}</div></div><button class="act-btn del" title="Delete" onclick="deleteNotification('${n.id}')"><i class="ri-delete-bin-line"></i></button></div>`).join('');};
+window.deleteNotification=async function(id){if(!confirm('Delete this notification?'))return;const{error}=await supabase.from('notifications').delete().eq('id',id);if(error){showToast('Error: '+error.message,'rose');return;}showToast('Deleted','rose');loadAllNotifications();};
+
+/* ──────────────────────────────────────────
+   GENERIC VIEW
+────────────────────────────────────────── */
+window.viewContent=function(title,content){document.getElementById('viewModalTitle').textContent=title;document.getElementById('viewModalContent').innerHTML=renderAnnouncementContent(content);document.getElementById('viewModal').classList.add('active');};
+window.closeViewModal=()=>document.getElementById('viewModal').classList.remove('active');
+
+/* ──────────────────────────────────────────
+   TABS
+────────────────────────────────────────── */
+window.switchTab=function(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.querySelector(`[data-tab="${tab}"]`)?.classList.add('active');document.getElementById(`${tab}-tab`)?.classList.add('active');if(tab==='dashboard')loadActivityLog();else if(tab==='users')loadUsers();else if(tab==='posts')loadPosts();else if(tab==='comments')loadComments();else if(tab==='announcements')loadAnnouncements();else if(tab==='notifications')loadAllNotifications();};
+
+/* ──────────────────────────────────────────
+   LOGOUT
+────────────────────────────────────────── */
+window.handleLogout=async function(){if(confirm('Log out?')){await supabase.auth.signOut();window.location.href='login.html';}};
+
+/* ──────────────────────────────────────────
+   TOAST
+────────────────────────────────────────── */
+window.showToast=function(msg,type='emerald'){const clr={emerald:'#059669',rose:'#e11d48',amber:'#d97706',indigo:'#4f46e5'};const ico={emerald:'ri-check-line',rose:'ri-error-warning-line',amber:'ri-alert-line',indigo:'ri-information-line'};const t=document.createElement('div');t.className='toast';t.style.borderLeft=`3px solid ${clr[type]||clr.emerald}`;t.innerHTML=`<i class="${ico[type]||ico.emerald}" style="color:${clr[type]||clr.emerald}"></i><span>${msg}</span>`;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},3000);};
+
+/* ──────────────────────────────────────────
+   HELPERS
+────────────────────────────────────────── */
+function loading(){return'<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';}
+function err(){return'<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error loading data</p></div>';}
+function timeAgo(d){const s=Math.floor((Date.now()-new Date(d))/1000);if(s<60)return`${s}s ago`;if(s<3600)return`${Math.floor(s/60)}m ago`;if(s<86400)return`${Math.floor(s/3600)}h ago`;if(s<2592000)return`${Math.floor(s/86400)}d ago`;return new Date(d).toLocaleDateString();}
+function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
+
+/* ──────────────────────────────────────────
+   REALTIME
+────────────────────────────────────────── */
+function wireRealtime(){
+  supabase.channel('keli-admin')
+    .on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>{loadStats();if(document.getElementById('users-tab').classList.contains('active'))loadUsers();})
+    .on('postgres_changes',{event:'*',schema:'public',table:'posts'},()=>{loadStats();if(document.getElementById('posts-tab').classList.contains('active'))loadPosts();})
+    .on('postgres_changes',{event:'*',schema:'public',table:'comments'},()=>{loadStats();if(document.getElementById('comments-tab').classList.contains('active'))loadComments();})
+    .on('postgres_changes',{event:'*',schema:'public',table:'notifications'},()=>{if(document.getElementById('announcements-tab').classList.contains('active'))loadAnnouncements();if(document.getElementById('notifications-tab').classList.contains('active'))loadAllNotifications();})
+    .subscribe();
+  setInterval(loadStats,30000);
+}
+
+/* ──────────────────────────────────────────
+   INIT
+────────────────────────────────────────── */
 async function init(){
-    const ok=await checkAdmin();
-    const overlay=document.getElementById('loadingOverlay');
-    if(!ok){overlay.querySelector('.load-msg').textContent='Access denied. Redirecting…';return;}
-    overlay.style.opacity='0';overlay.style.transition='opacity 0.35s';
-    setTimeout(()=>overlay.remove(),350);
-    document.getElementById('app').style.display='block';
-    await Promise.all([loadStats(),loadActivityLog()]);
-    document.getElementById('userSearch')?.addEventListener('input',debounce(loadUsers,400));
-    document.getElementById('postSearch')?.addEventListener('input',debounce(loadPosts,400));
-    document.getElementById('commentSearch')?.addEventListener('input',debounce(loadComments,400));
-    document.getElementById('notificationSearch')?.addEventListener('input',debounce(loadAllNotifications,400));
-    wireRealtime();
-    showToast('Dashboard ready 👋','indigo');
+  const ok=await checkAdmin();
+  const overlay=document.getElementById('loadingOverlay');
+  if(!ok){overlay.querySelector('.load-msg').textContent='Access denied. Redirecting…';return;}
+  overlay.style.opacity='0';overlay.style.transition='opacity 0.35s';
+  setTimeout(()=>overlay.remove(),350);
+  document.getElementById('app').style.display='block';
+  await Promise.all([loadStats(),loadActivityLog()]);
+  document.getElementById('userSearch')?.addEventListener('input',debounce(loadUsers,400));
+  document.getElementById('postSearch')?.addEventListener('input',debounce(loadPosts,400));
+  document.getElementById('commentSearch')?.addEventListener('input',debounce(loadComments,400));
+  document.getElementById('notificationSearch')?.addEventListener('input',debounce(loadAllNotifications,400));
+  wireRealtime();
+  showToast('Dashboard ready 👋','indigo');
 }
 init();
 </script>
