@@ -3,2398 +3,1811 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keli Dashboard</title>
+    <title>Keli Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════
+   SQL POLICIES TO RUN IN SUPABASE SQL EDITOR
+   ═══════════════════════════════════════════
+   (See the big SQL block at the bottom of this file)
+*/
+
 :root {
-    --bg-primary: #f8fafc;
-    --bg-secondary: #ffffff;
-    --bg-card: #ffffff;
-    --accent-primary: #6366f1;
-    --accent-secondary: #8b5cf6;
-    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    --border: #e2e8f0;
-    --border-hover: #cbd5e1;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
-    --danger: #ef4444;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --hover: #f1f5f9;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    --radius-sm: 12px;
-    --radius-md: 16px;
-    --radius-lg: 20px;
-    --radius-xl: 24px;
+    --bg: #0d0d12;
+    --bg2: #13131c;
+    --bg3: #1a1a26;
+    --surface: #1e1e2e;
+    --surface2: #252536;
+    --border: #2a2a3e;
+    --border-glow: #4f46e5;
+    --text: #e8e8f0;
+    --text2: #9090b0;
+    --text3: #5a5a7a;
+    --indigo: #6366f1;
+    --indigo-glow: rgba(99,102,241,0.15);
+    --violet: #8b5cf6;
+    --emerald: #10b981;
+    --amber: #f59e0b;
+    --rose: #f43f5e;
+    --cyan: #06b6d4;
+    --grad: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --grad-soft: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(139,92,246,0.12) 100%);
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+    --r: 14px;
+    --r-sm: 8px;
+    --r-xs: 6px;
 }
 
-/* --- Global Reset --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- Main Container --- */
-.admin-container {
-    max-width: 100%;
-    margin: 0 auto;
-    min-height: 100vh;
-    padding: 0;
+/* ── LOADING OVERLAY ── */
+#loadingOverlay {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 99999;
+    gap: 20px;
 }
+.load-ring {
+    width: 56px; height: 56px;
+    border: 3px solid var(--border);
+    border-top-color: var(--indigo);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+#loadingOverlay p {
+    color: var(--text2); font-size: 14px; letter-spacing: 0.04em;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* --- Header --- */
-.admin-header {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    background: var(--bg-secondary);
+/* ── HEADER ── */
+.header {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(13,13,18,0.92);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: var(--shadow-sm);
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 20px;
+    height: 60px;
 }
-
-.admin-header h1 {
-    font-size: clamp(18px, 3vw, 22px);
-    font-weight: 700;
-    flex-grow: 1;
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.header-logo {
+    font-weight: 700; font-size: 18px;
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    flex-shrink: 0;
 }
-
+.header-badge {
+    background: var(--grad-soft);
+    border: 1px solid rgba(99,102,241,0.3);
+    color: var(--indigo);
+    font-size: 10px; font-weight: 700;
+    padding: 3px 8px; border-radius: 999px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    flex-shrink: 0;
+}
+.header-spacer { flex: 1; }
 #adminName {
-    font-size: clamp(12px, 2vw, 14px);
-    color: var(--text-secondary);
-    margin: 0 12px;
-    font-weight: 500;
+    font-size: 13px; color: var(--text2); font-weight: 500;
 }
-
 .logout-btn {
-    background: var(--bg-primary);
+    background: transparent;
     border: 1px solid var(--border);
-    color: var(--text-primary);
-    padding: 8px 16px;
-    border-radius: 999px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: clamp(12px, 2vw, 14px);
+    color: var(--text2);
+    padding: 7px 14px; border-radius: 999px;
+    cursor: pointer; font-size: 13px; font-family: inherit;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
     transition: all 0.2s;
-    white-space: nowrap;
 }
+.logout-btn:hover { border-color: var(--rose); color: var(--rose); }
 
-.logout-btn:hover {
-    background: #fee2e2;
-    border-color: var(--danger);
-    color: var(--danger);
-}
-
-/* --- Stats Grid (Material Design Cards) --- */
+/* ── STATS ── */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
-    padding: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px; padding: 20px 20px 0;
 }
-
 .stat-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    padding: 20px 16px;
-    box-shadow: var(--shadow-md);
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 18px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
 }
-
+.stat-card:hover { border-color: rgba(99,102,241,0.4); transform: translateY(-2px); }
 .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--accent-gradient);
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
 }
+.stat-card.s-indigo::before { background: var(--indigo); }
+.stat-card.s-emerald::before { background: var(--emerald); }
+.stat-card.s-amber::before { background: var(--amber); }
+.stat-card.s-rose::before { background: var(--rose); }
 
-.stat-card:active {
-    transform: scale(0.98);
-    box-shadow: var(--shadow-sm);
+.stat-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 12px;
 }
+.s-indigo .stat-icon { background: rgba(99,102,241,0.15); color: var(--indigo); }
+.s-emerald .stat-icon { background: rgba(16,185,129,0.15); color: var(--emerald); }
+.s-amber .stat-icon { background: rgba(245,158,11,0.15); color: var(--amber); }
+.s-rose .stat-icon { background: rgba(244,63,94,0.15); color: var(--rose); }
 
-.stat-card i {
-    font-size: 24px;
-    margin-bottom: 8px;
-    display: block;
-    color: var(--accent-primary);
+.stat-label {
+    font-size: 11px; color: var(--text3); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
 }
-
-.stat-card h3 {
-    font-size: 11px;
-    color: var(--text-secondary);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 6px;
+.stat-value {
+    font-size: 28px; font-weight: 700; letter-spacing: -0.04em;
+    color: var(--text);
 }
+.stat-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
 
-.stat-card .stat-value {
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 700;
-    margin: 4px 0;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
-}
-
-.stat-change {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-}
-
-/* --- Quick Actions (Material Cards) --- */
+/* ── QUICK ACTIONS ── */
 .quick-actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-    padding: 0 16px 16px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px; padding: 16px 20px;
 }
-
 .action-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    cursor: pointer;
-    box-shadow: var(--shadow-md);
-    transition: all 0.2s;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: all 0.2s;
 }
-
-.action-card:active {
-    transform: scale(0.98);
-    box-shadow: var(--shadow-sm);
+.action-card:hover {
+    border-color: rgba(99,102,241,0.4);
+    background: var(--surface2);
+    transform: translateY(-1px);
 }
-
 .action-card i {
-    font-size: 28px;
-    color: var(--accent-primary);
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-    padding: 12px;
-    border-radius: 12px;
+    font-size: 22px; color: var(--indigo);
+    background: var(--grad-soft);
+    border: 1px solid rgba(99,102,241,0.2);
+    padding: 10px; border-radius: 10px;
+    flex-shrink: 0;
 }
+.ac-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.ac-sub { font-size: 12px; color: var(--text3); }
 
-.action-card-content {
-    flex: 1;
-}
-
-.action-card-content h3 {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 2px;
-    color: var(--text-primary);
-}
-
-.action-card-content p {
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
-/* --- Tabs (Material Design) --- */
+/* ── TABS ── */
 .tabs {
-    display: flex;
-    background: var(--bg-secondary);
+    display: flex; overflow-x: auto;
     border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-    gap: 0;
+    background: var(--bg2);
     scrollbar-width: none;
-    -ms-overflow-style: none;
+    margin: 0 0 0 0;
+    padding: 0 20px;
+    gap: 0;
 }
-
-.tabs::-webkit-scrollbar {
-    display: none;
-}
-
+.tabs::-webkit-scrollbar { display: none; }
 .tab {
-    flex: 1;
-    min-width: 100px;
-    padding: 16px 20px;
-    background: transparent;
-    border: none;
-    border-bottom: 3px solid transparent;
-    color: var(--text-secondary);
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    white-space: nowrap;
+    padding: 14px 18px;
+    background: transparent; border: none; border-bottom: 2px solid transparent;
+    color: var(--text3); font-weight: 600; font-size: 13px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 7px;
+    white-space: nowrap; font-family: inherit;
+    margin-bottom: -1px;
 }
+.tab:hover { color: var(--text2); }
+.tab.active { color: var(--indigo); border-bottom-color: var(--indigo); }
 
-.tab:active {
-    background: var(--hover);
-}
+/* ── CONTENT ── */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
-.tab.active {
-    color: var(--accent-primary);
-    border-bottom-color: var(--accent-primary);
-}
-
-/* --- Content & Toolbars --- */
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.content-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    margin: 16px;
-    box-shadow: var(--shadow-md);
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin: 16px 20px;
     overflow: hidden;
 }
-
-.content-card h2 {
-    padding: 16px 20px;
-    font-size: 18px;
-    font-weight: 600;
+.panel-header {
+    padding: 14px 20px;
     border-bottom: 1px solid var(--border);
-    color: var(--text-primary);
+    display: flex; align-items: center; gap: 10px;
 }
+.panel-header h2 {
+    font-size: 15px; font-weight: 600; color: var(--text); flex: 1;
+}
+.panel-header i { color: var(--indigo); font-size: 18px; }
 
+/* ── TOOLBAR ── */
 .toolbar {
     padding: 12px 16px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
     border-bottom: 1px solid var(--border);
-    background: var(--bg-primary);
+    background: var(--bg3);
 }
-
-.search-bar {
-    flex: 1;
-    min-width: 200px;
-}
-
+.search-bar { flex: 1; min-width: 180px; }
 .search-bar input {
     width: 100%;
-    background: var(--bg-secondary);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 10px 16px;
-    color: var(--text-primary);
-    font-size: 14px;
+    padding: 9px 16px;
+    color: var(--text); font-size: 13px; font-family: inherit;
     transition: all 0.2s;
 }
-
 .search-bar input:focus {
     outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px var(--indigo-glow);
 }
+.search-bar input::placeholder { color: var(--text3); }
 
-.search-bar input::placeholder {
-    color: var(--text-muted);
-}
-
-/* --- Buttons --- */
+/* ── BUTTONS ── */
 .btn {
-    padding: 10px 20px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s;
-    white-space: nowrap;
+    padding: 9px 18px; border-radius: 999px;
+    font-weight: 600; font-size: 13px; cursor: pointer; border: none;
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: all 0.2s; white-space: nowrap; font-family: inherit;
 }
-
-.btn:active {
-    transform: scale(0.96);
-}
-
-.btn-primary {
-    background: var(--accent-gradient);
-    color: white;
-    box-shadow: var(--shadow-sm);
-}
-
+.btn-primary { background: var(--grad); color: white; }
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
 .btn-secondary {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    color: var(--text-primary);
+    background: var(--surface); border: 1px solid var(--border); color: var(--text2);
 }
+.btn-secondary:hover { border-color: var(--indigo); color: var(--indigo); }
+.btn-danger { background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.3); color: var(--rose); }
+.btn-danger:hover { background: rgba(244,63,94,0.2); }
 
-.btn-secondary:hover {
-    background: var(--hover);
-}
-
-/* --- Data Tables --- */
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.data-table thead {
-    background: var(--bg-primary);
-}
-
+/* ── TABLE ── */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table thead { background: var(--bg3); }
 .data-table th {
-    padding: 12px 16px;
-    text-align: left;
-    color: var(--text-secondary);
-    font-size: 12px;
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    padding: 11px 16px; text-align: left;
+    color: var(--text3); font-size: 11px;
+    text-transform: uppercase; font-weight: 700; letter-spacing: 0.06em;
     border-bottom: 1px solid var(--border);
 }
-
 .data-table td {
-    padding: 16px;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-    vertical-align: middle;
+    padding: 14px 16px; border-bottom: 1px solid rgba(42,42,62,0.5);
+    font-size: 13px; vertical-align: middle; color: var(--text2);
 }
+.data-table tbody tr { transition: background 0.15s; }
+.data-table tbody tr:hover { background: var(--bg3); }
+.data-table tbody tr:last-child td { border-bottom: none; }
 
-.data-table tbody tr:active {
-    background: var(--hover);
-}
-
-.user-cell {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
+.user-cell { display: flex; align-items: center; gap: 10px; }
 .user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: var(--bg-primary);
-    border: 2px solid var(--border);
+    width: 34px; height: 34px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--border);
+    background: var(--bg3); flex-shrink: 0;
 }
+.user-name { font-weight: 600; color: var(--text); font-size: 13px; }
+.user-sub { font-size: 11px; color: var(--text3); }
 
-/* --- Bottom Sheet (Android Style) --- */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
-    justify-content: flex-end;
-    align-items: flex-end;
-}
-
-.modal.active {
-    display: flex;
-    animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.modal-content {
-    background: var(--bg-secondary);
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    padding-bottom: env(safe-area-inset-bottom);
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(100%);
-    }
-    to {
-        transform: translateY(0);
-    }
-}
-
-.modal-header {
-    padding: 8px 20px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    background: var(--bg-secondary);
-    z-index: 1;
-}
-
-.modal-header::before {
-    content: '';
-    width: 40px;
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-bottom: 12px;
-}
-
-.modal-header-content {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header h2 {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.close-modal {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.2s;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.close-modal:active {
-    background: var(--hover);
-}
-
-.form-group {
-    padding: 16px 20px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-    font-weight: 600;
-}
-
-textarea,
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-    color: var(--text-primary);
-    font-size: 15px;
-    font-family: inherit;
-    resize: vertical;
-    outline: none;
-    transition: all 0.2s;
-}
-
-textarea:focus,
-input:focus {
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-
-/* --- Activity & Comments --- */
-.activity-item,
-.comment-item {
-    display: flex;
-    gap: 12px;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-}
-
-.activity-item:active,
-.comment-item:active {
-    background: var(--hover);
-}
-
-.activity-time {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-.admin-badge {
-    background: var(--accent-gradient);
-    color: white;
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    margin-left: 6px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-/* --- Badges & Status --- */
+/* ── BADGES ── */
 .badge {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-weight: 600;
+    display: inline-block;
+    padding: 3px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
 }
+.badge-admin { background: rgba(99,102,241,0.15); color: var(--indigo); border: 1px solid rgba(99,102,241,0.3); }
+.badge-user { background: rgba(144,144,176,0.1); color: var(--text3); border: 1px solid var(--border); }
+.badge-active { background: rgba(16,185,129,0.15); color: var(--emerald); border: 1px solid rgba(16,185,129,0.3); }
+.badge-post { background: rgba(6,182,212,0.12); color: var(--cyan); border: 1px solid rgba(6,182,212,0.25); }
 
-.badge-active {
-    background: #d1fae5;
-    color: #065f46;
+/* ── ACTION BUTTONS ── */
+.act-group { display: flex; align-items: center; gap: 4px; }
+.act-btn {
+    background: transparent; border: 1px solid transparent;
+    color: var(--text3); cursor: pointer; font-size: 15px;
+    padding: 6px; width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: var(--r-xs); transition: all 0.15s; font-family: inherit;
 }
+.act-btn:hover { border-color: var(--border); background: var(--surface2); }
+.act-btn.view:hover { color: var(--indigo); border-color: rgba(99,102,241,0.3); }
+.act-btn.edit:hover { color: var(--amber); border-color: rgba(245,158,11,0.3); }
+.act-btn.promote:hover { color: var(--emerald); border-color: rgba(16,185,129,0.3); }
+.act-btn.del:hover { color: var(--rose); border-color: rgba(244,63,94,0.3); }
 
-.badge-inactive {
-    background: #f1f5f9;
-    color: var(--text-muted);
+/* ── MODALS ── */
+.modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75); z-index: 1000;
+    align-items: flex-end; justify-content: center;
 }
+.modal.active { display: flex; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- Toasts (Material Design Snackbar) --- */
-.toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #323232;
-    color: white;
-    padding: 14px 24px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 9999;
-    box-shadow: var(--shadow-xl);
-    animation: toastSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    max-width: calc(100vw - 32px);
-    font-size: 14px;
+.modal-sheet {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px 24px 0 0;
+    width: 100%; max-width: 660px;
+    max-height: 90vh; overflow-y: auto;
+    animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
+    padding-bottom: 32px;
 }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-@keyframes toastSlideUp {
-    from {
-        transform: translate(-50%, 100px);
-        opacity: 0;
-    }
-    to {
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
+.modal-handle {
+    width: 36px; height: 4px; background: var(--border);
+    border-radius: 2px; margin: 12px auto 16px;
 }
-
-/* --- Loading --- */
-.loading {
-    padding: 40px;
-    text-align: center;
+.modal-hdr {
+    padding: 0 20px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
 }
-
-.spinner {
-    border: 3px solid var(--border);
-    border-top: 3px solid var(--accent-primary);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 10px;
+.modal-hdr h3 { font-size: 16px; font-weight: 600; flex: 1; }
+.modal-hdr i { color: var(--indigo); font-size: 20px; }
+.close-btn {
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--text2); cursor: pointer; font-size: 16px;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; line-height: 1;
 }
+.close-btn:hover { color: var(--rose); border-color: rgba(244,63,94,0.4); }
 
-@keyframes spin {
-    100% { transform: rotate(360deg); }
-}
-
-.action-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 20px;
-    padding: 8px;
+.form-grp { padding: 16px 20px; }
+.form-grp label { display: block; font-size: 12px; color: var(--text3); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.form-grp textarea,
+.form-grp input[type="text"],
+.form-grp input[type="email"] {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 11px 14px;
+    color: var(--text);
+    font-size: 14px; font-family: inherit;
+    resize: vertical; outline: none;
     transition: all 0.2s;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+}
+.form-grp textarea:focus,
+.form-grp input:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px var(--indigo-glow);
+}
+.form-grp textarea { min-height: 100px; }
+
+.modal-footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 10px;
 }
 
-.action-btn:active {
-    background: var(--hover);
+/* ── USER CHECKBOXES ── */
+#userCheckboxes {
+    max-height: 160px; overflow-y: auto;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: 8px;
+    display: flex; flex-direction: column; gap: 4px;
+}
+.user-check-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: var(--r-xs);
+    cursor: pointer; transition: background 0.15s;
+}
+.user-check-item:hover { background: var(--surface2); }
+.user-check-item input[type="checkbox"] {
+    width: 16px; height: 16px; accent-color: var(--indigo);
+    cursor: pointer; flex-shrink: 0;
+}
+.user-check-item label { font-size: 13px; cursor: pointer; color: var(--text2); flex: 1; }
+#selectAllUsers {
+    font-size: 12px; font-weight: 600; color: var(--indigo);
+    background: none; border: none; cursor: pointer;
+    padding: 4px 0; font-family: inherit;
+    text-align: right; width: 100%;
 }
 
-.btn-delete:active {
-    color: var(--danger);
-    background: #fee2e2;
+/* ── ACTIVITY ── */
+.activity-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 20px; border-bottom: 1px solid rgba(42,42,62,0.5);
+}
+.activity-item:last-child { border-bottom: none; }
+.act-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+}
+.act-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+.act-time { font-size: 11px; color: var(--text3); margin-top: 2px; font-family: 'DM Mono', monospace; }
+
+/* ── TOAST ── */
+.toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); padding: 12px 20px; border-radius: 10px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 9999; box-shadow: var(--shadow);
+    animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1);
+    max-width: calc(100vw - 40px); font-size: 13px; font-weight: 500;
+}
+@keyframes toastIn {
+    from { transform: translate(-50%, 20px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
 }
 
-.btn-view:active {
-    color: var(--accent-primary);
-    background: rgba(99, 102, 241, 0.1);
+/* ── EMPTY STATE ── */
+.empty-state {
+    padding: 50px 20px; text-align: center;
+    color: var(--text3);
+}
+.empty-state i { font-size: 40px; margin-bottom: 12px; display: block; opacity: 0.4; }
+.empty-state p { font-size: 14px; }
+
+/* ── LOADING INNER ── */
+.loading-inner {
+    padding: 40px; text-align: center;
+}
+.spinner {
+    width: 32px; height: 32px; border: 2px solid var(--border);
+    border-top-color: var(--indigo); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 12px;
+}
+.loading-inner p { font-size: 13px; color: var(--text3); }
+
+/* ── POST PREVIEW ── */
+.post-preview-box {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: 12px 14px;
+    font-size: 13px; color: var(--text2); line-height: 1.6;
+    white-space: pre-wrap; word-break: break-word;
+    max-height: 200px; overflow-y: auto;
 }
 
-/* --- Responsive Grid Optimization --- */
+/* ── EDIT FORM ── */
+.edit-field {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: 10px 14px;
+    color: var(--text); font-size: 13px; font-family: inherit;
+    width: 100%; outline: none; transition: border-color 0.2s;
+}
+.edit-field:focus { border-color: var(--indigo); }
+
+/* ── SQL MODAL ── */
+#sqlModal .modal-sheet { max-width: 760px; }
+.sql-block {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: 16px;
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    color: #a5b4fc; line-height: 1.8;
+    white-space: pre; overflow-x: auto;
+    margin: 0 20px;
+}
+.sql-block .kw { color: #c084fc; }
+.sql-block .fn { color: #34d399; }
+.sql-block .str { color: #fbbf24; }
+.sql-block .cm { color: var(--text3); }
+
+/* ── RESPONSIVE ── */
 @media (max-width: 640px) {
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 12px;
-    }
-    
-    .quick-actions {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        padding: 0 12px 12px;
-    }
-    
-    .content-card {
-        margin: 12px;
-        border-radius: var(--radius-sm);
-    }
+    .stats-grid { grid-template-columns: repeat(2,1fr); padding: 12px; }
+    .quick-actions { padding: 12px; }
+    .panel { margin: 12px; }
+    .modal-sheet { border-radius: 20px 20px 0 0; }
 }
 
-@media (max-width: 480px) {
-    .admin-header {
-        padding: 12px 16px;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .stat-card {
-        padding: 16px;
-    }
-    
-    .tabs {
-        padding: 0;
-    }
-    
-    .tab {
-        padding: 14px 16px;
-        font-size: 13px;
-    }
+/* ── NOTIFICATIONS LIST ── */
+.notif-item {
+    padding: 12px 20px; border-bottom: 1px solid rgba(42,42,62,0.5);
+    font-size: 13px; display: flex; gap: 12px; align-items: flex-start;
 }
+.notif-item:last-child { border-bottom: none; }
+.notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--indigo); flex-shrink: 0; margin-top: 5px; }
 
-/* --- Touch Optimization --- */
-@media (hover: none) and (pointer: coarse) {
-    .stat-card,
-    .action-card,
-    .btn,
-    .action-btn,
-    .tab {
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    /* Larger touch targets */
-    .btn {
-        min-height: 44px;
-    }
-    
-    .action-btn {
-        min-width: 44px;
-        min-height: 44px;
-    }
-}
-
-/* --- Scrollbar (Light Mode) --- */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--border-hover);
-}
+/* ── INLINE EDIT ── */
+.inline-edit-row td { vertical-align: top; }
+.inline-edit-row { background: var(--bg3) !important; }
 </style>
 </head>
 <body>
-    <div class="admin-container">
-        <div class="admin-header">
-            <button class="logout-btn" onclick="handleLogout()">
-                <i class="ri-logout-box-line"></i> Logout
-            </button>
-            <h1></h1>
-            <p id="adminName">Loading...</p>
-        </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="ri-user-line" style="color: #667eea;"></i>
-                <h3>Total Users</h3>
-                <div class="stat-value" id="totalUsers">-</div>
-                <div class="stat-change" id="userChange">Loading...</div>
-            </div>
-            <div class="stat-card">
-                <i class="ri-article-line" style="color: #10b981;"></i>
-                <h3>Total Posts</h3>
-                <div class="stat-value" id="totalPosts">-</div>
-                <div class="stat-change" id="postChange">Loading...</div>
-            </div>
-            <div class="stat-card">
-                <i class="ri-chat-3-line" style="color: #f59e0b;"></i>
-                <h3>Total Comments</h3>
-                <div class="stat-value" id="totalComments">-</div>
-                <div class="stat-change" id="commentChange">Loading...</div>
-            </div>
-            <div class="stat-card">
-                <i class="ri-heart-line" style="color: #ef4444;"></i>
-                <h3>Total Likes</h3>
-                <div class="stat-value" id="totalLikes">-</div>
-                <div class="stat-change" id="likeChange">Loading...</div>
-            </div>
-        </div>
+<!-- Loading overlay -->
+<div id="loadingOverlay">
+    <div class="load-ring"></div>
+    <p>Verifying admin access…</p>
+</div>
 
-        <div class="quick-actions">
-            <div class="action-card" onclick="openBroadcastModal()">
-                <i class="ri-notification-3-line"></i>
-                <div class="action-card-content">
-                    <h3>Create Announcement</h3>
-                    <p>Post as admin to all users</p>
-                </div>
-            </div>
-            <div class="action-card" onclick="viewAllNotifications()">
-                <i class="ri-mail-line"></i>
-                <div class="action-card-content">
-                    <h3>View Notifications</h3>
-                    <p>Check all user notifications</p>
-                </div>
-            </div>
-            <div class="action-card" onclick="switchTab('users')">
-                <i class="ri-user-settings-line"></i>
-                <div class="action-card-content">
-                    <h3>Manage Users</h3>
-                    <p>View and moderate users</p>
-                </div>
+<div id="app" style="display:none;">
+    <!-- Header -->
+    <header class="header">
+        <span class="header-logo">Keli</span>
+        <span class="header-badge">Admin</span>
+        <span class="header-spacer"></span>
+        <span id="adminName">Loading…</span>
+        <button class="logout-btn" onclick="handleLogout()">
+            <i class="ri-logout-box-line"></i> Logout
+        </button>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card s-indigo">
+            <div class="stat-icon"><i class="ri-user-3-line"></i></div>
+            <div class="stat-label">Total Users</div>
+            <div class="stat-value" id="totalUsers">—</div>
+            <div class="stat-sub" id="userSub">Loading…</div>
+        </div>
+        <div class="stat-card s-emerald">
+            <div class="stat-icon"><i class="ri-article-line"></i></div>
+            <div class="stat-label">Total Posts</div>
+            <div class="stat-value" id="totalPosts">—</div>
+            <div class="stat-sub" id="postSub">Loading…</div>
+        </div>
+        <div class="stat-card s-amber">
+            <div class="stat-icon"><i class="ri-chat-3-line"></i></div>
+            <div class="stat-label">Comments</div>
+            <div class="stat-value" id="totalComments">—</div>
+            <div class="stat-sub" id="commentSub">Loading…</div>
+        </div>
+        <div class="stat-card s-rose">
+            <div class="stat-icon"><i class="ri-heart-3-line"></i></div>
+            <div class="stat-label">Total Likes</div>
+            <div class="stat-value" id="totalLikes">—</div>
+            <div class="stat-sub" id="likeSub">Loading…</div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <div class="action-card" onclick="openBroadcastModal()">
+            <i class="ri-megaphone-line"></i>
+            <div>
+                <div class="ac-title">Create Announcement</div>
+                <div class="ac-sub">Broadcast to all users</div>
             </div>
         </div>
-
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('dashboard')">
-                <i class="ri-dashboard-line"></i> Dashboard
-            </button>
-            <button class="tab" onclick="switchTab('users')">
-                <i class="ri-user-line"></i> Users
-            </button>
-            <button class="tab" onclick="switchTab('posts')">
-                <i class="ri-article-line"></i> Posts
-            </button>
-            <button class="tab" onclick="switchTab('comments')">
-                <i class="ri-chat-3-line"></i> Comments
-            </button>
-            <button class="tab" onclick="switchTab('announcements')">
-                <i class="ri-megaphone-line"></i> Announcements
-            </button>  
-        </div>
-
-        <div id="dashboard-tab" class="tab-content active">
-            <div class="content-card">
-                <h2><i class="ri-time-line"></i> Recent Activity</h2>
-                <div id="activityLog">
-                    <div class="loading"><div class="spinner"></div><p>Loading activity...</p></div>
-                </div>
+        <div class="action-card" onclick="switchTab('users', this)">
+            <i class="ri-user-settings-line"></i>
+            <div>
+                <div class="ac-title">Manage Users</div>
+                <div class="ac-sub">Edit, promote or delete</div>
             </div>
         </div>
-
-        <div id="users-tab" class="tab-content">
-            <div class="content-card">
-                <div class="toolbar">
-                    <div class="search-bar">
-                        <input type="text" id="userSearch" placeholder="🔍 Search users...">
-                    </div>
-                    <button class="btn btn-primary" onclick="loadUsers()">
-                        <i class="ri-refresh-line"></i> Refresh
-                    </button>
-                </div>
-                <div id="usersContainer" class="loading">
-                    <div class="spinner"></div><p>Loading users...</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="posts-tab" class="tab-content">
-            <div class="content-card">
-                <div class="toolbar">
-                    <div class="search-bar">
-                        <input type="text" id="postSearch" placeholder="🔍 Search posts...">
-                    </div>
-                    <button class="btn btn-primary" onclick="loadPosts()">
-                        <i class="ri-refresh-line"></i> Refresh
-                    </button>
-                </div>
-                <div id="postsContainer" class="loading">
-                    <div class="spinner"></div><p>Loading posts...</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="comments-tab" class="tab-content">
-            <div class="content-card">
-                <div class="toolbar">
-                    <div class="search-bar">
-                        <input type="text" id="commentSearch" placeholder="🔍 Search comments...">
-                    </div>
-                    <button class="btn btn-primary" onclick="loadComments()">
-                        <i class="ri-refresh-line"></i> Refresh
-                    </button>
-                </div>
-                <div id="commentsContainer" class="loading">
-                    <div class="spinner"></div><p>Loading comments...</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="announcements-tab" class="tab-content">  
-            <div class="content-card">  
-                <div class="toolbar">  
-                    <button class="btn btn-primary" onclick="loadAnnouncements()"><i class="ri-refresh-line"></i> Refresh</button>  
-                </div>  
-                <div id="announcementsContainer" class="loading">
-                    <div class="spinner"></div><p>Loading announcements...</p>
-                </div>  
-            </div>  
-        </div>  
-
-        <div id="announcementModal" class="modal">  
-            <div class="modal-content">  
-                <div class="modal-header">  
-                    <h2 id="announcementModalTitle"><i class="ri-megaphone-line"></i> Announcement</h2>  
-                    <button class="close-modal" onclick="closeAnnouncementModal()">&times;</button>  
-                </div>  
-                <div id="announcementModalContent" class="form-group"></div>  
-            </div>  
-        </div>  
-
-        <div id="adminCommentModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2><i class="ri-shield-star-line"></i> Comment as Admin</h2>
-                    <button class="close-modal" onclick="closeCommentModal()">&times;</button>
-                </div>
-                <div class="form-group" id="postCommentsContainer" style="max-height: 300px; overflow-y: auto;">
-                    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
-                </div>
-                <form id="adminCommentForm">
-                    <div class="form-group">
-                        <textarea id="adminCommentText" placeholder="Write your comment..." required></textarea>
-                    </div>
-                    <div class="form-actions" style="padding: 16px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px;">
-                        <button type="button" class="btn btn-secondary" onclick="closeCommentModal()">Cancel</button>
-                        <button type="submit" class="btn btn-primary" id="postCommentBtn">Post Comment</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div id="broadcastModal" class="modal">  
-            <div class="modal-content">  
-                <div class="modal-header">  
-                    <h2><i class="ri-megaphone-line"></i> Post Announcement</h2>  
-                    <button class="close-modal" onclick="closeBroadcastModal()">&times;</button>  
-                </div>  
-                <form id="broadcastForm">  
-                    <div class="form-group">  
-                        <label for="broadcastContent">Announcement Content</label>  
-                        <textarea id="broadcastContent" required></textarea>  
-                    </div>  
-                    <div class="form-group">  
-                        <label>Select Users</label>  
-                        <div id="userCheckboxes" style="max-height: 150px; overflow-y: auto; border: 1px solid var(--border); padding: 8px;">  
-                        </div>  
-                    </div>  
-                    <div class="form-actions" style="padding: 16px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px;">  
-                        <button type="button" class="btn btn-secondary" onclick="closeBroadcastModal()">Cancel</button>  
-                        <button type="submit" class="btn btn-primary" id="postBroadcastBtn">Post Announcement</button>  
-                    </div>  
-                </form>  
-            </div>  
-        </div> 
-
-        <div id="notificationsModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2><i class="ri-mail-line"></i> Notifications</h2>
-                    <button class="close-modal" onclick="closeNotificationsModal()">&times;</button>
-                </div>
-                <div id="notificationsContainer" style="max-height: 500px; overflow-y: auto;">
-                    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
-                </div>
+        <div class="action-card" onclick="showSqlModal()">
+            <i class="ri-database-2-line"></i>
+            <div>
+                <div class="ac-title">View RLS Policies SQL</div>
+                <div class="ac-sub">Run in Supabase SQL editor</div>
             </div>
         </div>
     </div>
 
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" id="tab-dashboard" onclick="switchTab('dashboard', this)">
+            <i class="ri-dashboard-line"></i> Dashboard
+        </button>
+        <button class="tab" id="tab-users" onclick="switchTab('users', this)">
+            <i class="ri-user-line"></i> Users
+        </button>
+        <button class="tab" id="tab-posts" onclick="switchTab('posts', this)">
+            <i class="ri-article-line"></i> Posts
+        </button>
+        <button class="tab" id="tab-comments" onclick="switchTab('comments', this)">
+            <i class="ri-chat-3-line"></i> Comments
+        </button>
+        <button class="tab" id="tab-announcements" onclick="switchTab('announcements', this)">
+            <i class="ri-megaphone-line"></i> Announcements
+        </button>
+        <button class="tab" id="tab-notifications" onclick="switchTab('notifications', this)">
+            <i class="ri-notification-3-line"></i> Notifications
+        </button>
+    </div>
 
-<script type="module">  
+    <!-- Dashboard Tab -->
+    <div id="dashboard-tab" class="tab-content active">
+        <div class="panel">
+            <div class="panel-header">
+                <i class="ri-pulse-line"></i>
+                <h2>Recent Activity</h2>
+            </div>
+            <div id="activityLog"><div class="loading-inner"><div class="spinner"></div><p>Loading activity…</p></div></div>
+        </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div id="users-tab" class="tab-content">
+        <div class="panel">
+            <div class="toolbar">
+                <div class="search-bar">
+                    <input type="text" id="userSearch" placeholder="Search users…">
+                </div>
+                <button class="btn btn-secondary" onclick="loadUsers()"><i class="ri-refresh-line"></i> Refresh</button>
+            </div>
+            <div id="usersContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading users…</p></div></div>
+        </div>
+    </div>
+
+    <!-- Posts Tab -->
+    <div id="posts-tab" class="tab-content">
+        <div class="panel">
+            <div class="toolbar">
+                <div class="search-bar">
+                    <input type="text" id="postSearch" placeholder="Search posts…">
+                </div>
+                <button class="btn btn-secondary" onclick="loadPosts()"><i class="ri-refresh-line"></i> Refresh</button>
+            </div>
+            <div id="postsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading posts…</p></div></div>
+        </div>
+    </div>
+
+    <!-- Comments Tab -->
+    <div id="comments-tab" class="tab-content">
+        <div class="panel">
+            <div class="toolbar">
+                <div class="search-bar">
+                    <input type="text" id="commentSearch" placeholder="Search comments…">
+                </div>
+                <button class="btn btn-secondary" onclick="loadComments()"><i class="ri-refresh-line"></i> Refresh</button>
+            </div>
+            <div id="commentsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading comments…</p></div></div>
+        </div>
+    </div>
+
+    <!-- Announcements Tab -->
+    <div id="announcements-tab" class="tab-content">
+        <div class="panel">
+            <div class="toolbar">
+                <button class="btn btn-primary" onclick="openBroadcastModal()"><i class="ri-add-line"></i> New Announcement</button>
+                <button class="btn btn-secondary" onclick="loadAnnouncements()"><i class="ri-refresh-line"></i> Refresh</button>
+            </div>
+            <div id="announcementsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading announcements…</p></div></div>
+        </div>
+    </div>
+
+    <!-- Notifications Tab -->
+    <div id="notifications-tab" class="tab-content">
+        <div class="panel">
+            <div class="toolbar">
+                <div class="search-bar">
+                    <input type="text" id="notificationSearch" placeholder="Search notifications…">
+                </div>
+                <button class="btn btn-secondary" onclick="loadAllNotifications()"><i class="ri-refresh-line"></i> Refresh</button>
+            </div>
+            <div id="notificationsContainer"><div class="loading-inner"><div class="spinner"></div><p>Loading notifications…</p></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- Broadcast / Announcement Modal -->
+<div id="broadcastModal" class="modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-hdr">
+            <i class="ri-megaphone-line"></i>
+            <h3>Post Announcement</h3>
+            <button class="close-btn" onclick="closeBroadcastModal()">✕</button>
+        </div>
+        <div class="form-grp">
+            <label>Announcement Content</label>
+            <textarea id="broadcastContent" placeholder="Write your announcement…"></textarea>
+        </div>
+        <div class="form-grp" style="padding-top:0;">
+            <label>Select Recipients</label>
+            <button id="selectAllUsers" onclick="toggleSelectAll()">Select All</button>
+            <div id="userCheckboxes"><div class="loading-inner" style="padding:12px;"><div class="spinner" style="width:20px;height:20px;"></div></div></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeBroadcastModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="postAnnouncement()"><i class="ri-send-plane-line"></i> Post</button>
+        </div>
+    </div>
+</div>
+
+<!-- View Post / Announcement Modal -->
+<div id="viewModal" class="modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-hdr">
+            <i class="ri-eye-line"></i>
+            <h3 id="viewModalTitle">View Content</h3>
+            <button class="close-btn" onclick="closeViewModal()">✕</button>
+        </div>
+        <div class="form-grp">
+            <div id="viewModalContent" class="post-preview-box"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeViewModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div id="editUserModal" class="modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-hdr">
+            <i class="ri-edit-line"></i>
+            <h3>Edit User</h3>
+            <button class="close-btn" onclick="closeEditUserModal()">✕</button>
+        </div>
+        <input type="hidden" id="editUserId">
+        <div class="form-grp">
+            <label>Stage Name</label>
+            <input type="text" id="editStageName" class="edit-field" placeholder="Stage name">
+        </div>
+        <div class="form-grp">
+            <label>Email</label>
+            <input type="email" id="editEmail" class="edit-field" placeholder="Email address">
+        </div>
+        <div class="form-grp">
+            <label>User Type</label>
+            <select id="editUserType" class="edit-field" style="background:var(--bg3);cursor:pointer;">
+                <option value="User">User</option>
+                <option value="Artist">Artist</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+        <div class="form-grp">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                <input type="checkbox" id="editIsAdmin" style="width:16px;height:16px;accent-color:var(--indigo);">
+                <span>Grant Admin Access (is_admin = true)</span>
+            </label>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeEditUserModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveUserEdit()"><i class="ri-save-line"></i> Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Post Modal -->
+<div id="editPostModal" class="modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-hdr">
+            <i class="ri-edit-line"></i>
+            <h3>Edit Post</h3>
+            <button class="close-btn" onclick="closeEditPostModal()">✕</button>
+        </div>
+        <input type="hidden" id="editPostId">
+        <div class="form-grp">
+            <label>Post Content</label>
+            <textarea id="editPostContent" class="edit-field" rows="6" placeholder="Post content…"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeEditPostModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="savePostEdit()"><i class="ri-save-line"></i> Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Comment Modal -->
+<div id="editCommentModal" class="modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-hdr">
+            <i class="ri-edit-line"></i>
+            <h3>Edit Comment</h3>
+            <button class="close-btn" onclick="closeEditCommentModal()">✕</button>
+        </div>
+        <input type="hidden" id="editCommentId">
+        <div class="form-grp">
+            <label>Comment Content</label>
+            <textarea id="editCommentContent" class="edit-field" rows="4" placeholder="Comment content…"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeEditCommentModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveCommentEdit()"><i class="ri-save-line"></i> Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Comment on Post Modal -->
+<div id="adminCommentModal" class="modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-hdr">
+            <i class="ri-shield-star-line"></i>
+            <h3>Comment as Admin</h3>
+            <button class="close-btn" onclick="closeAdminCommentModal()">✕</button>
+        </div>
+        <div class="form-grp" id="postCommentsContainer" style="max-height:250px;overflow-y:auto;padding-bottom:0;">
+            <div class="loading-inner" style="padding:16px;"><div class="spinner" style="width:24px;height:24px;"></div></div>
+        </div>
+        <div class="form-grp">
+            <label>Your Comment</label>
+            <textarea id="adminCommentText" placeholder="Write your comment…"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeAdminCommentModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="postAdminComment()"><i class="ri-send-plane-line"></i> Post Comment</button>
+        </div>
+    </div>
+</div>
+
+<!-- SQL Policies Modal -->
+<div id="sqlModal" class="modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-hdr">
+            <i class="ri-database-2-line"></i>
+            <h3>Supabase RLS Policies — Run in SQL Editor</h3>
+            <button class="close-btn" onclick="closeSqlModal()">✕</button>
+        </div>
+        <div style="padding:16px 20px 8px;">
+            <p style="font-size:13px;color:var(--text3);line-height:1.6;">
+                Copy and run this entire block in your <strong style="color:var(--text2);">Supabase → SQL Editor</strong>.
+                It enables admins (where <code style="font-family:DM Mono;color:var(--indigo);">is_admin = true</code>) to fully read, create, update and delete all rows.
+            </p>
+        </div>
+        <pre class="sql-block" id="sqlBlock"></pre>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeSqlModal()">Close</button>
+            <button class="btn btn-primary" onclick="copySql()"><i class="ri-clipboard-line"></i> Copy SQL</button>
+        </div>
+    </div>
+</div>
+
+<!-- Announcement View Modal -->
+<div id="announcementModal" class="modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-hdr">
+            <i class="ri-megaphone-line"></i>
+            <h3 id="announcementModalTitle">Announcement</h3>
+            <button class="close-btn" onclick="closeAnnouncementModal()">✕</button>
+        </div>
+        <div class="form-grp" id="announcementModalContent"></div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeAnnouncementModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const supabaseUrl = 'https://xaudpqhyyxburjazfips.supabase.co'  
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhdWRwcWh5eXhidXJqYXpmaXBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMTY1NDUsImV4cCI6MjA3Nzg5MjU0NX0.LxRbfT0TsxJ38dwTQyKhn_Hi1cuZXZ6tpE04YPatGkQ'  
-const supabase = createClient(supabaseUrl, supabaseKey)  
-
-window.supabase = supabase  
-let allUsers = []  
-let allPosts = []  
-let allComments = []  
-let allNotifications = []
-let currentAdminProfile = null  
-let currentPostId = null  
-
-// Show loading overlay
-function showLoadingOverlay() {
-    const overlay = document.createElement('div')
-    overlay.id = 'adminLoadingOverlay'
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.95);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 99999;
-    `
-    overlay.innerHTML = `
-        <div class="spinner" style="width: 60px; height: 60px; border: 4px solid #333; border-top-color: #667eea; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <p style="color: white; margin-top: 20px; font-size: 18px;">Verifying Admin Access...</p>
-    `
-    document.body.appendChild(overlay)
-}
-
-function hideLoadingOverlay() {
-    const overlay = document.getElementById('adminLoadingOverlay')
-    if (overlay) overlay.remove()
-}
-
-// Check admin authentication  
-async function checkAdmin() {  
-    const {data: {session}} = await supabase.auth.getSession()  
-    if (!session) {  
-        window.location.href = 'login.html'  
-        return false  
-    }  
-
-    const {data: profile, error} = await supabase  
-        .from('profiles')  
-        .select('*')  
-        .eq('id', session.user.id)  
-        .single()  
-
-    if (error) {  
-        console.error('Error loading profile:', error)  
-        showToast('Error loading admin profile', '#ef4444')  
-        return false  
-    }  
-
-    if (!profile) {  
-        showToast('Profile not found', '#ef4444')  
-        return false  
-    }  
-
-    currentAdminProfile = profile  
-    document.getElementById('adminName').textContent = `Welcome, ${profile.stage_name || 'Admin'}`  
-
-    // Check if user is admin (you can add is_admin column or check user_type)  
-    if (profile.user_type !== 'Admin' && !profile.is_admin) {  
-        showToast('Access denied: Admin only', '#ef4444')  
-        setTimeout(() => {  
-            window.location.href = 'home.html'  
-        }, 2000)  
-        return false  
-    }  
-
-    return true  
-}  
-
-// Load statistics  
-async function loadStats() {  
-    try {  
-        const [users, posts, comments, likes] = await Promise.all([  
-            supabase.from('profiles').select('id', {count: 'exact', head: true}),  
-            supabase.from('posts').select('id', {count: 'exact', head: true}),  
-            supabase.from('comments').select('id', {count: 'exact', head: true}),  
-            supabase.from('post_likes').select('id', {count: 'exact', head: true})  
-        ])  
-
-        document.getElementById('totalUsers').textContent = users.count || 0  
-        document.getElementById('totalPosts').textContent = posts.count || 0  
-        document.getElementById('totalComments').textContent = comments.count || 0  
-        document.getElementById('totalLikes').textContent = likes.count || 0  
-
-        document.getElementById('userChange').textContent = `${users.count || 0} registered`  
-        document.getElementById('postChange').textContent = `${posts.count || 0} published`  
-        document.getElementById('commentChange').textContent = `${comments.count || 0} total`  
-        document.getElementById('likeChange').textContent = `${likes.count || 0} total`  
-    } catch (err) {  
-        console.error('Error loading stats:', err)  
-    }  
-}  
-
-// Load activity log  
-async function loadActivityLog() {  
-    const container = document.getElementById('activityLog')  
-
-    try {  
-        const {data: recentPosts} = await supabase  
-            .from('posts')  
-            .select('*, profiles(stage_name)')  
-            .order('created_at', {ascending: false})  
-            .limit(5)  
-
-        const {data: recentComments} = await supabase  
-            .from('comments')  
-            .select('*, profiles(stage_name)')  
-            .order('created_at', {ascending: false})  
-            .limit(5)  
-
-        const {data: recentUsers} = await supabase  
-            .from('profiles')  
-            .select('*')  
-            .order('created_at', {ascending: false})  
-            .limit(5)  
-
-        const activities = [  
-            ...(recentPosts || []).map(p => ({type: 'post', data: p, time: p.created_at})),  
-            ...(recentComments || []).map(c => ({type: 'comment', data: c, time: c.created_at})),  
-            ...(recentUsers || []).map(u => ({type: 'user', data: u, time: u.created_at}))  
-        ].sort((a, b) => new Date(b.time) - new Date(a.time)).slice(0, 15)  
-
-        container.innerHTML = activities.map(activity => {  
-            let icon, text, color  
-            if (activity.type === 'post') {  
-                icon = 'ri-article-line'  
-                text = `${activity.data.profiles?.stage_name || 'User'} created a post`  
-                color = '#10b981'  
-            } else if (activity.type === 'comment') {  
-                icon = 'ri-chat-3-line'  
-                text = `${activity.data.profiles?.stage_name || 'User'} posted a comment`  
-                color = '#f59e0b'  
-            } else {  
-                icon = 'ri-user-add-line'  
-                text = `${activity.data.stage_name || 'Someone'} joined`  
-                color = '#667eea'  
-            }  
-
-            return `  
-                <div class="activity-item">  
-                    <i class="${icon}" style="color: ${color};"></i>  
-                    <div style="flex: 1;">  
-                        <div>${text}</div>  
-                        <div class="activity-time">${timeAgo(activity.time)}</div>  
-                    </div>  
-                </div>  
-            `  
-        }).join('')  
-    } catch (err) {  
-        console.error('Error loading activity:', err)  
-        container.innerHTML = '<div class="empty-state"><p>Error loading activity</p></div>'  
-    }  
-}  
-
-// Load users  
-window.loadUsers = async function () {  
-    const container = document.getElementById('usersContainer')  
-    container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading users...</p></div>'  
-
-    try {  
-        const search = document.getElementById('userSearch').value.toLowerCase()  
-
-        const {data: users, error} = await supabase  
-            .from('profiles')  
-            .select('*')  
-            .order('created_at', {ascending: false})  
-
-        if (error) throw error  
-
-        allUsers = users || []  
-
-        let filteredUsers = allUsers  
-        if (search) {  
-            filteredUsers = allUsers.filter(u =>  
-                u.stage_name?.toLowerCase().includes(search) ||  
-                u.email?.toLowerCase().includes(search) ||  
-                u.user_type?.toLowerCase().includes(search)  
-            )  
-        }  
-
-        if (!filteredUsers.length) {  
-            container.innerHTML = '<div class="empty-state"><i class="ri-user-line"></i><p>No users found</p></div>'  
-            return  
-        }  
-
-        const table = document.createElement('table')  
-        table.className = 'data-table'  
-        table.innerHTML = `  
-                <thead>  
-                    <tr>  
-                        <th>User</th>  
-                        <th>Email</th>  
-                        <th>Type</th>  
-                        <th>Joined</th>  
-                        <th>Actions</th>  
-                    </tr>  
-                </thead>  
-                <tbody></tbody>  
-            `  
-
-        const tbody = table.querySelector('tbody')  
-
-        filteredUsers.forEach(user => {  
-            const row = document.createElement('tr')  
-            row.innerHTML = `  
-                    <td>  
-                        <div class="user-cell">  
-                            <img src="${user.profile_picture || 'user.webp'}" class="user-avatar">  
-                            <div>  
-                                <strong>${user.stage_name || 'Unknown'}</strong>  
-                            </div>  
-                        </div>  
-                    </td>  
-                    <td>${user.email || 'N/A'}</td>  
-                    <td><span class="badge badge-active">${user.user_type || 'User'}</span></td>  
-                    <td>${new Date(user.created_at).toLocaleDateString()}</td>  
-                    <td>  
-                        <button class="action-btn btn-delete" onclick="deleteUser('${user.id}', '${user.stage_name}')">  
-                            <i class="ri-delete-bin-line"></i> Delete  
-                        </button>  
-                    </td>  
-                `  
-            tbody.appendChild(row)  
-        })  
-
-        container.innerHTML = ''  
-        container.appendChild(table)  
-    } catch (err) {  
-        console.error('Error loading users:', err)  
-        container.innerHTML = '<div class="empty-state"><p>Error loading users</p></div>'  
-    }  
-}  
-
-// Delete user  
-window.deleteUser = async function (userId, stageName) {  
-    if (!confirm(`Delete ${stageName}? This will delete all their posts and comments!`)) return  
-
-    try {  
-        await Promise.all([  
-            supabase.from('posts').delete().eq('user_id', userId),  
-            supabase.from('comments').delete().eq('user_id', userId),  
-            supabase.from('post_likes').delete().eq('user_id', userId),  
-            supabase.from('post_shares').delete().eq('user_id', userId),  
-            supabase.from('post_bookmarks').delete().eq('user_id', userId),
-            supabase.from('notifications').delete().eq('user_id', userId)
-        ])  
-
-        await supabase.from('profiles').delete().eq('id', userId)  
-
-        showToast('User deleted successfully', '#ef4444')  
-        loadUsers()  
-        loadStats()  
-    } catch (err) {  
-        showToast('Error deleting user', '#ef4444')  
-    }  
-}  
-
-// Load posts  
-window.loadPosts = async function () {  
-    const container = document.getElementById('postsContainer')  
-    container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading posts...</p></div>'  
-
-    try {  
-        const search = document.getElementById('postSearch').value.toLowerCase()  
-
-        const {data: posts, error} = await supabase  
-            .from('posts')  
-            .select('*, profiles(stage_name, profile_picture)')  
-            .order('created_at', {ascending: false})  
-
-        if (error) throw error  
-
-        allPosts = posts || []  
-
-        let filteredPosts = allPosts  
-        if (search) {  
-            filteredPosts = allPosts.filter(p =>  
-                p.content?.toLowerCase().includes(search) ||  
-                p.profiles?.stage_name?.toLowerCase().includes(search)  
-            )  
-        }  
-
-        if (!filteredPosts.length) {  
-            container.innerHTML = '<div class="empty-state"><i class="ri-article-line"></i><p>No posts found</p></div>'  
-            return  
-        }  
-
-        const table = document.createElement('table')  
-        table.className = 'data-table'  
-        table.innerHTML = `  
-                <thead>  
-                    <tr>  
-                        <th>Author</th>  
-                        <th>Content</th>  
-                        <th>Likes</th>  
-                        <th>Comments</th>  
-                        <th>Date</th>  
-                        <th>Actions</th>  
-                    </tr>  
-                </thead>  
-                <tbody></tbody>  
-            `  
-
-        const tbody = table.querySelector('tbody')  
-
-        filteredPosts.forEach(post => {  
-            const row = document.createElement('tr')  
-            const contentPreview = post.content?.substring(0, 100) + (post.content?.length > 100 ? '...' : '')  
-
-            row.innerHTML = `  
-                    <td>  
-                        <div class="user-cell">  
-                            <img src="${post.profiles?.profile_picture || 'user.webp'}" class="user-avatar">  
-                            <strong>${post.profiles?.stage_name || 'Unknown'}</strong>  
-                        </div>  
-                    </td>  
-                    <td style="max-width: 300px;">${contentPreview}</td>  
-                    <td><strong>${post.likes || 0}</strong></td>  
-                    <td><strong>${post.comments || 0}</strong></td>  
-                    <td>${new Date(post.created_at).toLocaleDateString()}</td>  
-                    <td>  
-                        <button class="action-btn btn-view" onclick="viewPost('${post.id}')">  
-                            <i class="ri-eye-line"></i>  
-                        </button>  
-                        <button class="action-btn btn-view" onclick="commentOnPost('${post.id}')">  
-                            <i class="ri-chat-3-line"></i> Comment  
-                        </button>  
-                        <button class="action-btn btn-delete" onclick="deletePost('${post.id}')">  
-                            <i class="ri-delete-bin-line"></i>  
-                        </button>  
-                    </td>  
-                `  
-            tbody.appendChild(row)  
-        })  
-
-        container.innerHTML = ''  
-        container.appendChild(table)  
-    } catch (err) {  
-        console.error('Error loading posts:', err)  
-        container.innerHTML = '<div class="empty-state"><p>Error loading posts</p></div>'  
-    }  
-}  
-
-// View post  
-window.viewPost = function (postId) {  
-    window.open(`post.html?post=${postId}`, '_blank')  
-}  
-
-// Delete post  
-window.deletePost = async function (postId) {  
-    if (!confirm('Delete this post? This will also delete all comments!')) return  
-
-    try {  
-        await Promise.all([  
-            supabase.from('comments').delete().eq('post_id', postId),  
-            supabase.from('post_likes').delete().eq('post_id', postId),  
-            supabase.from('post_shares').delete().eq('post_id', postId),  
-            supabase.from('post_bookmarks').delete().eq('post_id', postId)  
-        ])  
-
-        await supabase.from('posts').delete().eq('id', postId)  
-
-        showToast('Post deleted successfully', '#ef4444')  
-        loadPosts()  
-        loadStats()  
-    } catch (err) {  
-        showToast('Error deleting post', '#ef4444')  
-    }  
-}  
-
-// Load comments  
-window.loadComments = async function () {  
-    const container = document.getElementById('commentsContainer')  
-    container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading comments...</p></div>'  
-
-    try {  
-        const search = document.getElementById('commentSearch').value.toLowerCase()  
-
-        const {data: comments, error} = await supabase  
-            .from('comments')  
-            .select('*, profiles(stage_name, profile_picture), posts(content)')  
-            .order('created_at', {ascending: false})  
-            .limit(100)  
-
-        if (error) throw error  
-
-        allComments = comments || []  
-
-        let filteredComments = allComments  
-        if (search) {  
-            filteredComments = allComments.filter(c =>  
-                c.content?.toLowerCase().includes(search) ||  
-                c.profiles?.stage_name?.toLowerCase().includes(search)  
-            )  
-        }  
-
-        if (!filteredComments.length) {  
-            container.innerHTML = '<div class="empty-state"><i class="ri-chat-3-line"></i><p>No comments found</p></div>'  
-            return  
-        }  
-
-        const table = document.createElement('table')  
-        table.className = 'data-table'  
-        table.innerHTML = `  
-                <thead>  
-                    <tr>  
-                        <th>Author</th>  
-                        <th>Comment</th>  
-                        <th>Post Preview</th>  
-                        <th>Date</th>  
-                        <th>Actions</th>  
-                    </tr>  
-                </thead>  
-                <tbody></tbody>  
-            `  
-
-        const tbody = table.querySelector('tbody')  
-
-        filteredComments.forEach(comment => {  
-            const row = document.createElement('tr')  
-            const commentPreview = comment.content?.substring(0, 80) + (comment.content?.length > 80 ? '...' : '')  
-            const postPreview = comment.posts?.content?.substring(0, 40) + '...'  
-
-            row.innerHTML = `  
-                    <td>  
-                        <div class="user-cell">  
-                            <img src="${comment.profiles?.profile_picture || 'user.webp'}" class="user-avatar">  
-                            <strong>${comment.profiles?.stage_name || 'Unknown'}</strong>  
-                        </div>  
-                    </td>  
-                    <td style="max-width: 300px;">${commentPreview}</td>  
-                    <td style="max-width: 200px; color: #666; font-size: 13px;">${postPreview}</td>  
-                    <td>${new Date(comment.created_at).toLocaleDateString()}</td>  
-                    <td>  
-                        <button class="action-btn btn-view" onclick="viewPost('${comment.post_id}')">  
-                            <i class="ri-eye-line"></i>  
-                        </button>  
-                        <button class="action-btn btn-delete" onclick="deleteComment('${comment.id}', '${comment.post_id}')">  
-                            <i class="ri-delete-bin-line"></i>  
-                        </button>  
-                    </td>  
-                `  
-            tbody.appendChild(row)  
-        })  
-
-        container.innerHTML = ''  
-        container.appendChild(table)  
-    } catch (err) {  
-        console.error('Error loading comments:', err)  
-        container.innerHTML = '<div class="empty-state"><p>Error loading comments</p></div>'  
-    }  
-}  
-
-// Delete comment  
-window.deleteComment = async function (commentId, postId) {  
-    if (!confirm('Delete this comment?')) return  
-
-    try {  
-        await supabase.from('comments').delete().eq('id', commentId)  
-
-        const {data: post} = await supabase  
-            .from('posts')  
-            .select('comments')  
-            .eq('id', postId)  
-            .single()  
-
-        await supabase  
-            .from('posts')  
-            .update({comments: Math.max(0, (post.comments || 0) - 1)})  
-            .eq('id', postId)  
-
-        showToast('Comment deleted successfully', '#ef4444')  
-        loadComments()  
-        loadStats()  
-    } catch (err) {  
-        showToast('Error deleting comment', '#ef4444')  
-    }  
-}  
-
-// Comment on post as admin  
-window.commentOnPost = async function (postId) {  
-    if (!currentAdminProfile) {  
-        showToast('Admin profile not loaded', '#ef4444')  
-        return  
-    }  
-
-    currentPostId = postId  
-    document.getElementById('adminCommentModal').classList.add('active')  
-
-    // Load existing comments  
-    await loadPostComments(postId)  
-}  
-
-window.closeCommentModal = function () {  
-    document.getElementById('adminCommentModal').classList.remove('active')  
-    document.getElementById('adminCommentText').value = ''  
-    currentPostId = null  
-}  
-
-// Load post comments  
-async function loadPostComments(postId) {  
-    const container = document.getElementById('postCommentsContainer')  
-    container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading comments...</p></div>'  
-
-    try {  
-        const {data: comments, error} = await supabase  
-            .from('comments')  
-            .select('*, profiles(id, stage_name, profile_picture, user_type, is_admin)')  
-            .eq('post_id', postId)  
-            .order('created_at', {ascending: false})  
-
-        if (error) throw error  
-
-        if (!comments || comments.length === 0) {  
-            container.innerHTML = '<div class="empty-state"><p style="font-size: 14px;">No comments yet. Be the first!</p></div>'  
-            return  
-        }  
-
-        container.innerHTML = comments.map(comment => {  
-            const profile = comment.profiles || {}  
-            const isAdmin = profile.user_type === 'Admin' || profile.is_admin === true  
-
-            return `  
-                    <div class="comment-item">  
-                        <img src="${profile.profile_picture || 'user.webp'}" class="user-avatar">  
-                        <div class="comment-content-wrapper">  
-                            <div class="comment-header">  
-                                <strong>${profile.stage_name || 'Unknown'}</strong>  
-                                ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}  
-                            </div>  
-                            <div class="comment-text">${comment.content}</div>  
-                            <div class="comment-meta">${timeAgo(comment.created_at)}</div>  
-                        </div>  
-                    `  
-        }).join('')  
-    } catch (err) {  
-        console.error('Error loading comments:', err)  
-        container.innerHTML = '<div class="empty-state"><p style="color: #ef4444;">Error loading comments</p></div>'  
-    }  
-}  
-
-// Handle admin comment submission  
-document.getElementById('adminCommentForm').addEventListener('submit', async (e) => {  
-    e.preventDefault()  
-
-    const content = document.getElementById('adminCommentText').value.trim()  
-    const submitBtn = document.getElementById('postCommentBtn')  
-
-    if (!content || !currentPostId) {  
-        showToast('Please write a comment', '#ef4444')  
-        return  
-    }  
-
-    if (!currentAdminProfile || !currentAdminProfile.id) {  
-        showToast('Admin profile not loaded. Please refresh the page.', '#ef4444')  
-        return  
-    }  
-
-    submitBtn.disabled = true  
-    submitBtn.textContent = 'Posting...'  
-
-    try {  
-        // Insert comment  
-        const {error: commentError} = await supabase  
-            .from('comments')  
-            .insert([{  
-                post_id: currentPostId,  
-                user_id: currentAdminProfile.id,  
-                content: content  
-            }])  
-
-        if (commentError) throw commentError  
-
-        // Update post comment count  
-        const {data: post, error: postError} = await supabase  
-            .from('posts')  
-            .select('comments, user_id')  
-            .eq('id', currentPostId)  
-            .single()  
-
-        if (postError) throw postError  
-
-        await supabase  
-            .from('posts')  
-            .update({comments: (post.comments || 0) + 1})  
-            .eq('id', currentPostId)  
-
-        // Create notification for post owner (only if not commenting on own post)  
-        if (post.user_id !== currentAdminProfile.id) {  
-            try {  
-                await supabase  
-                    .from('notifications')  
-                    .insert([{  
-                        user_id: post.user_id,  
-                        type: 'comment',  
-                        post_id: currentPostId,  
-                        actor_id: currentAdminProfile.id,  
-                        content: content,  
-                        read: false  
-                    }])  
-            } catch (notifError) {  
-                console.log('Notification creation failed (may not be critical):', notifError)  
-            }  
-        }  
-
-        showToast('Admin comment posted successfully!', '#10b981')  
-        document.getElementById('adminCommentText').value = ''  
-        await loadPostComments(currentPostId)  
-
-        // Refresh posts if on posts tab  
-        if (document.getElementById('posts-tab').classList.contains('active')) {  
-            loadPosts()  
-        }  
-    } catch (err) {  
-        console.error('Error posting comment:', err)  
-        showToast('Error posting comment: ' + err.message, '#ef4444')  
-    } finally {  
-        submitBtn.disabled = false  
-        submitBtn.innerHTML = '<i class="ri-send-plane-fill"></i> Post Comment'  
-    }  
-})  
-
-// Broadcast modal  
-window.openBroadcastModal = async function () {  
-    if (!currentAdminProfile) {  
-        showToast('Admin profile not loaded', '#ef4444')  
-        return;  
-    }  
-
-    document.getElementById('broadcastModal').classList.add('active');  
-    await loadUserCheckboxes();  
-};  
-
-window.closeBroadcastModal = function () {  
-    document.getElementById('broadcastModal').classList.remove('active');  
-    document.getElementById('broadcastContent').value = '';  
-};  
-
-// Load User Checkboxes  
-async function loadUserCheckboxes() {  
-    const container = document.getElementById('userCheckboxes');  
-    container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading users...</p></div>';  
-
-    try {  
-        if (!currentAdminProfile || !currentAdminProfile.id) {
-            container.innerHTML = '<div class="empty-state"><p>Admin profile not loaded</p></div>';
-            return;
-        }
-
-        const {data: users, error} = await supabase  
-            .from('profiles')  
-            .select('id, stage_name, profile_picture')  
-            .neq('id', currentAdminProfile.id)  // EXCLUDE ADMIN FROM LIST
-            .order('stage_name', {ascending: true});  
-
-        if (error) {  
-            console.error('Error loading users:', error);  
-            container.innerHTML = '<div class="empty-state"><p>Error loading users</p></div>';  
-            return;  
-        }  
-
-        if (!users || users.length === 0) {  
-            container.innerHTML = '<div class="empty-state"><p>No other users found</p></div>';  
-            return;  
-        }  
-
-        // Add Select All checkbox at the top
-        let html = `
-            <label class="checkbox-item" style="border-bottom: 2px solid #667eea; padding-bottom: 12px; margin-bottom: 12px;">
-                <input type="checkbox" id="selectAllUsers" onchange="toggleAllUsers(this)">
-                <img src="user.webp" class="user-avatar" style="width: 32px; height: 32px; border-radius: 50%; margin: 0 10px;">
-                <strong style="color: #667eea;">Select All Users (${users.length})</strong>
-            </label>
-        `;
-
-        html += users.map(user => `  
-            <label class="checkbox-item" style="display: flex; align-items: center; padding: 10px; margin: 5px 0; border-radius: 8px; transition: background 0.2s;">  
-                <input type="checkbox" class="user-checkbox" value="${user.id}" style="margin-right: 10px;">
-                <img src="${user.profile_picture || 'user.webp'}" class="user-avatar" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 10px; object-fit: cover;">
-                <span>${user.stage_name || 'Unknown User'}</span>
-            </label>  
-        `).join('');  
-
-        container.innerHTML = html;
-    } catch (err) {  
-        console.error('Error loading user checkboxes:', err);  
-        container.innerHTML = '<div class="empty-state"><p>Error loading users</p></div>';  
-    }  
-}
-
-// Toggle all users selection
-window.toggleAllUsers = function(checkbox) {
-    const allCheckboxes = document.querySelectorAll('.user-checkbox');
-    allCheckboxes.forEach(cb => {
-        cb.checked = checkbox.checked;
-    });
-}  
-
-document.getElementById('broadcastForm').addEventListener('submit', async (e) => {  
-    e.preventDefault();  
-
-    const content = document.getElementById('broadcastContent').value.trim();  
-    const submitBtn = document.getElementById('postBroadcastBtn');  
-    const selectedUsers = Array.from(document.querySelectorAll('#broadcastModal .user-checkbox:checked'))  
-        .map(checkbox => checkbox.value);  
-
-    if (!content) {  
-        showToast('Please write an announcement', '#ef4444');  
-        return;  
-    }  
-
-    if (selectedUsers.length === 0) {  
-        showToast('Please select at least one user', '#ef4444');  
-        return;  
-    }  
-
-    if (!currentAdminProfile || !currentAdminProfile.id) {  
-        showToast('Admin profile not loaded. Please refresh the page.', '#ef4444');  
-        return;  
-    }  
-
-    // Check authentication
-    const {data: {session}} = await supabase.auth.getSession();
-    if (!session) {
-        showToast('Session expired. Please login again.', '#ef4444');
-        window.location.href = 'index.html';
-        return;
+// ══════════════════════════════════════
+//  CONFIG — replace with your values
+// ══════════════════════════════════════
+const SUPABASE_URL = 'https://xaudpqhyyxburjazfips.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhdWRwcWh5eXhidXJqYXpmaXBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMTY1NDUsImV4cCI6MjA3Nzg5MjU0NX0.LxRbfT0TsxJ38dwTQyKhn_Hi1cuZXZ6tpE04YPatGkQ';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.supabase = supabase;
+
+let currentAdmin = null;
+let currentPostForComment = null;
+let allUsers = [], allPosts = [], allComments = [], allNotifications = [];
+
+// ══════════════════════════════════════
+//  SQL POLICIES STRING (shown in modal)
+// ══════════════════════════════════════
+const SQL_POLICIES = `-- ╔══════════════════════════════════════════════════════╗
+-- ║  KELI — ADMIN FULL ACCESS RLS POLICIES               ║
+-- ║  Run this in Supabase → SQL Editor                   ║
+-- ╚══════════════════════════════════════════════════════╝
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  HELPER FUNCTION — checks if current user is admin   │
+-- └──────────────────────────────────────────────────────┘
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS boolean
+LANGUAGE sql
+SECURITY DEFINER
+STABLE
+AS $$
+  SELECT COALESCE(
+    (SELECT is_admin FROM public.profiles WHERE id = auth.uid()),
+    false
+  );
+$$;
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  PROFILES TABLE                                      │
+-- └──────────────────────────────────────────────────────┘
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admin: full access on profiles" ON public.profiles;
+CREATE POLICY "Admin: full access on profiles"
+ON public.profiles
+FOR ALL
+USING (public.is_admin())
+WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "Users: read own profile" ON public.profiles;
+CREATE POLICY "Users: read own profile"
+ON public.profiles
+FOR SELECT
+USING (auth.uid() = id);
+
+DROP POLICY IF EXISTS "Users: update own profile" ON public.profiles;
+CREATE POLICY "Users: update own profile"
+ON public.profiles
+FOR UPDATE
+USING (auth.uid() = id)
+WITH CHECK (auth.uid() = id);
+
+DROP POLICY IF EXISTS "Public: read all profiles" ON public.profiles;
+CREATE POLICY "Public: read all profiles"
+ON public.profiles
+FOR SELECT
+USING (true);
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  POSTS TABLE                                         │
+-- └──────────────────────────────────────────────────────┘
+ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admin: full access on posts" ON public.posts;
+CREATE POLICY "Admin: full access on posts"
+ON public.posts
+FOR ALL
+USING (public.is_admin())
+WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "Public: read all posts" ON public.posts;
+CREATE POLICY "Public: read all posts"
+ON public.posts
+FOR SELECT
+USING (true);
+
+DROP POLICY IF EXISTS "Users: insert own posts" ON public.posts;
+CREATE POLICY "Users: insert own posts"
+ON public.posts
+FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users: update own posts" ON public.posts;
+CREATE POLICY "Users: update own posts"
+ON public.posts
+FOR UPDATE
+USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users: delete own posts" ON public.posts;
+CREATE POLICY "Users: delete own posts"
+ON public.posts
+FOR DELETE
+USING (auth.uid() = user_id);
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  COMMENTS TABLE                                      │
+-- └──────────────────────────────────────────────────────┘
+ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admin: full access on comments" ON public.comments;
+CREATE POLICY "Admin: full access on comments"
+ON public.comments
+FOR ALL
+USING (public.is_admin())
+WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "Public: read all comments" ON public.comments;
+CREATE POLICY "Public: read all comments"
+ON public.comments
+FOR SELECT
+USING (true);
+
+DROP POLICY IF EXISTS "Users: insert own comments" ON public.comments;
+CREATE POLICY "Users: insert own comments"
+ON public.comments
+FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users: delete own comments" ON public.comments;
+CREATE POLICY "Users: delete own comments"
+ON public.comments
+FOR DELETE
+USING (auth.uid() = user_id);
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  POST_LIKES TABLE                                    │
+-- └──────────────────────────────────────────────────────┘
+ALTER TABLE public.post_likes ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admin: full access on post_likes" ON public.post_likes;
+CREATE POLICY "Admin: full access on post_likes"
+ON public.post_likes
+FOR ALL
+USING (public.is_admin())
+WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "Public: read post_likes" ON public.post_likes;
+CREATE POLICY "Public: read post_likes"
+ON public.post_likes
+FOR SELECT
+USING (true);
+
+DROP POLICY IF EXISTS "Users: manage own likes" ON public.post_likes;
+CREATE POLICY "Users: manage own likes"
+ON public.post_likes
+FOR ALL
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  POST_SHARES TABLE                                   │
+-- └──────────────────────────────────────────────────────┘
+ALTER TABLE public.post_shares ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admin: full access on post_shares" ON public.post_shares;
+CREATE POLICY "Admin: full access on post_shares"
+ON public.post_shares
+FOR ALL
+USING (public.is_admin())
+WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "Public: read post_shares" ON public.post_shares;
+CREATE POLICY "Public: read post_shares"
+ON public.post_shares
+FOR SELECT
+USING (true);
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  POST_BOOKMARKS TABLE                                │
+-- └──────────────────────────────────────────────────────┘
+ALTER TABLE public.post_bookmarks ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admin: full access on post_bookmarks" ON public.post_bookmarks;
+CREATE POLICY "Admin: full access on post_bookmarks"
+ON public.post_bookmarks
+FOR ALL
+USING (public.is_admin())
+WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "Users: manage own bookmarks" ON public.post_bookmarks;
+CREATE POLICY "Users: manage own bookmarks"
+ON public.post_bookmarks
+FOR ALL
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  NOTIFICATIONS TABLE                                 │
+-- └──────────────────────────────────────────────────────┘
+ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admin: full access on notifications" ON public.notifications;
+CREATE POLICY "Admin: full access on notifications"
+ON public.notifications
+FOR ALL
+USING (public.is_admin())
+WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "Users: read own notifications" ON public.notifications;
+CREATE POLICY "Users: read own notifications"
+ON public.notifications
+FOR SELECT
+USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users: insert notifications" ON public.notifications;
+CREATE POLICY "Users: insert notifications"
+ON public.notifications
+FOR INSERT
+WITH CHECK (auth.uid() = actor_id);
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  GRANT SERVICE ROLE & GRANT EXECUTE                  │
+-- └──────────────────────────────────────────────────────┘
+GRANT EXECUTE ON FUNCTION public.is_admin() TO authenticated, anon;
+
+-- ┌──────────────────────────────────────────────────────┐
+-- │  VERIFY: make yourself admin (replace YOUR_USER_ID)  │
+-- └──────────────────────────────────────────────────────┘
+-- UPDATE public.profiles
+-- SET is_admin = true
+-- WHERE id = 'YOUR_USER_ID_HERE';`;
+
+document.getElementById('sqlBlock').textContent = SQL_POLICIES;
+
+window.copySql = function() {
+    navigator.clipboard.writeText(SQL_POLICIES).then(() => showToast('SQL copied to clipboard!', 'emerald'));
+};
+window.showSqlModal = function() { document.getElementById('sqlModal').classList.add('active'); };
+window.closeSqlModal = function() { document.getElementById('sqlModal').classList.remove('active'); };
+
+// ══════════════════════════════════════
+//  AUTH CHECK
+// ══════════════════════════════════════
+async function checkAdmin() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { window.location.href = 'login.html'; return false; }
+
+    const { data: profile, error } = await supabase
+        .from('profiles').select('*').eq('id', session.user.id).single();
+
+    if (error || !profile) {
+        showToast('Error loading profile', 'rose');
+        return false;
     }
 
-    console.log('Session user ID:', session.user.id);
-    console.log('Admin profile ID:', currentAdminProfile.id);
-    console.log('Selected User IDs:', selectedUsers);
+    currentAdmin = profile;
+    document.getElementById('adminName').textContent = `Welcome, ${profile.stage_name || 'Admin'}`;
 
-    submitBtn.disabled = true;  
-    submitBtn.textContent = 'Posting...';  
+    if (profile.user_type !== 'Admin' && !profile.is_admin) {
+        showToast('Access denied: Admin only', 'rose');
+        setTimeout(() => window.location.href = 'home.html', 2000);
+        return false;
+    }
+    return true;
+}
 
-    try {  
-        // Try inserting notifications one by one
-        let successCount = 0;
-        let failedUsers = [];
+// ══════════════════════════════════════
+//  STATS
+// ══════════════════════════════════════
+async function loadStats() {
+    try {
+        const [u, p, c, l] = await Promise.all([
+            supabase.from('profiles').select('id', { count: 'exact', head: true }),
+            supabase.from('posts').select('id', { count: 'exact', head: true }),
+            supabase.from('comments').select('id', { count: 'exact', head: true }),
+            supabase.from('post_likes').select('id', { count: 'exact', head: true })
+        ]);
+        document.getElementById('totalUsers').textContent = u.count || 0;
+        document.getElementById('totalPosts').textContent = p.count || 0;
+        document.getElementById('totalComments').textContent = c.count || 0;
+        document.getElementById('totalLikes').textContent = l.count || 0;
+        document.getElementById('userSub').textContent = `${u.count || 0} registered`;
+        document.getElementById('postSub').textContent = `${p.count || 0} published`;
+        document.getElementById('commentSub').textContent = `${c.count || 0} total`;
+        document.getElementById('likeSub').textContent = `${l.count || 0} total`;
+    } catch (e) { console.error(e); }
+}
 
-        for (const userId of selectedUsers) {
-            const notification = {
-                user_id: userId,  
-                type: 'mention',
-                actor_id: currentAdminProfile.id,  
-                content: `📢 Admin Announcement\n\n${content}`,  
-                read: false  
-            };
+// ══════════════════════════════════════
+//  ACTIVITY LOG
+// ══════════════════════════════════════
+async function loadActivityLog() {
+    const el = document.getElementById('activityLog');
+    try {
+        const [{ data: posts }, { data: comments }, { data: users }] = await Promise.all([
+            supabase.from('posts').select('*, profiles(stage_name)').order('created_at', { ascending: false }).limit(5),
+            supabase.from('comments').select('*, profiles(stage_name)').order('created_at', { ascending: false }).limit(5),
+            supabase.from('profiles').select('*').order('created_at', { ascending: false }).limit(5)
+        ]);
 
-            console.log('Attempting to insert for user:', userId, notification);
+        const items = [
+            ...(posts || []).map(p => ({ type: 'post', name: p.profiles?.stage_name || 'User', time: p.created_at })),
+            ...(comments || []).map(c => ({ type: 'comment', name: c.profiles?.stage_name || 'User', time: c.created_at })),
+            ...(users || []).map(u => ({ type: 'user', name: u.stage_name || 'Someone', time: u.created_at }))
+        ].sort((a, b) => new Date(b.time) - new Date(a.time)).slice(0, 20);
 
-            const {data, error} = await supabase  
-                .from('notifications')  
-                .insert([notification])
-                .select();  
+        el.innerHTML = items.map(a => {
+            const [icon, color, label] =
+                a.type === 'post' ? ['ri-article-line', 'var(--emerald)', 'created a post'] :
+                a.type === 'comment' ? ['ri-chat-3-line', 'var(--amber)', 'posted a comment'] :
+                ['ri-user-add-line', 'var(--indigo)', 'joined'];
+            return `<div class="activity-item">
+                <div class="act-icon" style="background:${color}22;color:${color};"><i class="${icon}"></i></div>
+                <div>
+                    <div class="act-text"><strong>${a.name}</strong> ${label}</div>
+                    <div class="act-time">${timeAgo(a.time)}</div>
+                </div>
+            </div>`;
+        }).join('');
+    } catch (e) {
+        el.innerHTML = '<div class="empty-state"><p>Error loading activity</p></div>';
+    }
+}
 
-            if (error) {
-                console.error('❌ Error for user', userId, ':', error);
-                console.error('Error code:', error.code);
-                console.error('Error message:', error.message);
-                console.error('Error details:', error.details);
-                failedUsers.push(userId);
-            } else {
-                console.log('✅ Success for user', userId, ':', data);
-                successCount++;
-            }
-        }
+// ══════════════════════════════════════
+//  USERS — READ, EDIT, PROMOTE, DELETE
+// ══════════════════════════════════════
+window.loadUsers = async function() {
+    const container = document.getElementById('usersContainer');
+    container.innerHTML = '<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';
+    const search = document.getElementById('userSearch')?.value?.toLowerCase() || '';
 
-        if (successCount > 0) {
-            showToast(`Announcement sent to ${successCount} user(s) successfully!`, '#10b981');
-        }
+    const { data, error } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
+    if (error) { container.innerHTML = '<div class="empty-state"><p>Error loading users</p></div>'; return; }
 
-        if (failedUsers.length > 0) {
-            showToast(`Failed to send to ${failedUsers.length} user(s). RLS Policy issue - check Supabase settings.`, '#ef4444');
-            console.error('Failed user IDs:', failedUsers);
-            console.error('Please run: ALTER TABLE notifications DISABLE ROW LEVEL SECURITY;');
-        }
+    allUsers = data || [];
+    let filtered = allUsers;
+    if (search) filtered = allUsers.filter(u =>
+        u.stage_name?.toLowerCase().includes(search) ||
+        u.email?.toLowerCase().includes(search) ||
+        u.user_type?.toLowerCase().includes(search)
+    );
 
-        if (successCount > 0) {
-            closeBroadcastModal();  
-            loadStats();  
-            loadActivityLog();
+    if (!filtered.length) { container.innerHTML = '<div class="empty-state"><i class="ri-user-line"></i><p>No users found</p></div>'; return; }
 
-            if (document.getElementById('announcements-tab')?.classList.contains('active')) {
-                loadAnnouncements();
-            }
-        }
-    } catch (err) {  
-        console.error('💥 Error sending announcement:', err);
-        console.error('Error details:', JSON.stringify(err, null, 2));
-        showToast('Database permission error. Contact developer to fix RLS policies.', '#ef4444');
-    } finally {  
-        submitBtn.disabled = false;  
-        submitBtn.innerHTML = '<i class="ri-megaphone-line"></i> Post Announcement';  
-    }  
-});  
+    const table = document.createElement('table');
+    table.className = 'data-table';
+    table.innerHTML = `<thead><tr>
+        <th>User</th><th>Email</th><th>Type</th><th>Admin?</th><th>Joined</th><th>Actions</th>
+    </tr></thead><tbody></tbody>`;
+    const tbody = table.querySelector('tbody');
 
-// Load ALL notifications (from all users)
-window.loadAllNotifications = async function() {  
-    const container = document.getElementById('notificationsContainer')  
-    container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading notifications...</p></div>'  
-
-    try {  
-        const search = document.getElementById('notificationSearch')?.value.toLowerCase() || ''
-
-        const {data: notifications, error} = await supabase  
-            .from('notifications')  
-            .select(`  
-                *,  
-                user:profiles!notifications_user_id_fkey(stage_name, profile_picture),  
-                actor:profiles!notifications_actor_id_fkey(stage_name, profile_picture)  
-            `)  
-            .order('created_at', {ascending: false})  
-            .limit(200)  
-
-        if (error) {  
-            console.error('Notifications query error:', error)  
-            throw error  
-        }  
-
-        allNotifications = notifications || []
-
-        let filteredNotifications = allNotifications
-        if (search) {
-            filteredNotifications = allNotifications.filter(n =>
-                n.content?.toLowerCase().includes(search) ||
-                n.user?.stage_name?.toLowerCase().includes(search) ||
-                n.actor?.stage_name?.toLowerCase().includes(search) ||
-                n.type?.toLowerCase().includes(search)
-            )
-        }
-
-        if (!filteredNotifications.length) {  
-            container.innerHTML = '<div class="empty-state"><i class="ri-notification-3-line"></i><p>No notifications found</p></div>'  
-            return  
-        }  
-
-        const table = document.createElement('table')
-        table.className = 'data-table'
-        table.innerHTML = `
-            <thead>
-                <tr>
-                    <th style="width: 50px;">
-                        <input type="checkbox" id="selectAllNotifications" onchange="toggleAllNotifications(this)" style="cursor: pointer;">
-                    </th>
-                    <th>Type</th>
-                    <th>Recipient</th>
-                    <th>From</th>
-                    <th>Content</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        `
-
-        const tbody = table.querySelector('tbody')
-
-        filteredNotifications.forEach(notif => {
-            const user = notif.user || {}
-            const actor = notif.actor || {}
-            const typeIcon = {  
-                'like': 'ri-thumb-up-fill',  
-                'comment': 'ri-chat-3-fill',  
-                'share': 'ri-share-fill',
-                'mention': 'ri-megaphone-fill'
-            }[notif.type] || 'ri-notification-3-line'  
-
-            const contentPreview = notif.content?.substring(0, 60) + (notif.content?.length > 60 ? '...' : '')
-
-            const row = document.createElement('tr')
-            row.innerHTML = `
-                <td>
-                    <input type="checkbox" class="notification-checkbox" value="${notif.id}" style="cursor: pointer;">
-                </td>
-                <td>
-                    <i class="${typeIcon}" style="color: #667eea; margin-right: 5px;"></i>
-                    <span class="badge badge-active">${notif.type}</span>
-                </td>
-                <td>
-                    <div class="user-cell">
-                        <img src="${user.profile_picture || 'user.webp'}" class="user-avatar">
-                        <strong>${user.stage_name || 'Unknown'}</strong>
-                    </div>
-                </td>
-                <td>
-                    <div class="user-cell">
-                        <img src="${actor.profile_picture || 'user.webp'}" class="user-avatar">
-                        <strong>${actor.stage_name || 'System'}</strong>
-                    </div>
-                </td>
-                <td style="max-width: 300px;">${contentPreview}</td>
-                <td>
-                    <span class="badge ${notif.read ? 'badge-inactive' : 'badge-active'}">
-                        ${notif.read ? 'Read' : 'Unread'}
-                    </span>
-                </td>
-                <td>${new Date(notif.created_at).toLocaleDateString()}</td>
-                <td>
-                    <button class="action-btn btn-view" onclick="viewNotification('${notif.id}')">
-                        <i class="ri-eye-line"></i>
-                    </button>
-                    <button class="action-btn btn-delete" onclick="deleteNotification('${notif.id}')">
-                        <i class="ri-delete-bin-line"></i>
-                    </button>
-                </td>
-            `
-            tbody.appendChild(row)
-        })
-
-        // Add bulk delete button at the bottom
-        const bulkActionsRow = document.createElement('tr')
-        bulkActionsRow.innerHTML = `
-            <td colspan="8" style="text-align: center; padding: 15px; background: #f5f5f5;">
-                <button class="action-btn btn-delete" onclick="deleteSelectedNotifications()" style="padding: 10px 20px;">
-                    <i class="ri-delete-bin-line"></i> Delete Selected
+    filtered.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td>
+            <div class="user-cell">
+                <img src="${u.profile_picture || 'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.stage_name||'U')}&background=6366f1&color=fff'">
+                <div>
+                    <div class="user-name">${u.stage_name || '—'}</div>
+                    <div class="user-sub">${u.id.substring(0,8)}…</div>
+                </div>
+            </div>
+        </td>
+        <td>${u.email || '—'}</td>
+        <td><span class="badge ${u.user_type === 'Admin' ? 'badge-admin' : 'badge-user'}">${u.user_type || 'User'}</span></td>
+        <td>${u.is_admin ? '<span class="badge badge-admin"><i class="ri-shield-check-line"></i> Yes</span>' : '<span class="badge badge-user">No</span>'}</td>
+        <td>${new Date(u.created_at).toLocaleDateString()}</td>
+        <td>
+            <div class="act-group">
+                <button class="act-btn edit" title="Edit user" onclick="openEditUser('${u.id}')"><i class="ri-edit-line"></i></button>
+                <button class="act-btn promote" title="${u.is_admin ? 'Revoke admin' : 'Make admin'}" onclick="toggleAdmin('${u.id}', ${u.is_admin})">
+                    <i class="ri-${u.is_admin ? 'user-line' : 'shield-star-line'}"></i>
                 </button>
-            </td>
-        `
-        tbody.appendChild(bulkActionsRow)
-
-        container.innerHTML = ''
-        container.appendChild(table)
-    } catch (err) {  
-        console.error('Error loading notifications:', err)  
-        container.innerHTML = `  
-            <div class="empty-state">  
-                <p style="color: #ef4444;">Error loading notifications</p>  
-                <small style="color: #666;">${err.message}</small>  
-            </div>  
-        `  
-    }  
-}
-
-// Toggle all notifications selection
-window.toggleAllNotifications = function(checkbox) {
-    const allCheckboxes = document.querySelectorAll('.notification-checkbox');
-    allCheckboxes.forEach(cb => {
-        cb.checked = checkbox.checked;
+                <button class="act-btn del" title="Delete user" onclick="deleteUser('${u.id}', '${(u.stage_name || '').replace(/'/g, "\\'")}')"><i class="ri-delete-bin-line"></i></button>
+            </div>
+        </td>`;
+        tbody.appendChild(tr);
     });
-}
 
-// Delete selected notifications
-window.deleteSelectedNotifications = async function() {
-    const selectedCheckboxes = document.querySelectorAll('.notification-checkbox:checked');
-    const selectedIds = Array.from(selectedCheckboxes).map(cb => cb.value);
-
-    if (selectedIds.length === 0) {
-        showToast('Please select notifications to delete', '#f59e0b');
-        return;
-    }
-
-    if (!confirm(`Delete ${selectedIds.length} selected notification(s)?`)) return;
-
-    try {
-        const {error} = await supabase
-            .from('notifications')
-            .delete()
-            .in('id', selectedIds);
-
-        if (error) throw error;
-
-        showToast(`${selectedIds.length} notification(s) deleted successfully`, '#10b981');
-        loadAllNotifications();
-    } catch (err) {
-        console.error('Error deleting notifications:', err);
-        showToast('Error deleting notifications', '#ef4444');
-    }
-}
-
-// View notification details
-window.viewNotification = async function(notificationId) {
-    try {
-        const {data: notification, error} = await supabase
-            .from('notifications')
-            .select(`
-                *,
-                user:profiles!notifications_user_id_fkey(stage_name),
-                actor:profiles!notifications_actor_id_fkey(stage_name)
-            `)
-            .eq('id', notificationId)
-            .single()
-
-        if (error) throw error
-
-        const modal = document.getElementById('notificationDetailModal')
-        if (!modal) {
-            // If modal doesn't exist, show in alert instead
-            const user = notification.user || {}
-            const actor = notification.actor || {}
-            alert(`${notification.type.toUpperCase()} Notification\n\nTo: ${user.stage_name || 'Unknown'}\nFrom: ${actor.stage_name || 'System'}\nDate: ${new Date(notification.created_at).toLocaleString()}\nStatus: ${notification.read ? 'Read' : 'Unread'}\n\n${notification.content || 'No content'}`);
-            return;
-        }
-
-        const title = document.getElementById('notificationDetailTitle')
-        const content = document.getElementById('notificationDetailContent')
-
-        if (!title || !content) {
-            console.error('Modal elements not found');
-            alert('Error: Modal elements missing. Notification: ' + notification.content);
-            return;
-        }
-
-        const user = notification.user || {}
-        const actor = notification.actor || {}
-
-        title.textContent = `${notification.type.toUpperCase()} Notification`
-        content.innerHTML = `
-            <div style="margin-bottom: 15px;">
-                <strong>To:</strong> ${user.stage_name || 'Unknown'}<br>
-                <strong>From:</strong> ${actor.stage_name || 'System'}<br>
-                <strong>Date:</strong> ${new Date(notification.created_at).toLocaleString()}<br>
-                <strong>Status:</strong> ${notification.read ? 'Read' : 'Unread'}
-            </div>
-            <div style="padding: 15px; background: #f5f5f5; border-radius: 8px;">
-                ${notification.content || 'No content'}
-            </div>
-        `
-
-        modal.classList.add('active')
-    } catch (err) {
-        console.error('Error loading notification:', err)
-        showToast('Error loading notification details', '#ef4444')
-    }
-}
-
-window.closeNotificationDetailModal = function() {
-    const modal = document.getElementById('notificationDetailModal')
-    if (modal) {
-        modal.classList.remove('active')
-    }
-}
-
-// Delete notification
-window.deleteNotification = async function(notificationId) {
-    if (!confirm('Delete this notification?')) return
-
-    try {
-        const {error} = await supabase
-            .from('notifications')
-            .delete()
-            .eq('id', notificationId)
-
-        if (error) throw error
-
-        showToast('Notification deleted successfully', '#ef4444')
-        loadAllNotifications()
-    } catch (err) {
-        console.error('Error deleting notification:', err)
-        showToast('Error deleting notification', '#ef4444')
-    }
-}
-
-// Load announcements (made by admin - excluding self-sent)
-window.loadAnnouncements = async function() {  
-    const container = document.getElementById('announcementsContainer');  
-    container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading announcements...</p></div>';  
-
-    try {  
-        const search = document.getElementById('announcementSearch')?.value.toLowerCase() || ''
-
-        // Get announcements where admin sent to others (not to themselves)
-        const {data: announcements, error} = await supabase  
-            .from('notifications')  
-            .select('id, content, created_at, actor_id, user_id')  
-            .eq('type', 'mention')
-            .eq('actor_id', currentAdminProfile.id)
-            .neq('user_id', currentAdminProfile.id) // Exclude notifications sent to self
-            .order('created_at', {ascending: false});  
-
-        if (error) {  
-            console.error('Error loading announcements:', error);  
-            container.innerHTML = '<div class="empty-state"><p>Error loading announcements</p></div>';  
-            return;  
-        }  
-
-        // Group announcements by content and created_at to avoid duplicates
-        const uniqueAnnouncements = [];
-        const seen = new Set();
-
-        for (const announcement of (announcements || [])) {
-            const key = `${announcement.content}-${announcement.created_at}`;
-            if (!seen.has(key)) {
-                seen.add(key);
-                uniqueAnnouncements.push(announcement);
-            }
-        }
-
-        let filteredAnnouncements = uniqueAnnouncements;
-        if (search) {
-            filteredAnnouncements = uniqueAnnouncements.filter(a =>
-                a.content?.toLowerCase().includes(search)
-            )
-        }
-
-        if (!filteredAnnouncements.length) {  
-            container.innerHTML = '<div class="empty-state"><i class="ri-megaphone-line"></i><p>No announcements found</p></div>';  
-            return;  
-        }  
-
-        const table = document.createElement('table');  
-        table.className = 'data-table';  
-        table.innerHTML = `  
-            <thead>  
-                <tr>  
-                    <th>Content</th>  
-                    <th>Date</th>  
-                    <th>Recipients</th>
-                    <th>Actions</th>  
-                </tr>  
-            </thead>  
-            <tbody></tbody>  
-        `;  
-
-        const tbody = table.querySelector('tbody');  
-
-        for (const announcement of filteredAnnouncements) {
-            const row = document.createElement('tr');  
-            const contentPreview = announcement.content?.substring(0, 100) + (announcement.content?.length > 100 ? '...' : '');  
-
-            // Count recipients (excluding self)
-            const {count} = await supabase
-                .from('notifications')
-                .select('*', {count: 'exact', head: true})
-                .eq('content', announcement.content)
-                .eq('created_at', announcement.created_at)
-                .eq('actor_id', currentAdminProfile.id)
-                .neq('user_id', currentAdminProfile.id)
-
-            row.innerHTML = `  
-                <td style="max-width: 400px;">${contentPreview}</td>  
-                <td>${new Date(announcement.created_at).toLocaleDateString()}</td>
-                <td><span class="badge badge-active">${count || 0} users</span></td>  
-                <td>  
-                    <button class="action-btn btn-view" onclick="viewAnnouncement('${announcement.id}')">  
-                        <i class="ri-eye-line"></i> View  
-                    </button>  
-                    <button class="action-btn btn-delete" onclick="deleteAnnouncement('${announcement.id}', \`${announcement.content.replace(/`/g, '\\`')}\`, '${announcement.created_at}')">  
-                        <i class="ri-delete-bin-line"></i> Delete  
-                    </button>  
-                </td>  
-            `;  
-            tbody.appendChild(row);  
-        }
-
-        container.innerHTML = '';  
-        container.appendChild(table);  
-    } catch (err) {  
-        console.error('Error loading announcements:', err);  
-        container.innerHTML = '<div class="empty-state"><p>Error loading announcements</p></div>';  
-    }  
-};  
-
-// View announcement
-window.viewAnnouncement = async function(announcementId) {  
-    try {  
-        const {data: announcement, error} = await supabase  
-            .from('notifications')  
-            .select('content, created_at')  
-            .eq('id', announcementId)  
-            .single();  
-
-        if (error) {  
-            console.error('Error loading announcement:', error);  
-            showToast('Error loading announcement', '#ef4444');  
-            return;  
-        }  
-
-        const modal = document.getElementById('announcementModal');
-        if (!modal) {
-            // If modal doesn't exist, show in alert
-            alert(`Announcement\n\nSent: ${new Date(announcement.created_at).toLocaleString()}\n\n${announcement.content}`);
-            return;
-        }
-
-        const title = document.getElementById('announcementModalTitle');  
-        const content = document.getElementById('announcementModalContent');
-
-        if (!title || !content) {
-            alert(`Announcement\n\n${announcement.content}`);
-            return;
-        }
-
-        // Get recipient count (excluding self)
-        const {count} = await supabase
-            .from('notifications')
-            .select('*', {count: 'exact', head: true})
-            .eq('content', announcement.content)
-            .eq('created_at', announcement.created_at)
-            .eq('actor_id', currentAdminProfile.id)
-            .neq('user_id', currentAdminProfile.id)
-
-        title.textContent = 'Announcement Details';  
-        content.innerHTML = `
-            <div style="margin-bottom: 15px; color: #666;">
-                <strong>Sent:</strong> ${new Date(announcement.created_at).toLocaleString()}<br>
-                <strong>Recipients:</strong> ${count || 0} users
-            </div>
-            <div style="padding: 15px; background: #f5f5f5; border-radius: 8px; line-height: 1.6;">
-                ${announcement.content}
-            </div>
-        `;  
-        modal.classList.add('active');  
-    } catch (err) {  
-        console.error('Error loading announcement:', err);  
-        showToast('Error loading announcement', '#ef4444');  
-    }  
-};  
-
-window.closeAnnouncementModal = function() {  
-    const modal = document.getElementById('announcementModal');
-    if (modal) {
-        modal.classList.remove('active');
-    }
-};  
-
-// Delete announcement (all copies to all users, excluding self)
-window.deleteAnnouncement = async function(announcementId, content, createdAt) {  
-    if (!confirm('Delete this announcement? This will remove it for all recipients!')) return;  
-
-    try {  
-        // Delete all notifications with same content and timestamp sent by admin (excluding self-sent)
-        const {error} = await supabase  
-            .from('notifications')  
-            .delete()  
-            .eq('content', content)
-            .eq('created_at', createdAt)
-            .eq('actor_id', currentAdminProfile.id)
-            .neq('user_id', currentAdminProfile.id)
-
-        if (error) {  
-            console.error('Error deleting announcement:', error);  
-            showToast('Error deleting announcement', '#ef4444');  
-            return;  
-        }  
-
-        showToast('Announcement deleted successfully', '#10b981');  
-        loadAnnouncements();
-    } catch (err) {  
-        console.error('Error deleting announcement:', err);  
-        showToast('Error deleting announcement', '#ef4444');  
-    }  
+    container.innerHTML = '';
+    container.appendChild(table);
 };
 
-// View all notifications modal
-window.viewAllNotifications = function () {  
-    document.getElementById('notificationsModal').classList.add('active')  
-    loadAllNotifications()  
-}  
+window.openEditUser = function(userId) {
+    const u = allUsers.find(x => x.id === userId);
+    if (!u) return;
+    document.getElementById('editUserId').value = u.id;
+    document.getElementById('editStageName').value = u.stage_name || '';
+    document.getElementById('editEmail').value = u.email || '';
+    document.getElementById('editUserType').value = u.user_type || 'User';
+    document.getElementById('editIsAdmin').checked = !!u.is_admin;
+    document.getElementById('editUserModal').classList.add('active');
+};
+window.closeEditUserModal = function() { document.getElementById('editUserModal').classList.remove('active'); };
 
-window.closeNotificationsModal = function () {  
-    document.getElementById('notificationsModal').classList.remove('active')  
+window.saveUserEdit = async function() {
+    const id = document.getElementById('editUserId').value;
+    const updates = {
+        stage_name: document.getElementById('editStageName').value,
+        email: document.getElementById('editEmail').value,
+        user_type: document.getElementById('editUserType').value,
+        is_admin: document.getElementById('editIsAdmin').checked
+    };
+    const { error } = await supabase.from('profiles').update(updates).eq('id', id);
+    if (error) { showToast('Error saving changes: ' + error.message, 'rose'); return; }
+    showToast('User updated successfully', 'emerald');
+    closeEditUserModal();
+    loadUsers();
+};
+
+window.toggleAdmin = async function(userId, currentlyAdmin) {
+    const action = currentlyAdmin ? 'revoke admin from' : 'grant admin to';
+    if (!confirm(`Are you sure you want to ${action} this user?`)) return;
+    const { error } = await supabase.from('profiles').update({ is_admin: !currentlyAdmin }).eq('id', userId);
+    if (error) { showToast('Error: ' + error.message, 'rose'); return; }
+    showToast(currentlyAdmin ? 'Admin revoked' : 'Admin granted!', currentlyAdmin ? 'amber' : 'emerald');
+    loadUsers();
+};
+
+window.deleteUser = async function(userId, stageName) {
+    if (!confirm(`Delete ${stageName}? This will permanently delete all their posts, comments and data!`)) return;
+    try {
+        await Promise.all([
+            supabase.from('posts').delete().eq('user_id', userId),
+            supabase.from('comments').delete().eq('user_id', userId),
+            supabase.from('post_likes').delete().eq('user_id', userId),
+            supabase.from('post_shares').delete().eq('user_id', userId),
+            supabase.from('post_bookmarks').delete().eq('user_id', userId),
+            supabase.from('notifications').delete().eq('user_id', userId)
+        ]);
+        await supabase.from('profiles').delete().eq('id', userId);
+        showToast(`${stageName} deleted`, 'rose');
+        loadUsers(); loadStats();
+    } catch (e) { showToast('Error deleting user', 'rose'); }
+};
+
+// ══════════════════════════════════════
+//  POSTS — READ, EDIT, COMMENT, DELETE
+// ══════════════════════════════════════
+window.loadPosts = async function() {
+    const container = document.getElementById('postsContainer');
+    container.innerHTML = '<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';
+    const search = document.getElementById('postSearch')?.value?.toLowerCase() || '';
+
+    const { data, error } = await supabase.from('posts').select('*, profiles(stage_name, profile_picture)').order('created_at', { ascending: false });
+    if (error) { container.innerHTML = '<div class="empty-state"><p>Error loading posts</p></div>'; return; }
+
+    allPosts = data || [];
+    let filtered = allPosts;
+    if (search) filtered = allPosts.filter(p =>
+        p.content?.toLowerCase().includes(search) ||
+        p.profiles?.stage_name?.toLowerCase().includes(search)
+    );
+
+    if (!filtered.length) { container.innerHTML = '<div class="empty-state"><i class="ri-article-line"></i><p>No posts found</p></div>'; return; }
+
+    const table = document.createElement('table');
+    table.className = 'data-table';
+    table.innerHTML = `<thead><tr><th>Author</th><th>Content</th><th>Likes</th><th>Comments</th><th>Date</th><th>Actions</th></tr></thead><tbody></tbody>`;
+    const tbody = table.querySelector('tbody');
+
+    filtered.forEach(p => {
+        const tr = document.createElement('tr');
+        const preview = (p.content || '').substring(0, 90) + (p.content?.length > 90 ? '…' : '');
+        tr.innerHTML = `
+        <td>
+            <div class="user-cell">
+                <img src="${p.profiles?.profile_picture || 'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.profiles?.stage_name||'U')}&background=6366f1&color=fff'">
+                <span class="user-name">${p.profiles?.stage_name || '—'}</span>
+            </div>
+        </td>
+        <td style="max-width:260px;color:var(--text2);">${preview}</td>
+        <td><strong>${p.likes || 0}</strong></td>
+        <td><strong>${p.comments || 0}</strong></td>
+        <td>${new Date(p.created_at).toLocaleDateString()}</td>
+        <td>
+            <div class="act-group">
+                <button class="act-btn view" title="View" onclick="viewContent('Post Content', \`${(p.content||'').replace(/`/g,'\\`')}\`)"><i class="ri-eye-line"></i></button>
+                <button class="act-btn edit" title="Edit" onclick="openEditPost('${p.id}')"><i class="ri-edit-line"></i></button>
+                <button class="act-btn promote" title="Admin comment" onclick="openAdminComment('${p.id}')"><i class="ri-chat-3-line"></i></button>
+                <button class="act-btn del" title="Delete" onclick="deletePost('${p.id}')"><i class="ri-delete-bin-line"></i></button>
+            </div>
+        </td>`;
+        tbody.appendChild(tr);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(table);
+};
+
+window.openEditPost = function(postId) {
+    const p = allPosts.find(x => x.id === postId);
+    if (!p) return;
+    document.getElementById('editPostId').value = p.id;
+    document.getElementById('editPostContent').value = p.content || '';
+    document.getElementById('editPostModal').classList.add('active');
+};
+window.closeEditPostModal = function() { document.getElementById('editPostModal').classList.remove('active'); };
+
+window.savePostEdit = async function() {
+    const id = document.getElementById('editPostId').value;
+    const content = document.getElementById('editPostContent').value;
+    const { error } = await supabase.from('posts').update({ content }).eq('id', id);
+    if (error) { showToast('Error: ' + error.message, 'rose'); return; }
+    showToast('Post updated', 'emerald');
+    closeEditPostModal(); loadPosts();
+};
+
+window.deletePost = async function(postId) {
+    if (!confirm('Delete this post and all its comments?')) return;
+    try {
+        await Promise.all([
+            supabase.from('comments').delete().eq('post_id', postId),
+            supabase.from('post_likes').delete().eq('post_id', postId),
+            supabase.from('post_shares').delete().eq('post_id', postId),
+            supabase.from('post_bookmarks').delete().eq('post_id', postId)
+        ]);
+        await supabase.from('posts').delete().eq('id', postId);
+        showToast('Post deleted', 'rose'); loadPosts(); loadStats();
+    } catch (e) { showToast('Error deleting post', 'rose'); }
+};
+
+// Admin Comment on Post
+window.openAdminComment = async function(postId) {
+    currentPostForComment = postId;
+    document.getElementById('adminCommentText').value = '';
+    document.getElementById('adminCommentModal').classList.add('active');
+    await loadPostComments(postId);
+};
+window.closeAdminCommentModal = function() {
+    document.getElementById('adminCommentModal').classList.remove('active');
+    currentPostForComment = null;
+};
+
+async function loadPostComments(postId) {
+    const el = document.getElementById('postCommentsContainer');
+    const { data } = await supabase.from('comments')
+        .select('*, profiles(stage_name, profile_picture, is_admin)')
+        .eq('post_id', postId).order('created_at', { ascending: false });
+
+    if (!data?.length) { el.innerHTML = '<p style="padding:12px;color:var(--text3);font-size:13px;">No comments yet</p>'; return; }
+
+    el.innerHTML = (data || []).map(c => `
+        <div class="notif-item">
+            <img src="${c.profiles?.profile_picture || 'user.webp'}" class="user-avatar" style="width:28px;height:28px;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.profiles?.stage_name||'U')}&background=6366f1&color=fff'">
+            <div>
+                <div style="font-size:12px;font-weight:600;color:var(--text);">${c.profiles?.stage_name || '—'}${c.profiles?.is_admin ? ' <span class="badge badge-admin">Admin</span>' : ''}</div>
+                <div style="font-size:13px;color:var(--text2);">${c.content}</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px;">${timeAgo(c.created_at)}</div>
+            </div>
+        </div>`).join('');
 }
 
-// Tab switching  
-window.switchTab = function (tab) {  
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))  
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'))  
+window.postAdminComment = async function() {
+    const content = document.getElementById('adminCommentText').value.trim();
+    if (!content) { showToast('Write a comment first', 'amber'); return; }
+    const { error } = await supabase.from('comments').insert({
+        post_id: currentPostForComment,
+        user_id: currentAdmin.id,
+        content
+    });
+    if (error) { showToast('Error: ' + error.message, 'rose'); return; }
 
-    event.target.closest('.tab').classList.add('active')  
-    document.getElementById(`${tab}-tab`).classList.add('active')  
+    // update post comment count
+    const { data: post } = await supabase.from('posts').select('comments').eq('id', currentPostForComment).single();
+    await supabase.from('posts').update({ comments: (post?.comments || 0) + 1 }).eq('id', currentPostForComment);
 
-    if (tab === 'dashboard') {  
-        loadActivityLog()  
-    } else if (tab === 'users') {  
-        loadUsers()  
-    } else if (tab === 'posts') {  
-        loadPosts()  
-    } else if (tab === 'comments') {  
-        loadComments()  
-    } else if (tab === 'announcements') {  
-        loadAnnouncements();  
-    } else if (tab === 'notifications') {
-        loadAllNotifications();
+    showToast('Comment posted!', 'emerald');
+    document.getElementById('adminCommentText').value = '';
+    await loadPostComments(currentPostForComment);
+    loadPosts(); loadStats();
+};
+
+// ══════════════════════════════════════
+//  COMMENTS — READ, EDIT, DELETE
+// ══════════════════════════════════════
+window.loadComments = async function() {
+    const container = document.getElementById('commentsContainer');
+    container.innerHTML = '<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';
+    const search = document.getElementById('commentSearch')?.value?.toLowerCase() || '';
+
+    const { data, error } = await supabase.from('comments')
+        .select('*, profiles(stage_name, profile_picture), posts(content)')
+        .order('created_at', { ascending: false }).limit(200);
+    if (error) { container.innerHTML = '<div class="empty-state"><p>Error</p></div>'; return; }
+
+    allComments = data || [];
+    let filtered = allComments;
+    if (search) filtered = allComments.filter(c =>
+        c.content?.toLowerCase().includes(search) ||
+        c.profiles?.stage_name?.toLowerCase().includes(search)
+    );
+
+    if (!filtered.length) { container.innerHTML = '<div class="empty-state"><i class="ri-chat-3-line"></i><p>No comments found</p></div>'; return; }
+
+    const table = document.createElement('table');
+    table.className = 'data-table';
+    table.innerHTML = `<thead><tr><th>Author</th><th>Comment</th><th>Post Context</th><th>Date</th><th>Actions</th></tr></thead><tbody></tbody>`;
+    const tbody = table.querySelector('tbody');
+
+    filtered.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td>
+            <div class="user-cell">
+                <img src="${c.profiles?.profile_picture || 'user.webp'}" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.profiles?.stage_name||'U')}&background=6366f1&color=fff'">
+                <span class="user-name">${c.profiles?.stage_name || '—'}</span>
+            </div>
+        </td>
+        <td style="max-width:240px;color:var(--text2);">${(c.content||'').substring(0,80)}${c.content?.length > 80 ? '…' : ''}</td>
+        <td style="max-width:160px;color:var(--text3);font-size:12px;">${(c.posts?.content||'').substring(0,50)}…</td>
+        <td>${new Date(c.created_at).toLocaleDateString()}</td>
+        <td>
+            <div class="act-group">
+                <button class="act-btn edit" title="Edit comment" onclick="openEditComment('${c.id}')"><i class="ri-edit-line"></i></button>
+                <button class="act-btn del" title="Delete comment" onclick="deleteComment('${c.id}', '${c.post_id}')"><i class="ri-delete-bin-line"></i></button>
+            </div>
+        </td>`;
+        tbody.appendChild(tr);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(table);
+};
+
+window.openEditComment = function(commentId) {
+    const c = allComments.find(x => x.id === commentId);
+    if (!c) return;
+    document.getElementById('editCommentId').value = c.id;
+    document.getElementById('editCommentContent').value = c.content || '';
+    document.getElementById('editCommentModal').classList.add('active');
+};
+window.closeEditCommentModal = function() { document.getElementById('editCommentModal').classList.remove('active'); };
+
+window.saveCommentEdit = async function() {
+    const id = document.getElementById('editCommentId').value;
+    const content = document.getElementById('editCommentContent').value;
+    const { error } = await supabase.from('comments').update({ content }).eq('id', id);
+    if (error) { showToast('Error: ' + error.message, 'rose'); return; }
+    showToast('Comment updated', 'emerald');
+    closeEditCommentModal(); loadComments();
+};
+
+window.deleteComment = async function(commentId, postId) {
+    if (!confirm('Delete this comment?')) return;
+    await supabase.from('comments').delete().eq('id', commentId);
+    const { data: post } = await supabase.from('posts').select('comments').eq('id', postId).single();
+    await supabase.from('posts').update({ comments: Math.max(0, (post?.comments || 1) - 1) }).eq('id', postId);
+    showToast('Comment deleted', 'rose'); loadComments(); loadStats();
+};
+
+// ══════════════════════════════════════
+//  ANNOUNCEMENTS
+// ══════════════════════════════════════
+window.openBroadcastModal = async function() {
+    document.getElementById('broadcastContent').value = '';
+    document.getElementById('broadcastModal').classList.add('active');
+    await loadUserCheckboxes();
+};
+window.closeBroadcastModal = function() { document.getElementById('broadcastModal').classList.remove('active'); };
+
+async function loadUserCheckboxes() {
+    const box = document.getElementById('userCheckboxes');
+    const { data } = await supabase.from('profiles').select('id, stage_name').order('stage_name');
+    if (!data?.length) { box.innerHTML = '<p style="padding:8px;color:var(--text3);font-size:12px;">No users found</p>'; return; }
+    box.innerHTML = data.filter(u => u.id !== currentAdmin?.id).map(u => `
+        <div class="user-check-item">
+            <input type="checkbox" id="uc_${u.id}" value="${u.id}" checked>
+            <label for="uc_${u.id}">${u.stage_name || u.id}</label>
+        </div>`).join('');
+}
+
+window.toggleSelectAll = function() {
+    const checkboxes = document.querySelectorAll('#userCheckboxes input[type="checkbox"]');
+    const allChecked = Array.from(checkboxes).every(c => c.checked);
+    checkboxes.forEach(c => c.checked = !allChecked);
+    document.getElementById('selectAllUsers').textContent = allChecked ? 'Select All' : 'Deselect All';
+};
+
+window.postAnnouncement = async function() {
+    const content = document.getElementById('broadcastContent').value.trim();
+    if (!content) { showToast('Write a message first', 'amber'); return; }
+    const checked = [...document.querySelectorAll('#userCheckboxes input:checked')].map(c => c.value);
+    if (!checked.length) { showToast('Select at least one recipient', 'amber'); return; }
+
+    const notifs = checked.map(userId => ({
+        user_id: userId,
+        actor_id: currentAdmin.id,
+        type: 'announcement',
+        content
+    }));
+
+    const { error } = await supabase.from('notifications').insert(notifs);
+    if (error) { showToast('Error: ' + error.message, 'rose'); return; }
+    showToast(`Announcement sent to ${checked.length} users!`, 'emerald');
+    closeBroadcastModal();
+    if (document.getElementById('announcements-tab').classList.contains('active')) loadAnnouncements();
+};
+
+window.loadAnnouncements = async function() {
+    const container = document.getElementById('announcementsContainer');
+    container.innerHTML = '<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';
+
+    const { data, error } = await supabase
+        .from('notifications')
+        .select('id, content, created_at, actor_id')
+        .eq('actor_id', currentAdmin?.id)
+        .neq('user_id', currentAdmin?.id)
+        .order('created_at', { ascending: false });
+
+    if (error) { container.innerHTML = '<div class="empty-state"><p>Error</p></div>'; return; }
+
+    // deduplicate by content+created_at
+    const seen = new Set();
+    const unique = (data || []).filter(n => {
+        const key = n.content + n.created_at;
+        if (seen.has(key)) return false;
+        seen.add(key); return true;
+    });
+
+    if (!unique.length) { container.innerHTML = '<div class="empty-state"><i class="ri-megaphone-line"></i><p>No announcements yet</p></div>'; return; }
+
+    const table = document.createElement('table');
+    table.className = 'data-table';
+    table.innerHTML = `<thead><tr><th>Content</th><th>Date</th><th>Actions</th></tr></thead><tbody></tbody>`;
+    const tbody = table.querySelector('tbody');
+
+    unique.forEach(a => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td style="max-width:300px;color:var(--text2);">${(a.content||'').substring(0,100)}${a.content?.length>100?'…':''}</td>
+        <td>${new Date(a.created_at).toLocaleDateString()}</td>
+        <td>
+            <div class="act-group">
+                <button class="act-btn view" title="View" onclick="viewAnnouncement('${a.id}')"><i class="ri-eye-line"></i></button>
+                <button class="act-btn del" title="Delete" onclick="deleteAnnouncement(\`${a.content.replace(/`/g,'\\`')}\`, '${a.created_at}')"><i class="ri-delete-bin-line"></i></button>
+            </div>
+        </td>`;
+        tbody.appendChild(tr);
+    });
+
+    container.innerHTML = ''; container.appendChild(table);
+};
+
+window.viewAnnouncement = async function(id) {
+    const { data } = await supabase.from('notifications').select('content, created_at').eq('id', id).single();
+    if (!data) return;
+    document.getElementById('announcementModalTitle').textContent = 'Announcement';
+    document.getElementById('announcementModalContent').innerHTML = `
+        <p style="font-size:12px;color:var(--text3);margin-bottom:12px;">Sent: ${new Date(data.created_at).toLocaleString()}</p>
+        <div class="post-preview-box">${data.content}</div>`;
+    document.getElementById('announcementModal').classList.add('active');
+};
+window.closeAnnouncementModal = function() { document.getElementById('announcementModal').classList.remove('active'); };
+
+window.deleteAnnouncement = async function(content, createdAt) {
+    if (!confirm('Delete this announcement for all recipients?')) return;
+    const { error } = await supabase.from('notifications').delete()
+        .eq('content', content).eq('created_at', createdAt).eq('actor_id', currentAdmin.id);
+    if (error) { showToast('Error: ' + error.message, 'rose'); return; }
+    showToast('Announcement deleted', 'rose'); loadAnnouncements();
+};
+
+// ══════════════════════════════════════
+//  NOTIFICATIONS
+// ══════════════════════════════════════
+window.loadAllNotifications = async function() {
+    const container = document.getElementById('notificationsContainer');
+    container.innerHTML = '<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';
+    const search = document.getElementById('notificationSearch')?.value?.toLowerCase() || '';
+
+    const { data, error } = await supabase
+        .from('notifications')
+        .select('*, profiles!notifications_user_id_fkey(stage_name)')
+        .order('created_at', { ascending: false })
+        .limit(200);
+
+    if (error) { container.innerHTML = '<div class="empty-state"><p>Error</p></div>'; return; }
+
+    allNotifications = data || [];
+    let filtered = allNotifications;
+    if (search) filtered = allNotifications.filter(n =>
+        n.content?.toLowerCase().includes(search) ||
+        n.profiles?.stage_name?.toLowerCase().includes(search)
+    );
+
+    if (!filtered.length) { container.innerHTML = '<div class="empty-state"><i class="ri-notification-3-line"></i><p>No notifications found</p></div>'; return; }
+
+    container.innerHTML = filtered.map(n => `
+        <div class="notif-item">
+            <div class="notif-dot" style="background:${n.type==='announcement'?'var(--indigo)':'var(--emerald)'};"></div>
+            <div style="flex:1;">
+                <div style="font-size:12px;font-weight:600;color:var(--text);">${n.profiles?.stage_name || '—'} 
+                    <span class="badge ${n.type==='announcement'?'badge-admin':'badge-active'}" style="font-size:10px;">${n.type||'notification'}</span>
+                </div>
+                <div style="font-size:13px;color:var(--text2);margin-top:2px;">${(n.content||'').substring(0,120)}${n.content?.length>120?'…':''}</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px;">${timeAgo(n.created_at)}</div>
+            </div>
+            <button class="act-btn del" title="Delete notification" onclick="deleteNotification('${n.id}')"><i class="ri-delete-bin-line"></i></button>
+        </div>`).join('');
+};
+
+window.deleteNotification = async function(id) {
+    if (!confirm('Delete this notification?')) return;
+    const { error } = await supabase.from('notifications').delete().eq('id', id);
+    if (error) { showToast('Error: ' + error.message, 'rose'); return; }
+    showToast('Notification deleted', 'rose'); loadAllNotifications();
+};
+
+// ══════════════════════════════════════
+//  GENERIC VIEW MODAL
+// ══════════════════════════════════════
+window.viewContent = function(title, content) {
+    document.getElementById('viewModalTitle').textContent = title;
+    document.getElementById('viewModalContent').textContent = content;
+    document.getElementById('viewModal').classList.add('active');
+};
+window.closeViewModal = function() { document.getElementById('viewModal').classList.remove('active'); };
+
+// ══════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════
+window.switchTab = function(tab, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const tabBtn = el?.closest?.('.tab') || document.getElementById(`tab-${tab}`);
+    if (tabBtn) tabBtn.classList.add('active');
+    document.getElementById(`${tab}-tab`)?.classList.add('active');
+
+    if (tab === 'dashboard') loadActivityLog();
+    else if (tab === 'users') loadUsers();
+    else if (tab === 'posts') loadPosts();
+    else if (tab === 'comments') loadComments();
+    else if (tab === 'announcements') loadAnnouncements();
+    else if (tab === 'notifications') loadAllNotifications();
+};
+
+// ══════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════
+window.showToast = function(msg, type = 'emerald') {
+    const colors = { emerald: '#10b981', rose: '#f43f5e', amber: '#f59e0b', indigo: '#6366f1' };
+    const icons = { emerald: 'ri-check-line', rose: 'ri-error-warning-line', amber: 'ri-alert-line', indigo: 'ri-information-line' };
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.style.borderLeft = `3px solid ${colors[type] || colors.emerald}`;
+    toast.innerHTML = `<i class="${icons[type]||icons.emerald}" style="color:${colors[type]||colors.emerald};font-size:17px;"></i><span>${msg}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 3000);
+};
+
+// ══════════════════════════════════════
+//  LOGOUT
+// ══════════════════════════════════════
+window.handleLogout = async function() {
+    if (confirm('Logout of admin dashboard?')) {
+        await supabase.auth.signOut();
+        window.location.href = 'login.html';
     }
-}  
+};
 
-// Toast notifications  
-window.showToast = function (message, color = '#10b981') {  
-    const toast = document.createElement('div')  
-    toast.className = 'toast'  
-    toast.style.borderLeft = `4px solid ${color}`  
-
-    let icon = 'ri-check-line'  
-    if (color === '#ef4444') icon = 'ri-error-warning-line'  
-    else if (color === '#f59e0b') icon = 'ri-alert-line'  
-    else if (color === '#3b82f6') icon = 'ri-information-line'  
-
-    toast.innerHTML = `  
-        <i class="${icon}" style="color: ${color}; font-size: 20px;"></i>  
-        <span>${message}</span>  
-    `  
-    document.body.appendChild(toast)  
-
-    setTimeout(() => {  
-        toast.style.animation = 'slideIn 0.3s ease reverse'  
-        setTimeout(() => toast.remove(), 300)  
-    }, 3000)  
-}  
-
-// Logout  
-window.handleLogout = async function () {  
-    if (confirm('Are you sure you want to logout?')) {  
-        await supabase.auth.signOut()  
-        window.location.href = 'index.html'  
-    }  
-}  
-
-// Time ago helper  
-function timeAgo(date) {  
-    const seconds = Math.floor((new Date() - new Date(date)) / 1000)  
-
-    let interval = seconds / 31536000  
-    if (interval > 1) return Math.floor(interval) + " years ago"  
-
-    interval = seconds / 2592000  
-    if (interval > 1) return Math.floor(interval) + " months ago"  
-
-    interval = seconds / 86400  
-    if (interval > 1) return Math.floor(interval) + " days ago"  
-
-    interval = seconds / 3600  
-    if (interval > 1) return Math.floor(interval) + " hours ago"  
-
-    interval = seconds / 60  
-    if (interval > 1) return Math.floor(interval) + " minutes ago"  
-
-    return Math.floor(seconds) + " seconds ago"  
+// ══════════════════════════════════════
+//  TIME AGO
+// ══════════════════════════════════════
+function timeAgo(date) {
+    const s = Math.floor((Date.now() - new Date(date)) / 1000);
+    if (s < 60) return `${s}s ago`;
+    if (s < 3600) return `${Math.floor(s/60)}m ago`;
+    if (s < 86400) return `${Math.floor(s/3600)}h ago`;
+    if (s < 2592000) return `${Math.floor(s/86400)}d ago`;
+    return new Date(date).toLocaleDateString();
 }
 
-// Initialize  
+// ══════════════════════════════════════
+//  DEBOUNCE & SEARCH WIRING
+// ══════════════════════════════════════
+function debounce(fn, ms) {
+    let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+
+// ══════════════════════════════════════
+//  REAL-TIME SUBSCRIPTIONS
+// ══════════════════════════════════════
+function wireRealtime() {
+    supabase.channel('admin-live')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => {
+            loadStats();
+            if (document.getElementById('users-tab').classList.contains('active')) loadUsers();
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
+            loadStats();
+            if (document.getElementById('posts-tab').classList.contains('active')) loadPosts();
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'comments' }, () => {
+            loadStats();
+            if (document.getElementById('comments-tab').classList.contains('active')) loadComments();
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'notifications' }, () => {
+            if (document.getElementById('announcements-tab').classList.contains('active')) loadAnnouncements();
+            if (document.getElementById('notifications-tab').classList.contains('active')) loadAllNotifications();
+        })
+        .subscribe();
+    setInterval(loadStats, 30000);
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
 async function init() {
-    // Show loading overlay
-    showLoadingOverlay()
+    const isAdmin = await checkAdmin();
+    const overlay = document.getElementById('loadingOverlay');
+    if (!isAdmin) { overlay.querySelector('p').textContent = 'Access denied. Redirecting…'; return; }
+    overlay.style.opacity = '0'; overlay.style.transition = 'opacity 0.4s';
+    setTimeout(() => overlay.remove(), 400);
+    document.getElementById('app').style.display = 'block';
 
-    const isAdmin = await checkAdmin()  
-    if (!isAdmin) {
-        hideLoadingOverlay()
-        return
-    }
+    await Promise.all([loadStats(), loadActivityLog()]);
 
-    await loadStats()  
-    await loadActivityLog()  
+    // wire search debounce
+    document.getElementById('userSearch')?.addEventListener('input', debounce(loadUsers, 400));
+    document.getElementById('postSearch')?.addEventListener('input', debounce(loadPosts, 400));
+    document.getElementById('commentSearch')?.addEventListener('input', debounce(loadComments, 400));
+    document.getElementById('notificationSearch')?.addEventListener('input', debounce(loadAllNotifications, 400));
 
-    // Hide loading overlay once everything is loaded
-    hideLoadingOverlay()
+    wireRealtime();
+    showToast('Admin dashboard ready', 'indigo');
+}
 
-    // Set up search listeners with debounce  
-    const debounce = (func, wait) => {  
-        let timeout  
-        return function executedFunction(...args) {  
-            const later = () => {  
-                clearTimeout(timeout)  
-                func(...args)  
-            }  
-            clearTimeout(timeout)  
-            timeout = setTimeout(later, wait)  
-        }  
-    }  
-
-    document.getElementById('userSearch')?.addEventListener('input', debounce(() => loadUsers(), 500))  
-    document.getElementById('postSearch')?.addEventListener('input', debounce(() => loadPosts(), 500))  
-    document.getElementById('commentSearch')?.addEventListener('input', debounce(() => loadComments(), 500))
-    document.getElementById('notificationSearch')?.addEventListener('input', debounce(() => loadAllNotifications(), 500))
-    document.getElementById('announcementSearch')?.addEventListener('input', debounce(() => loadAnnouncements(), 500))
-
-    // Real-time updates  
-    supabase.channel('admin-updates')  
-        .on('postgres_changes', {event: '*', schema: 'public', table: 'profiles'}, () => {  
-            loadStats()  
-            if (document.getElementById('users-tab').classList.contains('active')) {  
-                loadUsers()  
-            }  
-        })  
-        .on('postgres_changes', {event: '*', schema: 'public', table: 'posts'}, () => {  
-            loadStats()  
-            if (document.getElementById('posts-tab').classList.contains('active')) {  
-                loadPosts()  
-            }  
-        })  
-        .on('postgres_changes', {event: '*', schema: 'public', table: 'comments'}, () => {  
-            loadStats()  
-            if (document.getElementById('comments-tab').classList.contains('active')) {  
-                loadComments()  
-            }  
-        })
-        .on('postgres_changes', {event: '*', schema: 'public', table: 'notifications'}, () => {  
-            if (document.getElementById('notifications-tab')?.classList.contains('active')) {  
-                loadAllNotifications()  
-            }
-            if (document.getElementById('announcements-tab')?.classList.contains('active')) {  
-                loadAnnouncements()  
-            }
-        })
-        .subscribe()  
-
-    // Refresh stats every 30 seconds  
-    setInterval(loadStats, 30000)  
-
-    showToast('Welcome to Admin Dashboard!', '#667eea')  
-}  
-
-// Initialize the dashboard  
-init()  
-</script> 
-
+init();
+</script>
 </body>
 </html>
-
