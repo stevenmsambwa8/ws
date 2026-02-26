@@ -308,9 +308,82 @@ canvas#activityChart{max-height:200px;}
 .row-check{width:16px;height:16px;accent-color:var(--indigo);cursor:pointer;}
 th.check-th,td.check-td{width:40px;padding-left:14px !important;}
 
-/* ─── STATS ─── */
-.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px 14px 0;}
-@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr);}}
+/* ─── COMMAND CENTER BANNER ─── */
+.cmd-center{background:linear-gradient(135deg,#1a0533 0%,#0d0d1a 40%,#001a33 100%);border-bottom:1px solid rgba(79,70,229,0.3);padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.cmd-center::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(79,70,229,0.15) 0%,transparent 70%),radial-gradient(ellipse at 70% 50%,rgba(124,58,237,0.1) 0%,transparent 70%);pointer-events:none;}
+.cmd-center-left{display:flex;align-items:center;gap:14px;flex:1;min-width:200px;}
+.cmd-center-avatar{width:42px;height:42px;border-radius:50%;border:2px solid rgba(79,70,229,0.6);background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:18px;color:white;flex-shrink:0;box-shadow:0 0 16px rgba(79,70,229,0.4);}
+.cmd-center-name{font-size:15px;font-weight:800;color:white;letter-spacing:-0.02em;}
+.cmd-center-role{display:flex;align-items:center;gap:6px;margin-top:3px;}
+.admin-badge{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:white;font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;}
+.admin-badge i{font-size:11px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 0 2px rgba(16,185,129,0.3);animation:livePulse 2s ease-in-out infinite;flex-shrink:0;}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 2px rgba(16,185,129,0.3);}50%{box-shadow:0 0 0 6px rgba(16,185,129,0.1);}}
+.cmd-center-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.live-clock{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:white;letter-spacing:0.05em;line-height:1;}
+.live-date{font-size:11px;color:rgba(255,255,255,0.4);font-weight:500;}
+.session-timer{font-size:11px;color:rgba(255,255,255,0.35);font-family:'JetBrains Mono',monospace;}
+
+/* ─── STAT CARDS — POWER REDESIGN ─── */
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow-xs);position:relative;overflow:hidden;transition:box-shadow 0.2s,transform 0.15s;cursor:default;}
+.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.stat-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:0.06;}
+.s-indigo::before{background:var(--indigo);}
+.s-emerald::before{background:var(--emerald);}
+.s-amber::before{background:var(--amber);}
+.s-rose::before{background:var(--rose);}
+.stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.s-indigo::after{background:linear-gradient(90deg,#4f46e5,#7c3aed);}
+.s-emerald::after{background:linear-gradient(90deg,#059669,#10b981);}
+.s-amber::after{background:linear-gradient(90deg,#d97706,#f59e0b);}
+.s-rose::after{background:linear-gradient(90deg,#e11d48,#f43f5e);}
+.stat-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px;}
+.stat-value{font-size:30px;font-weight:800;letter-spacing:-0.05em;color:var(--text);line-height:1;}
+.stat-label{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:4px;font-weight:500;}
+
+/* ─── POWER ACTIONS GRID ─── */
+.power-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px;}
+@media(min-width:600px){.power-actions{grid-template-columns:repeat(4,1fr);}}
+.paction{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 12px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.paction::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.2s;}
+.paction:hover::before{opacity:1;}
+.paction:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.paction-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:transform 0.2s;}
+.paction:hover .paction-icon{transform:scale(1.1);}
+.paction-title{font-size:13px;font-weight:800;color:var(--text);line-height:1.2;position:relative;}
+.paction-sub{font-size:11px;color:var(--text3);margin-top:1px;position:relative;}
+/* Action color variants */
+.pa-indigo{border-color:var(--indigo-m);}
+.pa-indigo::before{background:linear-gradient(135deg,rgba(79,70,229,0.05),rgba(124,58,237,0.05));}
+.pa-indigo:hover{border-color:var(--indigo);}
+.pa-indigo .paction-icon{background:var(--indigo-l);color:var(--indigo);}
+.pa-emerald{border-color:rgba(5,150,105,0.2);}
+.pa-emerald::before{background:linear-gradient(135deg,rgba(5,150,105,0.05),rgba(16,185,129,0.05));}
+.pa-emerald:hover{border-color:var(--emerald);}
+.pa-emerald .paction-icon{background:var(--emerald-l);color:var(--emerald);}
+.pa-amber{border-color:rgba(217,119,6,0.2);}
+.pa-amber::before{background:linear-gradient(135deg,rgba(217,119,6,0.05),rgba(245,158,11,0.05));}
+.pa-amber:hover{border-color:var(--amber);}
+.pa-amber .paction-icon{background:var(--amber-l);color:var(--amber);}
+.pa-rose{border-color:rgba(225,29,72,0.2);}
+.pa-rose::before{background:linear-gradient(135deg,rgba(225,29,72,0.05),rgba(244,63,94,0.05));}
+.pa-rose:hover{border-color:var(--rose);}
+.pa-rose .paction-icon{background:var(--rose-l);color:var(--rose);}
+
+/* ─── DANGER ZONE MODAL ─── */
+#dangerModal .modal-sheet{border-top:3px solid var(--rose);}
+.danger-confirm-input{width:100%;background:var(--bg);border:2px solid var(--rose);border-radius:var(--r-sm);padding:11px 13px;color:var(--text);font-size:14px;font-family:'JetBrains Mono',monospace;font-weight:500;outline:none;margin-top:8px;transition:box-shadow 0.2s;}
+.danger-confirm-input:focus{box-shadow:0 0 0 3px rgba(225,29,72,0.15);}
+.danger-warning{background:var(--rose-l);border:1px solid rgba(225,29,72,0.2);border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:var(--rose);font-weight:600;display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
+
+/* ─── REALTIME INDICATOR ─── */
+.realtime-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:999px;padding:4px 10px;font-size:11px;font-weight:700;color:#10b981;white-space:nowrap;}
+
+/* ─── DARK OVERRIDES for new elements ─── */
+[data-theme="dark"] .cmd-center{background:linear-gradient(135deg,#0d0015 0%,#060608 40%,#00060f 100%);}
+[data-theme="dark"] .paction{background:#13161f;border-color:#1e2235;}
+[data-theme="dark"] .pa-indigo:hover,[data-theme="dark"] .pa-emerald:hover,[data-theme="dark"] .pa-amber:hover,[data-theme="dark"] .pa-rose:hover{background:#0f1117;}
 .stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;box-shadow:var(--shadow-xs);position:relative;overflow:hidden;transition:box-shadow 0.2s,transform 0.15s;}
 .stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);}
 .stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
@@ -613,6 +686,8 @@ th.check-th,td.check-td{width:40px;padding-left:14px !important;}
     <div class="sidebar-section-label" style="margin-top:6px;">Quick Actions</div>
     <button class="nav-item" onclick="openBroadcastModal()"><i class="ri-send-plane-line"></i>Broadcast</button>
     <button class="nav-item" onclick="openCmdPalette()"><i class="ri-command-line"></i>Command <span class="cmd-kbd" style="margin-left:auto;font-size:10px;">⌘K</span></button>
+    <div class="sidebar-section-label" style="margin-top:6px;color:var(--rose);opacity:0.7;">Danger</div>
+    <button class="nav-item" onclick="openDangerZone()" style="color:var(--rose);"><i class="ri-error-warning-line" style="color:var(--rose);"></i>Danger Zone</button>
   </nav>
   <div class="sidebar-footer">
     <button class="sidebar-footer-btn" onclick="toggleDarkMode()"><i class="ri-moon-line" id="darkIconSidebar"></i><span id="darkLabel">Dark Mode</span></button>
@@ -622,6 +697,26 @@ th.check-th,td.check-td{width:40px;padding-left:14px !important;}
 
 <!-- MAIN CONTENT -->
 <div class="main-content">
+
+<!-- COMMAND CENTER BANNER -->
+<div class="cmd-center">
+  <div class="cmd-center-left">
+    <div class="cmd-center-avatar" id="ccAvatar"><i class="ri-shield-star-line"></i></div>
+    <div>
+      <div class="cmd-center-name" id="ccName">Admin Panel</div>
+      <div class="cmd-center-role">
+        <span class="admin-badge"><i class="ri-shield-check-line"></i>Full Access</span>
+        <div class="live-dot" title="Live — real-time connected"></div>
+        <span class="realtime-pill"><i class="ri-wifi-line"></i>Live</span>
+      </div>
+    </div>
+  </div>
+  <div class="cmd-center-right">
+    <div class="live-clock" id="liveClock">--:--:--</div>
+    <div class="live-date" id="liveDate">Loading…</div>
+    <div class="session-timer" id="sessionTimer">Session: 0:00</div>
+  </div>
+</div>
 
 <div class="stats-grid">
 <div class="stat-card s-indigo">
@@ -654,18 +749,26 @@ th.check-th,td.check-td{width:40px;padding-left:14px !important;}
 </div>
 </div>
 
-<div class="quick-actions">
-<div class="qaction" onclick="openBroadcastModal()">
-<i class="ri-megaphone-line"></i>
-<div><div class="qa-title">Announce</div><div class="qa-sub">Broadcast to users</div></div>
+<div class="power-actions">
+<div class="paction pa-indigo" onclick="openBroadcastModal()">
+  <div class="paction-icon"><i class="ri-megaphone-line"></i></div>
+  <div class="paction-title">Broadcast</div>
+  <div class="paction-sub">Send to all users</div>
 </div>
-<div class="qaction" onclick="switchTab('users')">
-<i class="ri-user-settings-line"></i>
-<div><div class="qa-title">Manage Users</div><div class="qa-sub">Edit, promote, delete</div></div>
+<div class="paction pa-emerald" onclick="switchTab('users')">
+  <div class="paction-icon"><i class="ri-user-settings-line"></i></div>
+  <div class="paction-title">Users</div>
+  <div class="paction-sub">Manage accounts</div>
 </div>
-<div class="qaction" onclick="switchTab('posts')">
-<i class="ri-article-line"></i>
-<div><div class="qa-title">Manage Posts</div><div class="qa-sub">Edit, delete posts</div></div>
+<div class="paction pa-amber" onclick="switchTab('posts')">
+  <div class="paction-icon"><i class="ri-article-line"></i></div>
+  <div class="paction-title">Content</div>
+  <div class="paction-sub">Posts & comments</div>
+</div>
+<div class="paction pa-rose" onclick="openDangerZone()">
+  <div class="paction-icon"><i class="ri-error-warning-line"></i></div>
+  <div class="paction-title">Danger Zone</div>
+  <div class="paction-sub">Nuclear options</div>
 </div>
 </div>
 
@@ -783,6 +886,35 @@ th.check-th,td.check-td{width:40px;padding-left:14px !important;}
 
 <!-- Floating Action Button -->
 <button class="fab" onclick="openBroadcastModal()" title="New Announcement"><i class="ri-megaphone-line"></i></button>
+
+<!-- DANGER ZONE MODAL -->
+<div id="dangerModal" class="modal">
+<div class="modal-sheet">
+  <div class="modal-handle"></div>
+  <div class="modal-hdr"><i class="ri-error-warning-line modal-icon" style="color:var(--rose);"></i><h3 style="color:var(--rose);">Danger Zone</h3><button class="close-btn" onclick="closeDangerZone()">✕</button></div>
+  <div class="form-grp">
+    <div class="danger-warning"><i class="ri-error-warning-fill" style="font-size:18px;flex-shrink:0;margin-top:1px;"></i>These are irreversible, platform-wide actions. Proceed only if you know what you are doing.</div>
+  </div>
+  <div class="form-grp" style="display:flex;flex-direction:column;gap:10px;padding-top:0;">
+    <div style="background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);padding:14px;">
+      <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;"><i class="ri-delete-bin-line" style="color:var(--rose);"></i> Purge All Posts</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Permanently deletes every post and all associated comments, likes, and bookmarks from the platform.</div>
+      <button class="btn" style="background:var(--rose);color:white;width:100%;justify-content:center;" onclick="dangerPurgeAllPosts()"><i class="ri-delete-bin-line"></i>Purge All Posts</button>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);padding:14px;">
+      <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;"><i class="ri-notification-off-line" style="color:var(--amber);"></i> Clear All Notifications</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Deletes all notifications and announcements for every user on the platform.</div>
+      <button class="btn" style="background:var(--amber);color:white;width:100%;justify-content:center;" onclick="dangerClearAllNotifications()"><i class="ri-notification-off-line"></i>Clear All Notifications</button>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);padding:14px;">
+      <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;"><i class="ri-user-unfollow-line" style="color:var(--rose);"></i> Revoke All Admin Access</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Sets <code style="background:var(--bg2);padding:1px 5px;border-radius:4px;font-size:11px;">is_admin = false</code> for every user except yourself.</div>
+      <button class="btn" style="background:var(--rose);color:white;width:100%;justify-content:center;" onclick="dangerRevokeAllAdmins()"><i class="ri-user-unfollow-line"></i>Revoke All Admin Access</button>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-secondary" onclick="closeDangerZone()">Close</button></div>
+</div>
+</div>
 
 <!-- ══════════════════════════════════════════
      BROADCAST MODAL (Enhanced)
@@ -1850,6 +1982,7 @@ const CMD_ITEMS = [
   {group:'Actions',icon:'ri-download-line',title:'Export Posts CSV',sub:'Download post data',action:()=>exportPostsCSV()},
   {group:'Actions',icon:'ri-refresh-line',title:'Refresh Stats',sub:'Reload platform metrics',action:()=>loadStats()},
   {group:'Settings',icon:'ri-moon-line',title:'Toggle Dark Mode',sub:'Switch theme',action:()=>toggleDarkMode()},
+  {group:'Danger',icon:'ri-error-warning-line',title:'Danger Zone',sub:'Platform-wide nuclear actions',action:()=>openDangerZone()},
   {group:'Settings',icon:'ri-logout-box-line',title:'Logout',sub:'End admin session',action:()=>handleLogout()},
 ];
 let cmdSelectedIdx = -1;
@@ -2060,11 +2193,69 @@ window.closeProfileDrawer=function(){document.getElementById('profileDrawer').cl
 window.toggleCollapse=function(id){document.getElementById(id)?.classList.toggle('open');};
 
 /* ──────────────────────────────────────────
-   KEYBOARD SHORTCUT — ⌘K / CTRL+K
+   LIVE CLOCK + SESSION TIMER
 ────────────────────────────────────────── */
-document.addEventListener('keydown',e=>{
-  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openCmdPalette();}
-});
+let sessionStart = Date.now();
+function startClock() {
+  function tick() {
+    const now = new Date();
+    const h=String(now.getHours()).padStart(2,'0');
+    const m=String(now.getMinutes()).padStart(2,'0');
+    const s=String(now.getSeconds()).padStart(2,'0');
+    const cl=document.getElementById('liveClock');
+    if(cl) cl.textContent=`${h}:${m}:${s}`;
+    const dl=document.getElementById('liveDate');
+    if(dl) dl.textContent=now.toLocaleDateString('en',{weekday:'long',month:'short',day:'numeric'});
+    const elapsed=Math.floor((Date.now()-sessionStart)/1000);
+    const em=Math.floor(elapsed/60), es=elapsed%60;
+    const st=document.getElementById('sessionTimer');
+    if(st) st.textContent=`Session: ${em}:${String(es).padStart(2,'0')}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ──────────────────────────────────────────
+   DANGER ZONE
+────────────────────────────────────────── */
+window.openDangerZone=function(){document.getElementById('dangerModal').classList.add('active');};
+window.closeDangerZone=function(){document.getElementById('dangerModal').classList.remove('active');};
+
+window.dangerPurgeAllPosts=async function(){
+  const confirm1=prompt('Type DELETE ALL POSTS to confirm. This cannot be undone.');
+  if(confirm1!=='DELETE ALL POSTS'){showToast('Cancelled','amber');return;}
+  showToast('Purging all posts…','rose');
+  const{data:posts}=await supabase.from('posts').select('id');
+  if(posts?.length){
+    for(const p of posts){
+      await Promise.all([
+        supabase.from('comments').delete().eq('post_id',p.id),
+        supabase.from('post_likes').delete().eq('post_id',p.id),
+        supabase.from('post_shares').delete().eq('post_id',p.id),
+        supabase.from('post_bookmarks').delete().eq('post_id',p.id),
+      ]);
+    }
+    await supabase.from('posts').delete().neq('id','00000000-0000-0000-0000-000000000000');
+  }
+  showToast(`${posts?.length||0} posts purged`,'rose');
+  closeDangerZone();loadStats();
+};
+
+window.dangerClearAllNotifications=async function(){
+  const confirm1=prompt('Type CLEAR NOTIFICATIONS to confirm.');
+  if(confirm1!=='CLEAR NOTIFICATIONS'){showToast('Cancelled','amber');return;}
+  await supabase.from('notifications').delete().neq('id','00000000-0000-0000-0000-000000000000');
+  showToast('All notifications cleared','rose');
+  closeDangerZone();
+};
+
+window.dangerRevokeAllAdmins=async function(){
+  const confirm1=prompt('Type REVOKE ALL ADMINS to confirm. You will remain admin.');
+  if(confirm1!=='REVOKE ALL ADMINS'){showToast('Cancelled','amber');return;}
+  await supabase.from('profiles').update({is_admin:false}).neq('id',currentAdmin.id);
+  showToast('All admin access revoked','rose');
+  closeDangerZone();loadUsers();
+};
 
 /* ──────────────────────────────────────────
    LOGOUT
@@ -2085,9 +2276,14 @@ function timeAgo(d){const s=Math.floor((Date.now()-new Date(d))/1000);if(s<60)re
 function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
 
 /* ──────────────────────────────────────────
+   KEYBOARD SHORTCUT — ⌘K / CTRL+K
+────────────────────────────────────────── */
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openCmdPalette();}
+});
+/* ──────────────────────────────────────────
    REALTIME
 ────────────────────────────────────────── */
-function wireRealtime(){
   supabase.channel('keli-admin')
     .on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>{loadStats();if(document.getElementById('users-tab').classList.contains('active'))loadUsers();})
     .on('postgres_changes',{event:'*',schema:'public',table:'posts'},()=>{loadStats();if(document.getElementById('posts-tab').classList.contains('active'))loadPosts();})
@@ -2122,7 +2318,15 @@ async function init(){
   document.getElementById('commentSearch')?.addEventListener('input',debounce(loadComments,400));
   document.getElementById('notificationSearch')?.addEventListener('input',debounce(loadAllNotifications,400));
   wireRealtime();
-  showToast('Dashboard ready ⚡','indigo');
+  startClock();
+  // Populate command center banner
+  if(currentAdmin){
+    const n=currentAdmin.stage_name||'Admin';
+    const cc=document.getElementById('ccName'); if(cc) cc.textContent=n;
+    const av=document.getElementById('ccAvatar');
+    if(av&&currentAdmin.profile_picture){av.innerHTML=`<img src="${currentAdmin.profile_picture}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;" onerror="this.parentElement.innerHTML='<i class=\\'ri-shield-star-line\\'></i>'">`;}
+  }
+  showToast('Mission control ready ⚡','indigo');
 }
 init();
 </script>
