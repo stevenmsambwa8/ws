@@ -42,24 +42,88 @@
 
 /* ─── DARK MODE ─── */
 [data-theme="dark"] {
---bg: #0f1117;
---bg2: #1a1d2e;
---white: #161926;
---border: #2a2f45;
---border2: #353b55;
---text: #e8eaf6;
---text2: #9ba3c8;
---text3: #555e88;
---indigo-l: rgba(79,70,229,0.15);
---indigo-m: rgba(79,70,229,0.35);
---emerald-l: rgba(5,150,105,0.15);
---amber-l: rgba(217,119,6,0.15);
---rose-l: rgba(225,29,72,0.15);
---shadow-xs: 0 1px 3px rgba(0,0,0,0.3);
---shadow-sm: 0 2px 8px rgba(0,0,0,0.35);
---shadow-md: 0 4px 16px rgba(0,0,0,0.4);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+--bg: #08090d;
+--bg2: #0f1117;
+--white: #13161f;
+--border: #1e2235;
+--border2: #272d42;
+--text: #e4e7f5;
+--text2: #8891b8;
+--text3: #454e72;
+--indigo-l: rgba(79,70,229,0.12);
+--indigo-m: rgba(79,70,229,0.3);
+--emerald-l: rgba(5,150,105,0.12);
+--amber-l: rgba(217,119,6,0.12);
+--rose-l: rgba(225,29,72,0.12);
+--shadow-xs: 0 1px 3px rgba(0,0,0,0.5);
+--shadow-sm: 0 2px 8px rgba(0,0,0,0.5);
+--shadow-md: 0 4px 16px rgba(0,0,0,0.6);
+--shadow-lg: 0 8px 32px rgba(0,0,0,0.7);
 }
+/* Force dark backgrounds on elements that use hardcoded colors */
+[data-theme="dark"] body { background: #08090d; }
+[data-theme="dark"] .modal-sheet { background: #13161f; }
+[data-theme="dark"] .cmd-box { background: #13161f; }
+[data-theme="dark"] #profileDrawer { background: #13161f; }
+[data-theme="dark"] .modal-footer { background: #0f1117; }
+[data-theme="dark"] #loadingOverlay { background: #08090d; }
+[data-theme="dark"] .sidebar { background: #0f1117; border-right-color: #1e2235; }
+[data-theme="dark"] .header { background: #0f1117; border-bottom-color: #1e2235; }
+[data-theme="dark"] .tabs-wrap { background: #0f1117; border-bottom-color: #1e2235; }
+[data-theme="dark"] .toolbar { background: #08090d; }
+[data-theme="dark"] .data-table thead { background: #0f1117; }
+[data-theme="dark"] .data-table tbody tr:hover { background: #0f1117; }
+[data-theme="dark"] .form-grp textarea,
+[data-theme="dark"] .form-grp input[type="text"],
+[data-theme="dark"] .form-grp input[type="email"],
+[data-theme="dark"] .form-grp input[type="number"],
+[data-theme="dark"] .form-grp select { background: #0f1117; border-color: #1e2235; color: #e4e7f5; }
+[data-theme="dark"] .search-bar input { background: #13161f; border-color: #1e2235; color: #e4e7f5; }
+[data-theme="dark"] .count-input-wrap input { background: #0f1117; border-color: #1e2235; color: #e4e7f5; }
+[data-theme="dark"] .ucheck { color: #e4e7f5; }
+[data-theme="dark"] .toggle-row { background: #0f1117; border-color: #1e2235; }
+[data-theme="dark"] .rmode-btn { background: #0f1117; border-color: #1e2235; color: #8891b8; }
+[data-theme="dark"] .role-chip { background: #0f1117; border-color: #1e2235; }
+[data-theme="dark"] .count-control-row { background: #0f1117; border-color: #1e2235; }
+[data-theme="dark"] .preview-box { background: #0f1117; border-color: #1e2235; }
+[data-theme="dark"] .toast { background: #1e2235; }
+[data-theme="dark"] .close-btn { background: #0f1117; border-color: #1e2235; color: #8891b8; }
+[data-theme="dark"] .act-btn:hover { background: #0f1117; }
+[data-theme="dark"] .act-btn.view:hover { background: rgba(79,70,229,0.12); }
+[data-theme="dark"] .act-btn.edit:hover { background: rgba(217,119,6,0.12); }
+[data-theme="dark"] .act-btn.promote:hover { background: rgba(5,150,105,0.12); }
+[data-theme="dark"] .act-btn.del:hover { background: rgba(225,29,72,0.12); }
+[data-theme="dark"] .profile-hero { background: linear-gradient(180deg, #0f1117 0%, #08090d 100%); }
+[data-theme="dark"] .chart-card { background: #13161f; border-color: #1e2235; }
+[data-theme="dark"] .panel { background: #13161f; border-color: #1e2235; }
+[data-theme="dark"] .stat-card { background: #13161f; border-color: #1e2235; }
+[data-theme="dark"] .qaction { background: #13161f; border-color: #1e2235; }
+[data-theme="dark"] .tab { color: #454e72; }
+[data-theme="dark"] .tab:hover { color: #8891b8; }
+[data-theme="dark"] .tab.active { color: var(--indigo); }
+[data-theme="dark"] .nav-item { color: #454e72; }
+[data-theme="dark"] .nav-item:hover { background: #0f1117; color: #8891b8; }
+[data-theme="dark"] .nav-item.active { background: rgba(79,70,229,0.12); color: var(--indigo); }
+[data-theme="dark"] .link-input-row { background: #0f1117; border-color: #1e2235; }
+[data-theme="dark"] .link-input-row input { background: #13161f; border-color: #1e2235; color: #e4e7f5; }
+[data-theme="dark"] .btn-secondary { background: #13161f; border-color: #1e2235; }
+[data-theme="dark"] .btn-export { background: #0f1117; border-color: #1e2235; }
+[data-theme="dark"] .cmd-item { color: #e4e7f5; }
+[data-theme="dark"] .cmd-item:hover, [data-theme="dark"] .cmd-item.selected { background: rgba(79,70,229,0.12); }
+[data-theme="dark"] .cmd-input-row { border-bottom-color: #1e2235; }
+[data-theme="dark"] .cmd-input-row input { color: #e4e7f5; }
+[data-theme="dark"] .count-adj-btn { background: #13161f; border-color: #1e2235; color: #8891b8; }
+[data-theme="dark"] .link-toolbar-btn { background: #0f1117; border-color: #1e2235; color: #8891b8; }
+[data-theme="dark"] .sidebar-footer-btn { color: #8891b8; }
+[data-theme="dark"] .sidebar-footer-btn:hover { background: #0f1117; }
+[data-theme="dark"] .profile-section { border-bottom-color: #1e2235; }
+[data-theme="dark"] .leaderboard-item { border-bottom-color: #1e2235; }
+[data-theme="dark"] .health-row { border-bottom-color: #1e2235; }
+[data-theme="dark"] .notif-row { border-bottom-color: #1e2235; }
+[data-theme="dark"] .activity-item { border-bottom-color: #1e2235; }
+[data-theme="dark"] .modal-hdr { border-bottom-color: #1e2235; }
+[data-theme="dark"] .section-label { border-bottom-color: #1e2235; }
+[data-theme="dark"] .collapse-section { border-bottom-color: #1e2235; }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;}
@@ -200,18 +264,29 @@ canvas#activityChart{max-height:200px;}
 /* ─── USER PROFILE QUICK-VIEW ─── */
 #profileDrawer{position:fixed;top:0;right:0;height:100%;width:320px;max-width:100%;background:var(--white);border-left:1px solid var(--border);box-shadow:var(--shadow-lg);z-index:1500;transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.34,1.04,0.64,1);overflow-y:auto;}
 #profileDrawer.open{transform:translateX(0);}
-.profile-drawer-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.profile-drawer-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--white);z-index:1;}
 .profile-drawer-hdr h3{font-size:15px;font-weight:700;flex:1;}
-.profile-hero{padding:20px 16px;text-align:center;border-bottom:1px solid var(--border);}
-.profile-hero img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--border);margin-bottom:10px;}
-.profile-hero-name{font-size:18px;font-weight:800;color:var(--text);}
+.profile-hero{padding:20px 16px;text-align:center;border-bottom:1px solid var(--border);background:var(--bg);}
+.profile-hero img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--border);margin-bottom:8px;}
+.profile-hero-name{font-size:17px;font-weight:800;color:var(--text);}
 .profile-hero-email{font-size:12px;color:var(--text3);margin-top:2px;}
-.profile-section{padding:12px 16px;border-bottom:1px solid var(--border);}
-.profile-section-title{font-size:10px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;}
-.profile-kv{display:flex;justify-content:space-between;align-items:center;padding:5px 0;}
-.profile-kv-key{font-size:12px;color:var(--text3);font-weight:600;}
-.profile-kv-val{font-size:12px;font-weight:700;color:var(--text);}
-.profile-drawer-actions{padding:12px 16px;display:flex;flex-direction:column;gap:7px;}
+.profile-hero-badges{margin-top:8px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;}
+
+/* Collapsible section */
+.collapse-section{border-bottom:1px solid var(--border);}
+.collapse-trigger{display:flex;align-items:center;gap:8px;padding:11px 16px;cursor:pointer;background:none;border:none;width:100%;font-family:inherit;font-size:13px;font-weight:700;color:var(--text2);text-align:left;transition:background 0.12s;-webkit-tap-highlight-color:transparent;}
+.collapse-trigger:hover{background:var(--bg);}
+.collapse-trigger i.section-icon{font-size:15px;color:var(--indigo);background:var(--indigo-l);padding:5px;border-radius:7px;}
+.collapse-trigger .chevron{margin-left:auto;font-size:14px;color:var(--text3);transition:transform 0.2s;}
+.collapse-section.open .chevron{transform:rotate(180deg);}
+.collapse-body{display:none;padding:4px 16px 12px;}
+.collapse-section.open .collapse-body{display:block;}
+.profile-kv{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);gap:8px;}
+.profile-kv:last-child{border-bottom:none;}
+.profile-kv-key{font-size:12px;color:var(--text3);font-weight:600;flex-shrink:0;}
+.profile-kv-val{font-size:12px;font-weight:700;color:var(--text);text-align:right;}
+.profile-drawer-actions{padding:12px 16px;display:flex;flex-direction:column;gap:7px;border-top:1px solid var(--border);}
+[data-theme="dark"] .profile-drawer-hdr{background:#13161f;}
 
 /* ─── SIDEBAR OVERLAY (mobile) ─── */
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(10,12,30,0.5);z-index:199;}
@@ -335,7 +410,7 @@ th.check-th,td.check-td{width:40px;padding-left:14px !important;}
 .modal{display:none;position:fixed;inset:0;background:rgba(20,25,40,0.45);backdrop-filter:blur(4px);z-index:1000;align-items:flex-end;justify-content:center;}
 .modal.active{display:flex;animation:fadeIn 0.2s ease;}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-.modal-sheet{background:var(--white);border-radius:22px 22px 0 0;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;animation:sheetUp 0.3s cubic-bezier(0.34,1.04,0.64,1);padding-bottom:env(safe-area-inset-bottom,16px);box-shadow:0 -4px 40px rgba(20,25,40,0.15);}
+.modal-sheet{background:var(--white);border-radius:22px 22px 0 0;width:100%;max-width:640px;max-height:96vh;overflow-y:auto;animation:sheetUp 0.3s cubic-bezier(0.34,1.04,0.64,1);padding-bottom:env(safe-area-inset-bottom,16px);box-shadow:0 -4px 40px rgba(20,25,40,0.15);}
 @keyframes sheetUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
 .modal-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:10px auto 14px;}
 .modal-hdr{padding:0 16px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
@@ -357,7 +432,7 @@ th.check-th,td.check-td{width:40px;padding-left:14px !important;}
 .toggle-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;}
 
 /* ─── CHECKBOXES ─── */
-#userCheckboxes{max-height:200px;overflow-y:auto;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px;display:flex;flex-direction:column;gap:2px;}
+#userCheckboxes{max-height:340px;overflow-y:auto;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px;display:flex;flex-direction:column;gap:2px;}
 .ucheck{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;cursor:pointer;transition:background 0.12s;}
 .ucheck:hover{background:var(--indigo-l);}
 .ucheck input[type="checkbox"]{width:16px;height:16px;accent-color:var(--indigo);flex-shrink:0;}
@@ -780,12 +855,12 @@ th.check-th,td.check-td{width:40px;padding-left:14px !important;}
 
 <!-- MODE: Pick Users -->
 <div id="recipientByUser" style="display:none;">
-<button id="selectAllBtn" onclick="toggleSelectAll()">Select All</button>
-<div id="userCheckboxes" style="margin-top:6px;">
-<div class="loading-inner" style="padding:12px;">
-<div class="spinner" style="width:22px;height:22px;border-width:2px;"></div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+  <div class="search-bar" style="flex:1;"><input type="text" placeholder="🔍 Filter users…" oninput="renderBroadcastUserList(this.value)" style="width:100%;"></div>
+  <button id="selectAllBtn" class="btn btn-secondary btn-sm" onclick="toggleSelectAll()">Select All</button>
 </div>
-</div>
+<p style="font-size:11px;color:var(--text3);margin-bottom:6px;">All users checked by default. Uncheck to exclude.</p>
+<div id="userCheckboxes" style="margin-top:2px;"></div>
 </div>
 
 <!-- MODE: Everyone -->
@@ -1524,14 +1599,9 @@ window.setRecipientMode = function(mode) {
   // Populate user list for 'user' mode
   if (mode === 'user') {
     const box = document.getElementById('userCheckboxes');
-    if (!broadcastUsers.length) { box.innerHTML = '<p style="padding:8px;font-size:12px;color:var(--text3);">No users</p>'; }
+    if (!broadcastUsers.length) { box.innerHTML = '<p style="padding:8px;font-size:12px;color:var(--text3);">No users found</p>'; }
     else {
-      box.innerHTML = broadcastUsers.map(u => `
-        <div class="ucheck">
-          <input type="checkbox" id="uc_${u.id}" value="${u.id}" checked onchange="updateSummary()">
-          <label for="uc_${u.id}">${u.stage_name || u.id}</label>
-          <span class="user-role-tag">${u.role || 'user'}</span>
-        </div>`).join('');
+      renderBroadcastUserList('');
     }
   }
 
@@ -1543,12 +1613,26 @@ window.setRecipientMode = function(mode) {
   updateSummary();
 };
 
+function renderBroadcastUserList(filter) {
+  const box = document.getElementById('userCheckboxes');
+  const f = filter.toLowerCase();
+  const filtered = f ? broadcastUsers.filter(u => (u.stage_name||'').toLowerCase().includes(f) || (u.role||'').toLowerCase().includes(f)) : broadcastUsers;
+  if (!filtered.length) { box.innerHTML = '<p style="padding:8px;font-size:12px;color:var(--text3);">No users match</p>'; return; }
+  box.innerHTML = filtered.map(u => `
+    <div class="ucheck">
+      <input type="checkbox" id="uc_${u.id}" value="${u.id}" checked onchange="updateSummary()">
+      <label for="uc_${u.id}">${u.stage_name || u.id}</label>
+      <span class="user-role-tag">${u.role || 'user'}</span>
+    </div>`).join('');
+  updateSummary();
+}
+
 /* Select / Deselect All (user mode) */
 window.toggleSelectAll = function() {
   const all = [...document.querySelectorAll('#userCheckboxes input[type="checkbox"]')];
-  const checked = all.every(c => c.checked);
-  all.forEach(c => c.checked = !checked);
-  document.getElementById('selectAllBtn').textContent = checked ? 'Select All' : 'Deselect All';
+  const allChecked = all.every(c => c.checked);
+  all.forEach(c => c.checked = !allChecked);
+  document.getElementById('selectAllBtn').textContent = allChecked ? 'Select All' : 'Deselect All';
   updateSummary();
 };
 
@@ -1908,44 +1992,72 @@ window.openProfileDrawer=function(id){
       <img src="${u.profile_picture||'user.webp'}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.stage_name||'U')}&background=4f46e5&color=fff&size=128'">
       <div class="profile-hero-name">${u.stage_name||'—'}</div>
       <div class="profile-hero-email">${u.email||'No email'}</div>
-      <div style="margin-top:8px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;">
+      <div class="profile-hero-badges">
         <span class="badge ${u.user_type==='Admin'?'badge-admin':'badge-user'}">${u.user_type||'User'}</span>
         <span class="badge ${u.tier==='pro'?'badge-amber':u.tier==='premium'?'badge-admin':'badge-user'}">${u.tier||'basic'}</span>
         ${u.is_admin?'<span class="badge badge-active"><i class="ri-shield-check-line"></i> Admin</span>':''}
+        ${u.role&&u.role!=='user'?`<span class="badge badge-amber">${u.role}</span>`:''}
       </div>
     </div>
-    <div class="profile-section">
-      <div class="profile-section-title">Stats</div>
-      <div class="profile-kv"><span class="profile-kv-key">Score</span><span class="profile-kv-val">${u.score||0}</span></div>
-      <div class="profile-kv"><span class="profile-kv-key">Coins</span><span class="profile-kv-val">${u.coins||0}</span></div>
-      <div class="profile-kv"><span class="profile-kv-key">Tracks</span><span class="profile-kv-val">${u.track_count||0}</span></div>
-      <div class="profile-kv"><span class="profile-kv-key">Collabs</span><span class="profile-kv-val">${u.collab_count||0}</span></div>
-      <div class="profile-kv"><span class="profile-kv-key">Invites</span><span class="profile-kv-val">${u.invite_count||0}</span></div>
+
+    <div class="collapse-section open" id="cs-stats">
+      <button class="collapse-trigger" onclick="toggleCollapse('cs-stats')">
+        <i class="ri-bar-chart-line section-icon"></i> Stats
+        <i class="ri-arrow-down-s-line chevron"></i>
+      </button>
+      <div class="collapse-body">
+        <div class="profile-kv"><span class="profile-kv-key">Score</span><span class="profile-kv-val">${(u.score||0).toLocaleString()}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Coins</span><span class="profile-kv-val">${(u.coins||0).toLocaleString()}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Tracks</span><span class="profile-kv-val">${u.track_count||0}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Collabs</span><span class="profile-kv-val">${u.collab_count||0}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Invites Sent</span><span class="profile-kv-val">${u.invite_count||0}</span></div>
+      </div>
     </div>
-    <div class="profile-section">
-      <div class="profile-section-title">Limits</div>
-      <div class="profile-kv"><span class="profile-kv-key">Max Releases</span><span class="profile-kv-val">${u.max_releases||0}</span></div>
-      <div class="profile-kv"><span class="profile-kv-key">Max Edits</span><span class="profile-kv-val">${u.max_edits||0}</span></div>
-      <div class="profile-kv"><span class="profile-kv-key">Edits Left</span><span class="profile-kv-val">${u.edits_remaining||0}</span></div>
+
+    <div class="collapse-section" id="cs-limits">
+      <button class="collapse-trigger" onclick="toggleCollapse('cs-limits')">
+        <i class="ri-settings-3-line section-icon"></i> Limits & Usage
+        <i class="ri-arrow-down-s-line chevron"></i>
+      </button>
+      <div class="collapse-body">
+        <div class="profile-kv"><span class="profile-kv-key">Max Releases</span><span class="profile-kv-val">${u.max_releases||0}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Current Releases</span><span class="profile-kv-val">${u.current_release_count||0}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Max Edits</span><span class="profile-kv-val">${u.max_edits||0}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Edits Remaining</span><span class="profile-kv-val">${u.edits_remaining||0}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Max Audio</span><span class="profile-kv-val">${u.max_audio_previews||0}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Audio Count</span><span class="profile-kv-val">${u.current_audio_count||0}</span></div>
+      </div>
     </div>
-    <div class="profile-section">
-      <div class="profile-section-title">Account</div>
-      <div class="profile-kv"><span class="profile-kv-key">Joined</span><span class="profile-kv-val">${new Date(u.created_at).toLocaleDateString()}</span></div>
-      <div class="profile-kv"><span class="profile-kv-key">Invite Code</span><span class="profile-kv-val">${u.invite_code||'—'}</span></div>
-      ${u.bio?`<div style="margin-top:8px;font-size:12px;color:var(--text2);line-height:1.5;">${u.bio}</div>`:''}
+
+    <div class="collapse-section" id="cs-account">
+      <button class="collapse-trigger" onclick="toggleCollapse('cs-account')">
+        <i class="ri-user-line section-icon"></i> Account
+        <i class="ri-arrow-down-s-line chevron"></i>
+      </button>
+      <div class="collapse-body">
+        <div class="profile-kv"><span class="profile-kv-key">Joined</span><span class="profile-kv-val">${new Date(u.created_at).toLocaleDateString()}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Payment ID</span><span class="profile-kv-val" style="font-size:11px;word-break:break-all;">${u.payment_id||'—'}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Invite Code</span><span class="profile-kv-val">${u.invite_code||'—'}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Invited By</span><span class="profile-kv-val">${u.invited_by_code||'—'}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Status Badge</span><span class="profile-kv-val">${u.status_badge||'—'}</span></div>
+        <div class="profile-kv"><span class="profile-kv-key">Can See Invite</span><span class="profile-kv-val">${u.can_see_invite?'Yes':'No'}</span></div>
+        ${u.bio?`<div style="margin-top:8px;font-size:12px;color:var(--text2);line-height:1.5;padding:8px;background:var(--bg);border-radius:var(--r-sm);">${u.bio}</div>`:''}
+      </div>
     </div>
+
     <div class="profile-drawer-actions">
       <button class="btn btn-primary" onclick="openEditUser('${u.id}');closeProfileDrawer();"><i class="ri-edit-line"></i>Edit User</button>
       <button class="btn btn-secondary" onclick="toggleAdmin('${u.id}',${u.is_admin});closeProfileDrawer();">
         <i class="ri-${u.is_admin?'user-line':'shield-star-line'}"></i>${u.is_admin?'Revoke Admin':'Make Admin'}
       </button>
-      <button class="btn" style="background:var(--rose-l);color:var(--rose);border:none;" onclick="deleteUser('${u.id}','${(u.stage_name||'').replace(/'/g,"\\'")}');closeProfileDrawer();">
+      <button class="btn" style="background:var(--rose-l);color:var(--rose);border:none;justify-content:center;" onclick="deleteUser('${u.id}','${(u.stage_name||'').replace(/'/g,"\\'")}');closeProfileDrawer();">
         <i class="ri-delete-bin-line"></i>Delete User
       </button>
     </div>`;
   document.getElementById('profileDrawer').classList.add('open');
 };
 window.closeProfileDrawer=function(){document.getElementById('profileDrawer').classList.remove('open');};
+window.toggleCollapse=function(id){document.getElementById(id)?.classList.toggle('open');};
 
 /* ──────────────────────────────────────────
    KEYBOARD SHORTCUT — ⌘K / CTRL+K
