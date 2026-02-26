@@ -1198,7 +1198,7 @@ let broadcastUsers = [];        // all users loaded for broadcast
 /* ──────────────────────────────────────────
    AUTH
 ────────────────────────────────────────── */
-async function checkAdmin() {
+window.checkAdmin=async function() {
   const { data:{session} } = await supabase.auth.getSession();
   if (!session) { window.location.href='login.html'; return false; }
   const { data:p, error } = await supabase.from('profiles').select('*').eq('id',session.user.id).single();
@@ -1215,7 +1215,7 @@ async function checkAdmin() {
    STATS
 ────────────────────────────────────────── */
 let prevStats = {};
-function animateCount(el, to) {
+window.animateCount=function(el, to) {
   const from = parseInt(el.textContent)||0;
   if(from===to) return;
   const step = Math.ceil(Math.abs(to-from)/20);
@@ -1226,7 +1226,7 @@ function animateCount(el, to) {
     if(cur===to) clearInterval(timer);
   },30);
 }
-async function loadStats() {
+window.loadStats=async function() {
   try {
     const [u,po,c,l] = await Promise.all([
       supabase.from('profiles').select('id',{count:'exact',head:true}),
@@ -1263,7 +1263,7 @@ async function loadStats() {
 /* ──────────────────────────────────────────
    ACTIVITY + DASHBOARD
 ────────────────────────────────────────── */
-async function loadActivityLog() {
+window.loadActivityLog=async function() {
   const el = document.getElementById('activityLogList');
   try {
     const [{data:posts},{data:comments},{data:users}] = await Promise.all([
@@ -1292,7 +1292,7 @@ async function loadActivityLog() {
   } catch(e){if(el)el.innerHTML='<div class="empty-state"><p>Error loading activity</p></div>';}
 }
 
-function buildActivityChart(posts, comments, users) {
+window.buildActivityChart=function(posts, comments, users) {
   const canvas = document.getElementById('activityChart');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -1362,7 +1362,7 @@ function buildActivityChart(posts, comments, users) {
   });
 }
 
-async function loadLeaderboard() {
+window.loadLeaderboard=async function() {
   const el = document.getElementById('leaderboardList');
   if(!el) return;
   const {data} = await supabase.from('profiles').select('id,stage_name,score,profile_picture,tier').order('score',{ascending:false}).limit(7);
@@ -1387,7 +1387,7 @@ async function loadLeaderboard() {
   }));
 }
 
-function renderPlatformHealth() {
+window.renderPlatformHealth=function() {
   const el = document.getElementById('platformHealth');
   if(!el) return;
   const items = [
@@ -1557,7 +1557,7 @@ window.savePostEdit=async function(){const id=document.getElementById('editPostI
 window.deletePost=async function(id){if(!confirm('Delete this post and all comments?'))return;await Promise.all([supabase.from('comments').delete().eq('post_id',id),supabase.from('post_likes').delete().eq('post_id',id),supabase.from('post_shares').delete().eq('post_id',id),supabase.from('post_bookmarks').delete().eq('post_id',id)]);await supabase.from('posts').delete().eq('id',id);showToast('Post deleted','rose');loadPosts();loadStats();};
 window.openAdminComment=async function(id){currentPostForComment=id;document.getElementById('adminCommentText').value='';document.getElementById('adminCommentModal').classList.add('active');await loadPostComments(id);};
 window.closeAdminCommentModal=function(){document.getElementById('adminCommentModal').classList.remove('active');currentPostForComment=null;};
-async function loadPostComments(postId){const el=document.getElementById('postCommentsContainer');const{data}=await supabase.from('comments').select('*,profiles(stage_name,profile_picture,is_admin)').eq('post_id',postId).order('created_at',{ascending:false});if(!data?.length){el.innerHTML='<p style="padding:12px 16px;color:var(--text3);font-size:13px;">No comments yet.</p>';return;}el.innerHTML=data.map(cc=>`<div class="notif-row"><img src="${cc.profiles?.profile_picture||'user.webp'}" class="user-avatar" style="width:28px;height:28px;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cc.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><div class="notif-body"><div class="notif-who">${cc.profiles?.stage_name||'—'}${cc.profiles?.is_admin?'<span class="badge badge-admin">Admin</span>':''}</div><div class="notif-msg">${cc.content}</div><div class="notif-time">${timeAgo(cc.created_at)}</div></div></div>`).join('');}
+window.loadPostComments=async function(postId){const el=document.getElementById('postCommentsContainer');const{data}=await supabase.from('comments').select('*,profiles(stage_name,profile_picture,is_admin)').eq('post_id',postId).order('created_at',{ascending:false});if(!data?.length){el.innerHTML='<p style="padding:12px 16px;color:var(--text3);font-size:13px;">No comments yet.</p>';return;}el.innerHTML=data.map(cc=>`<div class="notif-row"><img src="${cc.profiles?.profile_picture||'user.webp'}" class="user-avatar" style="width:28px;height:28px;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cc.profiles?.stage_name||'U')}&background=4f46e5&color=fff'"><div class="notif-body"><div class="notif-who">${cc.profiles?.stage_name||'—'}${cc.profiles?.is_admin?'<span class="badge badge-admin">Admin</span>':''}</div><div class="notif-msg">${cc.content}</div><div class="notif-time">${timeAgo(cc.created_at)}</div></div></div>`).join('');}
 window.postAdminComment=async function(){const content=document.getElementById('adminCommentText').value.trim();if(!content){showToast('Write something first','amber');return;}const{error}=await supabase.from('comments').insert({post_id:currentPostForComment,user_id:currentAdmin.id,content});if(error){showToast('Error: '+error.message,'rose');return;}const{data:post}=await supabase.from('posts').select('comments').eq('id',currentPostForComment).single();await supabase.from('posts').update({comments:(post?.comments||0)+1}).eq('id',currentPostForComment);showToast('Comment posted!','emerald');document.getElementById('adminCommentText').value='';await loadPostComments(currentPostForComment);loadPosts();loadStats();};
 
 /* ──────────────────────────────────────────
@@ -1607,7 +1607,7 @@ window.openBroadcastModal = async function() {
 window.closeBroadcastModal = () => document.getElementById('broadcastModal').classList.remove('active');
 
 /* Build clickable role/type chips */
-function buildRoleChips() {
+window.buildRoleChips=function() {
   const grid = document.getElementById('roleChips');
   grid.innerHTML = ALL_CHIPS.map(chip => {
     const count = broadcastUsers.filter(u => u[chip.field] === chip.value).length;
@@ -1639,7 +1639,7 @@ window.toggleChip = function(key) {
 };
 
 /* Render per-role count controls */
-function renderCountControls() {
+window.renderCountControls=function() {
   const container = document.getElementById('roleCountControls');
   if (selectedChips.size === 0) { container.innerHTML = ''; return; }
 
@@ -1681,7 +1681,7 @@ window.onCountInput = function(key, val) {
 };
 
 /* Update the recipient summary line */
-function updateSummary() {
+window.updateSummary=function() {
   const el = document.getElementById('summaryText');
   if (recipientMode === 'all') {
     const total = broadcastUsers.length;
@@ -1708,7 +1708,7 @@ function updateSummary() {
 }
 
 /* Resolve the set of user IDs for 'role' mode */
-function resolveRoleRecipients() {
+window.resolveRoleRecipients=function() {
   const idSet = new Set();
   for (const key of selectedChips) {
     const chip = ALL_CHIPS.find(c => c.key === key);
@@ -1745,7 +1745,7 @@ window.setRecipientMode = function(mode) {
   updateSummary();
 };
 
-function renderBroadcastUserList(filter) {
+window.renderBroadcastUserList=function(filter) {
   const box = document.getElementById('userCheckboxes');
   const f = filter.toLowerCase();
   const filtered = f ? broadcastUsers.filter(u => (u.stage_name||'').toLowerCase().includes(f) || (u.role||'').toLowerCase().includes(f)) : broadcastUsers;
@@ -1807,7 +1807,7 @@ window.previewAnnouncement = function() {
 };
 
 /* Convert markdown-style [text](url) links to real <a> tags */
-function renderAnnouncementContent(text) {
+window.renderAnnouncementContent=function(text) {
   if (!text) return '';
   // Escape HTML first
   let safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1941,7 +1941,7 @@ window.switchTab=function(tab){
 /* ──────────────────────────────────────────
    DARK MODE
 ────────────────────────────────────────── */
-function applyTheme(dark) {
+window.applyTheme=function(dark) {
   document.documentElement.setAttribute('data-theme', dark?'dark':'light');
   const icon = dark?'ri-sun-line':'ri-moon-line';
   const label = dark?'Light Mode':'Dark Mode';
@@ -1986,19 +1986,18 @@ const CMD_ITEMS = [
   {group:'Settings',icon:'ri-logout-box-line',title:'Logout',sub:'End admin session',action:()=>handleLogout()},
 ];
 let cmdSelectedIdx = -1;
-function openCmdPalette() {
+window.openCmdPalette=function() {
   const overlay = document.getElementById('cmdOverlay');
   overlay.classList.add('open');
   document.getElementById('cmdInput').value='';
   renderCmdItems('');
   setTimeout(()=>document.getElementById('cmdInput').focus(),50);
 }
-function closeCmdPalette(e) {
+window.closeCmdPalette=function(e) {
   document.getElementById('cmdOverlay').classList.remove('open');
   cmdSelectedIdx=-1;
 }
-window.openCmdPalette=openCmdPalette;
-function renderCmdItems(query) {
+window.renderCmdItems=function(query) {
   const q=query.toLowerCase();
   const filtered=q?CMD_ITEMS.filter(i=>i.title.toLowerCase().includes(q)||i.sub.toLowerCase().includes(q)):CMD_ITEMS;
   if(!filtered.length){document.getElementById('cmdResults').innerHTML='<div class="cmd-empty">No commands found</div>';return;}
@@ -2108,7 +2107,7 @@ window.exportPostsCSV=function(){
   downloadCSV([headers,...rows],'keli-posts.csv');
   showToast(`Exported ${allPosts.length} posts`,'emerald');
 };
-function downloadCSV(rows, filename) {
+window.downloadCSV=function(rows, filename) {
   const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob=new Blob([csv],{type:'text/csv'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
@@ -2196,7 +2195,7 @@ window.toggleCollapse=function(id){document.getElementById(id)?.classList.toggle
    LIVE CLOCK + SESSION TIMER
 ────────────────────────────────────────── */
 let sessionStart = Date.now();
-function startClock() {
+window.startClock=function() {
   function tick() {
     const now = new Date();
     const h=String(now.getHours()).padStart(2,'0');
@@ -2270,10 +2269,10 @@ window.showToast=function(msg,type='emerald'){const clr={emerald:'#059669',rose:
 /* ──────────────────────────────────────────
    HELPERS
 ────────────────────────────────────────── */
-function loading(){return'<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';}
-function err(){return'<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error loading data</p></div>';}
-function timeAgo(d){const s=Math.floor((Date.now()-new Date(d))/1000);if(s<60)return`${s}s ago`;if(s<3600)return`${Math.floor(s/60)}m ago`;if(s<86400)return`${Math.floor(s/3600)}h ago`;if(s<2592000)return`${Math.floor(s/86400)}d ago`;return new Date(d).toLocaleDateString();}
-function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
+window.loading=function(){return'<div class="loading-inner"><div class="spinner"></div><p>Loading…</p></div>';}
+window.err=function(){return'<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error loading data</p></div>';}
+window.timeAgo=function(d){const s=Math.floor((Date.now()-new Date(d))/1000);if(s<60)return`${s}s ago`;if(s<3600)return`${Math.floor(s/60)}m ago`;if(s<86400)return`${Math.floor(s/3600)}h ago`;if(s<2592000)return`${Math.floor(s/86400)}d ago`;return new Date(d).toLocaleDateString();}
+window.debounce=function(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
 
 /* ──────────────────────────────────────────
    KEYBOARD SHORTCUT — ⌘K / CTRL+K
@@ -2296,7 +2295,7 @@ document.addEventListener('keydown',e=>{
 /* ──────────────────────────────────────────
    INIT
 ────────────────────────────────────────── */
-async function init(){
+window.init=async function(){
   // Apply saved theme
   const savedTheme=localStorage.getItem('keli-theme');
   if(savedTheme==='dark') applyTheme(true);
